@@ -10,8 +10,8 @@ Demo:
 
 ```tsx
 import React from 'react';
-import { Foo } from 'neat-ui';
-
+import { Foo } from 'neat-ui-react';
+// Foo
 export default () => <Foo title="First Demo" />;
 ```
 
