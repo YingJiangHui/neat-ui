@@ -1,7 +1,7 @@
 ---
 hero:
-  title: neat-ui
-  desc: neat-ui site example
+  title: neat-ui-react
+  desc: neat-ui-react site example
   actions:
     - text: Getting Started
       link: /components
@@ -18,4 +18,4 @@ features:
 footer: Open-source MIT Licensed | Copyright © 2020<br />Powered by [dumi](https://d.umijs.org)
 ---
 
-## Hello neat-ui!
+## Hello neat-ui-react!
