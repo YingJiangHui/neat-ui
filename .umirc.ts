@@ -1,5 +1,5 @@
 import { defineConfig } from 'dumi';
-
+import chainWebpack from './chainWebpack.config';
 export default defineConfig({
   title: 'neat-ui-react',
   favicon:
@@ -10,4 +10,5 @@ export default defineConfig({
   // more config: https://d.umijs.org/config
   publicPath: '/neat-ui-react/',
   base: '/neat-ui-react/',
+  chainWebpack,
 });
