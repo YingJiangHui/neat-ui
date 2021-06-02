@@ -10,5 +10,11 @@ export default defineConfig({
   // more config: https://d.umijs.org/config
   publicPath: '/neat-ui-react/',
   base: '/neat-ui-react/',
+  extraBabelPlugins: [
+    [
+      'styled-jsx/babel',
+      { plugins: ['styled-jsx-plugin-sass'], optimizeForSpeed: true },
+    ],
+  ],
   chainWebpack,
 });
