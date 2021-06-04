@@ -1,37 +1,27 @@
 import React, { FC, HTMLAttributes, PropsWithChildren, useMemo } from 'react';
 import withDefaults from '@/utils/withDefaults';
-
-const defaultProps = {
-  size: 'normal',
-  loading: false,
-};
+import LoadingContainer from '@/Loading/loading-container';
 
 type LoadingProps = {
-  loading: boolean;
-  size: 'small' | 'normal' | 'large';
+  size?: 'small' | 'middle' | 'large';
 };
+
 const sizeMap = {
   small: 12,
-  normal: 14,
+  middle: 14,
   large: 18,
 };
-type Props = typeof defaultProps & LoadingProps & HTMLAttributes<any>;
 
+const defaultProps = {
+  size: 'middle',
+};
+type Props = PropsWithChildren<
+  typeof defaultProps & LoadingProps & HTMLAttributes<any>
+>;
 // 单纯的 loading 加在内容上的 loading
-const Loading: FC<PropsWithChildren<Props>> = ({
-  size,
-  loading,
-  children,
-  ...rest
-}) => {
-  const content = () => {
-    if (children) {
-      return <div></div>;
-    }
-  };
-
-  const LoadingAnimation = useMemo(
-    () => (
+const Loading: FC<Props> = ({ size, children, ...rest }) => {
+  return (
+    <div className="loading-container" {...rest}>
       <>
         <div className="loading">
           <i />
@@ -79,22 +69,14 @@ const Loading: FC<PropsWithChildren<Props>> = ({
           }
         `}</style>
       </>
-    ),
-    [size],
-  );
-  return (
-    <div className="loading-container" {...rest}>
-      {loading || !children ? LoadingAnimation : children}
-      <style jsx>{`
-        .loading-container {
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-      `}</style>
     </div>
   );
 };
 
-export default withDefaults(Loading, defaultProps);
+type LoadingComponent<P = {}> = React.FC<P> & {
+  Container: typeof LoadingContainer;
+};
+export default withDefaults(
+  Loading,
+  defaultProps,
+) as LoadingComponent<LoadingProps>;
