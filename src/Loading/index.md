@@ -25,7 +25,15 @@ export default () => {
   const [loading, setLoading] = useState(false);
   return (
     <>
-      <Loading.Container loading={loading}>222</Loading.Container>
+      <Loading.Container loading={loading}>
+        <button
+          onClick={() => {
+            alert('1');
+          }}
+        >
+          click
+        </button>
+      </Loading.Container>
       <button onClick={() => setLoading((loading) => !loading)}>off</button>
     </>
   );
