@@ -1,5 +1,5 @@
 import React, { FC, HTMLAttributes, PropsWithChildren, useMemo } from 'react';
-import withDefaults from '@/utils/withDefaults';
+import withDefaults from '@/utils/with-defaults';
 import LoadingContainer from '@/Loading/loading-container';
 
 type LoadingProps = {

@@ -1,5 +1,5 @@
 import React, { FC, HTMLAttributes, PropsWithChildren } from 'react';
-import withDefaults from '@/utils/withDefaults';
+import withDefaults from '@/utils/with-defaults';
 import Loading from './loading';
 import classnames from '@/shared/classnames';
 

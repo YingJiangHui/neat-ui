@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import withDefaults from '@/utils/withDefaults';
+import withDefaults from '@/utils/with-defaults';
 interface Props {
   visible?: boolean;
   enterTime?: number;
