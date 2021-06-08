@@ -11,12 +11,6 @@ exports[`Loading.Container loading快照 1`] = `
     <i />
     <i />
   </div>
-  <button>
-    2
-  </button>
-  <style>
-    jsx
-  </style>
   <style>
     
           .loading &gt; i {

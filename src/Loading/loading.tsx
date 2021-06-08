@@ -1,14 +1,7 @@
 import React, { FC, HTMLAttributes, PropsWithChildren, useMemo } from 'react';
 import withDefaults from '@/utils/with-defaults';
 import LoadingContainer from '@/Loading/loading-container';
-import css from 'styled-jsx/css';
 
-/*language=CSS*/
-const button = css.global`
-  button {
-    color: red;
-  }
-`;
 type LoadingProps = {
   size?: 'small' | 'middle' | 'large';
 };
@@ -36,8 +29,6 @@ const Loading: FC<Props> = ({ size, children, ...rest }) => {
           <i />
           <i />
         </div>
-        <button>2</button>
-        <style jsx>{button}</style>
         <style jsx>{`
           .loading > i {
             width: ${sizeMap[size]}px;
