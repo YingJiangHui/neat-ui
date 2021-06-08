@@ -35,6 +35,7 @@ const LoadingContainer: FC<PropsWithChildren<Props>> = ({
         }
 
         .loading-mask {
+          overflow: hidden;
           position: absolute;
           left: 0;
           top: 0;
