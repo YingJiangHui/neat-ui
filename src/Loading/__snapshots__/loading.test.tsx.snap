@@ -14,9 +14,9 @@ exports[`Loading.Container loading快照 1`] = `
   <style>
     
           .loading &gt; i {
-            width: 14px;
-            height: 14px;
-            margin-right: 9.333333333333334px;
+            width: 6px;
+            height: 6px;
+            margin-right: 3px;
           }
         
   </style>
@@ -24,7 +24,7 @@ exports[`Loading.Container loading快照 1`] = `
     
           .loading &gt; i {
             display: inline-block;
-            background: #dadada;
+            background: #454545;
             border-radius: 50%;
             animation: loading-zoom 1.4s infinite both;
           }

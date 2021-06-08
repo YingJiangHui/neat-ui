@@ -7,9 +7,9 @@ type LoadingProps = {
 };
 
 const sizeMap = {
-  small: 12,
-  middle: 14,
-  large: 18,
+  small: 4,
+  middle: 6,
+  large: 8,
 };
 
 const defaultProps = {
@@ -33,13 +33,13 @@ const Loading: FC<Props> = ({ size, children, ...rest }) => {
           .loading > i {
             width: ${sizeMap[size]}px;
             height: ${sizeMap[size]}px;
-            margin-right: ${sizeMap[size] / 1.5}px;
+            margin-right: ${sizeMap[size] / 2}px;
           }
         `}</style>
         <style jsx>{`
           .loading > i {
             display: inline-block;
-            background: #dadada;
+            background: #454545;
             border-radius: 50%;
             animation: loading-zoom 1.4s infinite both;
           }

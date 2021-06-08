@@ -28,5 +28,6 @@ describe('Loading.Container', () => {
       render(<Loading.Container loading={true} />, container);
     });
     expect(container?.querySelector('.loading-blur')).toBeTruthy();
+    expect(container?.querySelector('.loading-mask')).toBeTruthy();
   });
 });
