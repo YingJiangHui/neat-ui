@@ -4,8 +4,6 @@ import { act } from 'react-dom/test-utils';
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 
-import { mountElement, unmountElement } from '@/utils/nativeElementAction';
-import withDefaults from '@/utils/with-defaults';
 let container: null | HTMLDivElement = null;
 
 describe('Loading.Container', () => {
