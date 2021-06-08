@@ -13,7 +13,7 @@ export default defineConfig({
   extraBabelPlugins: [
     [
       'styled-jsx/babel',
-      { plugins: ['styled-jsx-plugin-sass'], optimizeForSpeed: true },
+      { plugins: ['@styled-jsx/plugin-sass'], optimizeForSpeed: true },
     ],
   ],
   chainWebpack,

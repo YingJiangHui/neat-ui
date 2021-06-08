@@ -2,9 +2,10 @@ import renderer from 'react-test-renderer';
 import { Loading } from '@/Loading/index';
 import { act } from 'react-dom/test-utils';
 import React from 'react';
-import { render } from 'react-dom';
+import { render, unmountComponentAtNode } from 'react-dom';
 
 import { mountElement, unmountElement } from '@/utils/nativeElementAction';
+import withDefaults from '@/utils/with-defaults';
 let container: null | HTMLDivElement = null;
 
 describe('Loading.Container', () => {
@@ -13,16 +14,20 @@ describe('Loading.Container', () => {
     expect(component.toJSON()).toMatchSnapshot();
   });
 });
-
 describe('Loading.Container', () => {
   beforeEach(() => {
-    container = mountElement();
-    console.log(container);
+    container = document.createElement('div');
+    document.body.appendChild(container);
   });
-  afterEach(unmountElement.bind(null, container));
-  it('可以遮罩盖住内容', () => {
+  afterEach(() => {
+    // 退出时进行清理
+    unmountComponentAtNode(container as HTMLDivElement);
+    container!.remove();
+    container = null;
+  });
+  it('遮罩可以盖住内容', () => {
     act(() => {
-      render(<Loading.Container loading={true} />, container as HTMLElement);
+      render(<Loading.Container loading={true} />, container);
     });
     expect(container?.querySelector('.loading-blur')).toBeTruthy();
   });
