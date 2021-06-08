@@ -11,35 +11,37 @@ exports[`Loading.Container loading快照 1`] = `
     <i />
     <i />
   </div>
+  <button>
+    2
+  </button>
+  <style>
+    jsx
+  </style>
   <style>
     
-          .loading {
-            &gt; i {
-              width: 14px;
-              height: 14px;
-              margin-right: 9.333333333333334px;
-            }
+          .loading &gt; i {
+            width: 14px;
+            height: 14px;
+            margin-right: 9.333333333333334px;
           }
         
   </style>
   <style>
     
-          .loading {
-            &gt; i {
-              display: inline-block;
-              background: #dadada;
-              border-radius: 50%;
-              animation: loading-zoom 1.4s infinite both;
-            }
+          .loading &gt; i {
+            display: inline-block;
+            background: #dadada;
+            border-radius: 50%;
+            animation: loading-zoom 1.4s infinite both;
+          }
 
-            &gt; i:nth-child(2) {
-              animation-delay: 0.2s;
-            }
+          .loading &gt; i:nth-child(2) {
+            animation-delay: 0.2s;
+          }
 
-            &gt; i:nth-child(3) {
-              animation-delay: 0.4s;
-              margin-right: 0;
-            }
+          .loading &gt; i:nth-child(3) {
+            animation-delay: 0.4s;
+            margin-right: 0;
           }
 
           @keyframes loading-zoom {

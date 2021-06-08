@@ -2,7 +2,6 @@
 // 存在的问题： 污染了全局变量
 // @ts-ignore
 import _JSXStyle from 'styled-jsx/style';
-
 if (typeof window !== 'undefined') {
   Object.assign(window, { _JSXStyle });
 }
