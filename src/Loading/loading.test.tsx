@@ -2,9 +2,9 @@ import renderer from 'react-test-renderer';
 import { Loading } from '@/Loading/index';
 import { act } from 'react-dom/test-utils';
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
-
-let container: null | HTMLDivElement = null;
+import { render } from 'react-dom';
+import useContainer from '@/utils/useContainer';
+const { getContainer, mount, unMount } = useContainer();
 
 describe('Loading.Container', () => {
   it('loading快照', () => {
@@ -13,17 +13,10 @@ describe('Loading.Container', () => {
   });
 });
 describe('Loading.Container', () => {
-  beforeEach(() => {
-    container = document.createElement('div');
-    document.body.appendChild(container);
-  });
-  afterEach(() => {
-    // 退出时进行清理
-    unmountComponentAtNode(container as HTMLDivElement);
-    container!.remove();
-    container = null;
-  });
+  beforeEach(mount);
+  afterEach(unMount);
   it('遮罩可以盖住内容', () => {
+    const container = getContainer();
     act(() => {
       render(<Loading.Container loading={true} />, container);
     });

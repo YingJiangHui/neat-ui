@@ -1,8 +1,8 @@
-import { unmountComponentAtNode, render } from 'react-dom';
+import { render } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import React from 'react';
 import withDefaults from '@/utils/with-defaults';
-let container: HTMLDivElement | null = null;
+import useContainer from '@/utils/useContainer';
 type Props = { text?: string; date: string };
 const Component: React.FC<Props> = (props) => {
   return (
@@ -12,13 +12,11 @@ const Component: React.FC<Props> = (props) => {
     </>
   );
 };
-
+const { getContainer, mount, unMount } = useContainer();
 describe('withDefaults 函数的测试用例', () => {
-  beforeEach(() => {
-    container = document.createElement('div');
-    document.body.appendChild(container);
-  });
+  beforeEach(mount);
   test('可以注入默认值到Props，并通过类型检测', () => {
+    const container = getContainer();
     const ComponentWithProps = withDefaults(Component, {
       text: 'hi',
       date: new Date().getFullYear(),
@@ -31,10 +29,5 @@ describe('withDefaults 函数的测试用例', () => {
       new Date().getFullYear().toString(),
     );
   });
-  afterEach(() => {
-    // 退出时进行清理
-    unmountComponentAtNode(container as HTMLDivElement);
-    container!.remove();
-    container = null;
-  });
+  afterEach(unMount);
 });
