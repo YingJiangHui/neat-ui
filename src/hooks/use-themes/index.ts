@@ -1,1 +1,6 @@
-export { useThemes, ThemesContext, ThemesConfig } from './use-themes';
+export {
+  useThemes,
+  ThemesContext,
+  ThemesConfig,
+  themesConfig,
+} from './use-themes';

@@ -6,4 +6,6 @@ if (typeof window !== 'undefined') {
   Object.assign(window, { _JSXStyle });
 }
 
-export { Loading } from '@/Loading/index.ts';
+export { Loading } from '@/Loading';
+export { NeatProvider } from '@/provider';
+export { useTheme, ThemeContext } from '@/hooks/use-theme';

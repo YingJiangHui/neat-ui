@@ -1,11 +1,11 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
-import { NeatUITheme } from '@/themes/presets';
+import { NeatUITheme, ThemeType } from '@/themes/presets';
 import { ThemeContext } from '@/hooks/use-theme';
 import { ThemesConfig, ThemesContext } from '@/hooks/use-themes';
 import Theme from '@/themes/themes';
 
 export interface ThemeProviderProps {
-  themeType?: 'light' | 'bark' | string;
+  themeType?: ThemeType;
   themes?: NeatUITheme[];
 }
 

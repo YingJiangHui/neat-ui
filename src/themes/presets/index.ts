@@ -18,9 +18,9 @@ export interface ThemeFont {
   sans: string;
   mono: string;
 }
-
+export type ThemeType = 'dark' | 'light' | string;
 export interface NeatUITheme {
-  type: 'dark' | 'light';
+  type: ThemeType;
   palette: ThemePalette;
   font: ThemeFont;
 }
