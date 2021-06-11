@@ -11,9 +11,13 @@ nav:
 ```jsx
 import React, { useState } from 'react';
 import { NeatProvider, useTheme } from 'neat-ui-react';
-const Child = () => {
+const Child = ({ switchTheme }) => {
   const theme = useTheme();
-  return <div>{theme.type}</div>;
+  return (
+    <div>
+      <button onClick={switchTheme}>switch theme</button> {theme.type}
+    </div>
+  );
 };
 export default () => {
   const [theme, setTheme] = useState('light');
@@ -22,8 +26,7 @@ export default () => {
   };
   return (
     <NeatProvider themeType={theme}>
-      <button onClick={switchTheme}>swith theme</button>
-      <Child />
+      <Child switchTheme={switchTheme} />
     </NeatProvider>
   );
 };

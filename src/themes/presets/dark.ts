@@ -1,5 +1,9 @@
-import { ThemePalette, NeatUITheme } from '@/themes/presets/index';
-import { font } from '@/themes/presets/shared';
+import {
+  ThemePalette,
+  NeatUITheme,
+  Expressiveness,
+} from '@/themes/presets/index';
+import { defaultLayout, font } from '@/themes/presets/shared';
 
 export const palette: ThemePalette = {
   grayscale_1: '#111',
@@ -16,11 +20,14 @@ export const palette: ThemePalette = {
   success: '#0070f3',
   warning: '#f5a623',
 };
-
+export const expressiveness: Expressiveness = {};
+export const layout = defaultLayout;
 export const themes: NeatUITheme = {
   type: 'dark',
   palette,
   font,
+  layout,
+  expressiveness,
 };
 
 export default themes;

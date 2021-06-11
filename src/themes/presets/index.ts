@@ -18,9 +18,23 @@ export interface ThemeFont {
   sans: string;
   mono: string;
 }
+export interface Expressiveness {}
+export interface Layout {
+  gap: string;
+  gapNegative: string;
+  gapHalf: string;
+  gapHalfNegative: string;
+  gapQuarter: string;
+  gapQuarterNegative: string;
+  radius: string;
+}
+
 export type ThemeType = 'dark' | 'light' | string;
+
 export interface NeatUITheme {
   type: ThemeType;
   palette: ThemePalette;
   font: ThemeFont;
+  layout: Layout;
+  expressiveness: Expressiveness;
 }
