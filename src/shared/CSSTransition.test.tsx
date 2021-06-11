@@ -1,6 +1,6 @@
 import CSSTransition from '@/shared/CSSTransition';
 import { render } from 'react-dom';
-import useElementContainer from '@/utils/useContainer';
+import useElementContainer from '../../tests/utils/useContainer';
 import { act } from 'react-dom/test-utils';
 import React from 'react';
 const { unMount, mount, getContainer } = useElementContainer();

@@ -3,7 +3,7 @@ export const deepDuplicable = <T extends Record<string, unknown>>(
   target: T,
 ): T => {
   // TODO
-  return source;
+  return target;
 };
 
 export default deepDuplicable;

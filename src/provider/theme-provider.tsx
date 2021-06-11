@@ -1,12 +1,12 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
-import { NeatUITheme, ThemeType } from '@/themes/presets';
+import { ThemeType } from '@/themes/presets';
 import { ThemeContext } from '@/hooks/use-theme';
 import { ThemesConfig, ThemesContext } from '@/hooks/use-themes';
-import Theme from '@/themes/themes';
+import Theme, { NeatUIUserTheme } from '@/themes/themes';
 
 export interface ThemeProviderProps {
   themeType?: ThemeType;
-  themes?: NeatUITheme[];
+  themes?: NeatUIUserTheme[];
 }
 
 export const ThemeProvider: FC<React.PropsWithChildren<ThemeProviderProps>> = ({
@@ -23,7 +23,7 @@ export const ThemeProvider: FC<React.PropsWithChildren<ThemeProviderProps>> = ({
     )[0];
     if (theme) return theme;
     return Theme.getDefaultPreset();
-  }, [themeType, themes]);
+  }, [themeType, allThemes]);
   useEffect(() => {
     const customThemes =
       themes?.map((theme) => Theme.createTheme(currentTheme, theme)) || [];

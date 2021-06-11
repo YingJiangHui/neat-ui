@@ -2,7 +2,7 @@ import { render } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import React from 'react';
 import withDefaults from '@/utils/with-defaults';
-import useContainer from '@/utils/useContainer';
+import useContainer from '../../tests/utils/useContainer';
 type Props = { text?: string; date: string };
 const Component: React.FC<Props> = (props) => {
   return (

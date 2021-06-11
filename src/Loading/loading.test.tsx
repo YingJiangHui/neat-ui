@@ -3,7 +3,7 @@ import { Loading } from '@/Loading/index';
 import { act } from 'react-dom/test-utils';
 import React from 'react';
 import { render } from 'react-dom';
-import useContainer from '@/utils/useContainer';
+import useContainer from '../../tests/utils/useContainer';
 const { getContainer, mount, unMount } = useContainer();
 
 describe('Loading.Container', () => {

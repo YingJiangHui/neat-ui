@@ -2,7 +2,8 @@ import lightTheme from '@/themes/presets/default';
 import darkTheme from '@/themes/presets/dark';
 import { NeatUITheme } from '@/themes/presets';
 import deepDuplicable from '@/utils/deepDuplicable';
-export type UserTheme = DeepPartial<NeatUITheme> & { type: string };
+import { DeepPartial } from '@/utils/types';
+export type NeatUIUserTheme = DeepPartial<NeatUITheme> & { type: string };
 export const getDefaultPreset = () => {
   return lightTheme;
 };
@@ -14,7 +15,7 @@ export const getPresets = () => {
 export const isAvailableThemeType = (type: NeatUITheme['type']) => {
   return !getPresets().find((theme) => theme.type === type);
 };
-export const createTheme = (base: NeatUITheme, custom: UserTheme) => {
+export const createTheme = (base: NeatUITheme, custom: NeatUIUserTheme) => {
   if (!isAvailableThemeType(custom.type)) {
     throw new Error('不可以使用已经存在的主题类型');
   }

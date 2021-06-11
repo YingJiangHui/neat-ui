@@ -1,6 +1,7 @@
 import React, { FC, HTMLAttributes, PropsWithChildren, useMemo } from 'react';
 import withDefaults from '@/utils/with-defaults';
 import LoadingContainer from '@/Loading/loading-container';
+import { useTheme } from '@/hooks/use-theme';
 
 type LoadingProps = {
   size?: 'small' | 'middle' | 'large';
@@ -21,6 +22,7 @@ type Props = PropsWithChildren<
 
 // 单纯的 loading 加在内容上的 loading
 const Loading: FC<Props> = ({ size, children, ...rest }) => {
+  const theme = useTheme();
   return (
     <div className="loading-container" {...rest}>
       <>
@@ -33,13 +35,13 @@ const Loading: FC<Props> = ({ size, children, ...rest }) => {
           .loading > i {
             width: ${sizeMap[size]}px;
             height: ${sizeMap[size]}px;
-            margin-right: ${sizeMap[size] / 2}px;
+            margin-right: 2px;
           }
         `}</style>
         <style jsx>{`
           .loading > i {
             display: inline-block;
-            background: #454545;
+            background: ${theme.palette.grayscale_8};
             border-radius: 50%;
             animation: loading-zoom 1.4s infinite both;
           }
