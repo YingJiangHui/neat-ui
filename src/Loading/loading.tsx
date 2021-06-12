@@ -20,7 +20,6 @@ type Props = PropsWithChildren<
   typeof defaultProps & LoadingProps & HTMLAttributes<any>
 >;
 
-// 单纯的 loading 加在内容上的 loading
 const Loading: FC<Props> = ({ size, children, ...rest }) => {
   const theme = useTheme();
   return (

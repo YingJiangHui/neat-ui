@@ -17,13 +17,14 @@ export const ThemeProvider: FC<React.PropsWithChildren<ThemeProviderProps>> = ({
   const [allThemes, setAllThemes] = useState<ThemesConfig>({
     themes: Theme.getPresets(),
   });
-  const currentTheme = useMemo(() => {
-    const theme = allThemes.themes.filter(
-      (theme) => theme.type === themeType,
-    )[0];
-    if (theme) return theme;
-    return Theme.getDefaultPreset();
-  }, [themeType, allThemes]);
+
+  const currentTheme = useMemo(
+    () =>
+      allThemes.themes.filter((theme) => theme.type === themeType)[0] ||
+      Theme.getDefaultPreset(),
+    [themeType, allThemes],
+  );
+
   useEffect(() => {
     const customThemes =
       themes?.map((theme) => Theme.createTheme(currentTheme, theme)) || [];
