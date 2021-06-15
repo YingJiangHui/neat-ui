@@ -6,10 +6,12 @@ import classnames from '@/shared/classnames';
 type LoadingContainerProps = {
   indicator?: React.ReactNode;
   loading?: boolean;
+  opacity?: number;
 };
 const defaultProps: LoadingContainerProps = {
   indicator: <Loading />,
   loading: false,
+  opacity: 0.5,
 };
 type Props = PropsWithChildren<
   typeof defaultProps & LoadingContainerProps & HTMLAttributes<any>
@@ -18,6 +20,7 @@ const LoadingContainer: FC<PropsWithChildren<Props>> = ({
   loading,
   indicator,
   children,
+  opacity,
   ...rest
 }) => {
   return (
@@ -66,7 +69,7 @@ const LoadingContainer: FC<PropsWithChildren<Props>> = ({
           background: #fff;
           transition: all 0.25s;
           z-index: 10;
-          opacity: 0.5;
+          opacity: ${opacity};
         }
       `}</style>
     </div>
