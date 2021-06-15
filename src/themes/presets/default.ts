@@ -19,6 +19,7 @@ export const palette: ThemePalette = {
   error: '#e00',
   success: '#0070f3',
   warning: '#f5a623',
+  border: '#eaeaea',
 };
 
 export const layout = defaultLayout;

@@ -9,6 +9,7 @@ export interface ThemePalette {
   grayscale_8: string;
   background: string;
   foreground: string;
+  border: string;
   error: string;
   success: string;
   warning: string;
