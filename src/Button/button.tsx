@@ -16,6 +16,7 @@ const defaultProps = {
   icon: '',
   disabled: false,
   loading: false,
+  ghost: false,
 };
 export type GhostButtonTypes =
   | 'secondary-light'
@@ -39,7 +40,8 @@ export type ButtonProps = {
   icon?: React.ReactNode;
   loading?: boolean;
   htmlType?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
-  disabled: boolean;
+  disabled?: boolean;
+  ghost?: boolean;
 };
 
 export type Props = typeof defaultProps &
@@ -52,7 +54,7 @@ export const Button: FC<PropsWithChildren<Props>> = (props) => {
   return (
     <>
       <button {...buttonProps}>
-        <Loading.Container loading={loading}>
+        <Loading.Container loading={loading} opacity={1}>
           <div className="text">
             {icon} {children}
           </div>
@@ -76,6 +78,7 @@ export const Button: FC<PropsWithChildren<Props>> = (props) => {
           text-align: center;
         }
         .button > .text {
+          font-size: inherit;
         }
       `}</style>
     </>

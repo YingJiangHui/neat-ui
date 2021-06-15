@@ -10,8 +10,30 @@ import loading from '@/Loading/loading';
 function getGhostButtonColors(
   palette: ThemePalette,
   props: Partial<ButtonProps>,
-) {
+): { [K in DefaultButtonTypes]: ButtonColors } {
   // TODO
+  return {
+    success: {
+      color: palette.success,
+      border: palette.success,
+      bg: palette.background,
+    },
+    warning: {
+      color: palette.warning,
+      border: palette.warning,
+      bg: palette.background,
+    },
+    error: {
+      color: palette.error,
+      border: palette.error,
+      bg: palette.background,
+    },
+    secondary: {
+      color: palette.foreground,
+      border: palette.foreground,
+      bg: palette.background,
+    },
+  } as { [K in DefaultButtonTypes]: ButtonColors };
 }
 
 export type ButtonColors = { bg: string; border: string; color: string };
@@ -51,11 +73,14 @@ export const getButtonColors = (
       color: palette.grayscale_5,
     },
   };
-  const ghost =
-    props.type?.indexOf('-light') !== -1 &&
-    getGhostButtonColors(palette, props);
-  if (ghost) {
-    return ghost[props.type as GhostButtonTypes];
+  const withoutLightType = props.type?.replace(
+    '-light',
+    '',
+  ) as DefaultButtonTypes;
+  if (props.ghost) {
+    return (
+      getGhostButtonColors(palette, props)[withoutLightType] || colors.default
+    );
   }
   return colors[props.type as DefaultButtonTypes] || colors.default;
 };

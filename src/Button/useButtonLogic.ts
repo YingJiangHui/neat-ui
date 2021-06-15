@@ -1,7 +1,7 @@
 import { HTMLAttributes, useMemo } from 'react';
 import { Props } from '@/Button/button';
 import classnames from '@/shared/classnames';
-import { useTheme } from '../hooks/use-theme/use-theme';
+import { useTheme } from '../hooks/use-theme';
 import {
   getButtonColors,
   getButtonCursor,
