@@ -5507,6 +5507,11 @@ hex-color-regex@^1.1.0:
   resolved "https://registry.npmjs.org/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
 
+hex-to-rgba@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.nlark.com/hex-to-rgba/download/hex-to-rgba-2.0.1.tgz#4176977882a1cb32b83ce5ab1db6828ab84d5a13"
+  integrity sha1-QXaXeIKhyzK4POWrHbaCirhNWhM=
+
 history-with-query@4.10.4:
   version "4.10.4"
   resolved "https://registry.npmjs.org/history-with-query/-/history-with-query-4.10.4.tgz#8161ff3c5044e29dfaeb73e7587eb3d4c1a8090e"

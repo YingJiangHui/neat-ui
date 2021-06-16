@@ -57,6 +57,7 @@
     "dumi": "^1.1.18",
     "father-build": "^1.17.2",
     "gh-pages": "^3.0.0",
+    "hex-to-rgba": "^2.0.1",
     "lint-staged": "^10.0.7",
     "prettier": "^2.2.1",
     "react-test-renderer": "^17.0.2",
