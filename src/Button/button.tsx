@@ -54,7 +54,12 @@ export const Button: FC<PropsWithChildren<Props>> = (props) => {
   return (
     <>
       <button {...buttonProps}>
-        <Loading.Container maskColor={colors.bg} loading={loading} opacity={1}>
+        <Loading.Container
+          maskColor={colors.bg}
+          iconColor={colors.color}
+          loading={loading}
+          opacity={1}
+        >
           <div className="text">
             {icon} {children}
           </div>

@@ -7,10 +7,10 @@ type LoadingContainerProps = {
   indicator?: React.ReactNode;
   loading?: boolean;
   opacity?: number;
-  maskColor: string;
+  maskColor?: string;
+  iconColor?: string;
 };
 const defaultProps: LoadingContainerProps = {
-  indicator: <Loading />,
   loading: false,
   opacity: 0.5,
   maskColor: '#fff',
@@ -24,11 +24,16 @@ const LoadingContainer: FC<PropsWithChildren<Props>> = ({
   children,
   opacity,
   maskColor,
+  iconColor,
   ...rest
 }) => {
   return (
     <div className="loading-container-wrapper">
-      {loading && <div className="loading-mask">{indicator}</div>}
+      {loading && (
+        <div className="loading-mask">
+          {indicator || <Loading color={iconColor} />}
+        </div>
+      )}
       <div
         className={classnames('loading-container', loading && 'loading-blur')}
         {...rest}

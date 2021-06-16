@@ -5,6 +5,7 @@ import { useTheme } from '@/hooks/use-theme';
 
 type LoadingProps = {
   size?: 'small' | 'middle' | 'large';
+  color?: string;
 };
 
 const sizeMap = {
@@ -20,7 +21,7 @@ type Props = PropsWithChildren<
   typeof defaultProps & LoadingProps & HTMLAttributes<any>
 >;
 
-const Loading: FC<Props> = ({ size, children, ...rest }) => {
+const Loading: FC<Props> = ({ size, color, children, ...rest }) => {
   const theme = useTheme();
   return (
     <div className="loading-container" {...rest}>
@@ -40,7 +41,7 @@ const Loading: FC<Props> = ({ size, children, ...rest }) => {
         <style jsx>{`
           .loading > i {
             display: inline-block;
-            background: ${theme.palette.grayscale_8};
+            background: ${color || theme.palette.grayscale_8};
             border-radius: 50%;
             animation: loading-zoom 1.4s infinite both;
           }

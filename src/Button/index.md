@@ -22,7 +22,21 @@ Demo
 import React from 'react';
 import { Button } from 'neat-ui-react';
 export default () => {
-  return <Button loading>button</Button>;
+  return (
+    <>
+      <Button loading>loading</Button>
+      <br />
+      <br />
+      <Button loading type="success">
+        loading
+      </Button>
+      <br />
+      <br />
+      <Button loading type="error">
+        loading
+      </Button>
+    </>
+  );
 };
 ```
 
