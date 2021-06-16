@@ -10,3 +10,4 @@ export { Loading } from '@/Loading';
 export { NeatProvider } from '@/provider';
 export { useTheme, ThemeContext } from '@/hooks/use-theme';
 export { Button } from '@/Button';
+export { Switch } from '@/Switch';

@@ -132,3 +132,5 @@ export default () => {
   );
 };
 ```
+
+<API src="./button.tsx"></API>

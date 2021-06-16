@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 import useButtonLogic from '@/Button/useButtonLogic';
 import { Loading } from '@/Loading';
+import withDefaults from '@/utils/with-defaults';
 
 const defaultProps = {
   htmlType: 'button',
@@ -41,11 +42,11 @@ export type ButtonProps = {
   disabled?: boolean;
   ghost?: boolean;
 };
-
+type A = { name: 1 };
 type Props = typeof defaultProps &
   ButtonProps &
   HTMLAttributes<HTMLButtonElement>;
-export const Button: FC<PropsWithChildren<Props>> = (props) => {
+const Button: FC<PropsWithChildren<Props>> = (props) => {
   const { children, icon, loading } = props;
   const { buttonProps, theme, colors, sizes, cursors, reaction } =
     useButtonLogic(props);
@@ -97,4 +98,4 @@ export const Button: FC<PropsWithChildren<Props>> = (props) => {
   );
 };
 
-export default Button;
+export default withDefaults(Button, defaultProps) as FC<ButtonProps>;
