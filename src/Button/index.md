@@ -27,12 +27,12 @@ export default () => {
       <Button loading>loading</Button>
       <br />
       <br />
-      <Button loading type="success">
+      <Button loading type="success" auto>
         loading
       </Button>
       <br />
       <br />
-      <Button loading type="error">
+      <Button loading type="secondary">
         loading
       </Button>
     </>
@@ -50,9 +50,12 @@ export default () => {
     <>
       <Button size="mini">button</Button>
       <br />
+      <br />
       <Button size="small">button</Button>
       <br />
+      <br />
       <Button>button</Button>
+      <br />
       <br />
       <Button size="large">button</Button>
     </>

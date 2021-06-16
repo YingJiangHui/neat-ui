@@ -1,7 +1,18 @@
 import { ButtonProps, ButtonTypes, NormalSizes, Props } from '@/Button/button';
 import { ThemePalette } from '@/themes/presets';
 import hexToRgba from 'hex-to-rgba';
-function getButtonGhostColors(palette: ThemePalette, type: ButtonTypes) {
+
+export type ButtonColors = { bg: string; border: string; color: string };
+export type ButtonSizes = {
+  width: string;
+  minWidth: string;
+  lineHeight: string;
+  height: string;
+  padding: string;
+  size: string;
+};
+
+const getButtonGhostColors = (palette: ThemePalette, type: ButtonTypes) => {
   const colors: { [K in ButtonTypes]?: ButtonColors } = {
     success: {
       color: palette.success,
@@ -25,9 +36,8 @@ function getButtonGhostColors(palette: ThemePalette, type: ButtonTypes) {
     },
   };
   return colors[type] || null;
-}
-export const ghostColors = ['success', 'warning', 'error', 'secondary'];
-export type ButtonColors = { bg: string; border: string; color: string };
+};
+
 export const getButtonColors = (
   palette: ThemePalette,
   props: Partial<ButtonProps>,
@@ -73,14 +83,7 @@ export const getButtonColors = (
   }
   return colors[props.type as ButtonTypes] || (colors.default as ButtonColors);
 };
-export type ButtonSizes = {
-  width: string;
-  minWidth: string;
-  lineHeight: string;
-  height: string;
-  padding: string;
-  size: string;
-};
+
 export const getButtonSizes = (size: NormalSizes = 'medium', auto: boolean) => {
   const getMinWidth = (width: string) => (auto ? '' : width);
   const getWidth = () => (auto ? 'auto' : 'max-content');

@@ -18,19 +18,17 @@ const defaultProps = {
   loading: false,
   ghost: false,
 };
-export type GhostButtonTypes =
-  | 'secondary-light'
-  | 'success-light'
-  | 'warning-light'
-  | 'error-light';
-export type DefaultButtonTypes =
+export type ButtonTypes =
   | 'success'
   | 'error'
   | 'warning'
   | 'secondary'
   | 'default'
-  | 'abort';
-export type ButtonTypes = GhostButtonTypes | DefaultButtonTypes;
+  | 'abort'
+  | 'secondary-light'
+  | 'success-light'
+  | 'warning-light'
+  | 'error-light';
 export type NormalSizes = 'mini' | 'small' | 'medium' | 'large';
 export type ButtonProps = {
   auto?: boolean;
