@@ -21,7 +21,9 @@ export const palette: ThemePalette = {
   warning: '#f5a623',
   border: '#fafafa',
 };
-export const expressiveness: Expressiveness = {};
+export const expressiveness: Expressiveness = {
+  transition: '.25s',
+};
 export const layout = defaultLayout;
 export const themes: NeatUITheme = {
   type: 'dark',

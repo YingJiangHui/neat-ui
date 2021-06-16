@@ -1,18 +1,8 @@
-import {
-  ButtonProps,
-  DefaultButtonTypes,
-  GhostButtonTypes,
-  NormalSizes,
-} from '@/Button/button';
+import { ButtonProps, ButtonTypes, NormalSizes, Props } from '@/Button/button';
 import { ThemePalette } from '@/themes/presets';
-import loading from '@/Loading/loading';
-
-function getGhostButtonColors(
-  palette: ThemePalette,
-  props: Partial<ButtonProps>,
-): { [K in DefaultButtonTypes]: ButtonColors } {
-  // TODO
-  return {
+import hexToRgba from 'hex-to-rgba';
+function getButtonGhostColors(palette: ThemePalette, type: ButtonTypes) {
+  const colors: { [K in ButtonTypes]?: ButtonColors } = {
     success: {
       color: palette.success,
       border: palette.success,
@@ -33,15 +23,16 @@ function getGhostButtonColors(
       border: palette.foreground,
       bg: palette.background,
     },
-  } as { [K in DefaultButtonTypes]: ButtonColors };
+  };
+  return colors[type] || null;
 }
-
+export const ghostColors = ['success', 'warning', 'error', 'secondary'];
 export type ButtonColors = { bg: string; border: string; color: string };
 export const getButtonColors = (
   palette: ThemePalette,
   props: Partial<ButtonProps>,
 ) => {
-  const colors: { [K in DefaultButtonTypes]: ButtonColors } = {
+  const colors: { [K in ButtonTypes]?: ButtonColors } = {
     default: {
       bg: palette.background,
       border: palette.border,
@@ -73,16 +64,14 @@ export const getButtonColors = (
       color: palette.grayscale_5,
     },
   };
-  const withoutLightType = props.type?.replace(
-    '-light',
-    '',
-  ) as DefaultButtonTypes;
+  const withoutLightType = props.type?.replace('-light', '') as ButtonTypes;
   if (props.ghost) {
     return (
-      getGhostButtonColors(palette, props)[withoutLightType] || colors.default
+      getButtonGhostColors(palette, withoutLightType) ||
+      (colors.default as ButtonColors)
     );
   }
-  return colors[props.type as DefaultButtonTypes] || colors.default;
+  return colors[props.type as ButtonTypes] || (colors.default as ButtonColors);
 };
 export type ButtonSizes = {
   width: string;
@@ -152,4 +141,90 @@ export const getButtonCursor = (
     cursor: 'pointer',
     pointerEvents: 'auto',
   };
+};
+
+export const getButtonGhostHoverColors = (
+  palette: ThemePalette,
+  type: ButtonTypes,
+) => {
+  const colors: { [k in ButtonTypes]?: ButtonColors } = {
+    error: {
+      bg: palette.error,
+      border: palette.error,
+      color: '#fff',
+    },
+    warning: {
+      bg: palette.warning,
+      border: palette.warning,
+      color: '#fff',
+    },
+    success: {
+      bg: palette.success,
+      border: palette.success,
+      color: '#fff',
+    },
+    secondary: {
+      bg: palette.foreground,
+      border: palette.foreground,
+      color: palette.background,
+    },
+  };
+  return colors[type] || null;
+};
+
+export const getButtonHoverColors = (palette: ThemePalette, props: Props) => {
+  const colors: {
+    [K in ButtonTypes]: Omit<ButtonColors, 'color'> & { color?: string };
+  } = {
+    default: {
+      bg: palette.background,
+      border: palette.foreground,
+    },
+    error: {
+      bg: palette.background,
+      border: palette.error,
+      color: palette.error,
+    },
+    warning: {
+      bg: palette.background,
+      border: palette.warning,
+      color: palette.warning,
+    },
+    success: {
+      bg: palette.background,
+      border: palette.success,
+      color: palette.success,
+    },
+    secondary: {
+      bg: palette.background,
+      border: palette.foreground,
+      color: palette.foreground,
+    },
+    abort: {
+      bg: palette.grayscale_1,
+      border: 'transparent',
+    },
+    'error-light': {
+      bg: hexToRgba(palette.error, 0.8),
+      border: 'transparent',
+    },
+    'success-light': {
+      bg: hexToRgba(palette.success, 0.8),
+      border: 'transparent',
+    },
+    'warning-light': {
+      bg: hexToRgba(palette.warning, 0.8),
+      border: 'transparent',
+    },
+    'secondary-light': {
+      bg: hexToRgba(palette.background, 0.8),
+      border: 'transparent',
+    },
+  };
+
+  if (props.ghost) {
+    return getButtonGhostHoverColors(palette, props.type) || colors.default;
+  }
+
+  return colors[props.type] || colors.default;
 };

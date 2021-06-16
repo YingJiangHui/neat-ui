@@ -49,7 +49,8 @@ export type Props = typeof defaultProps &
   HTMLAttributes<HTMLButtonElement>;
 export const Button: FC<PropsWithChildren<Props>> = (props) => {
   const { children, icon, loading } = props;
-  const { buttonProps, theme, colors, sizes, cursors } = useButtonLogic(props);
+  const { buttonProps, theme, colors, sizes, cursors, reaction } =
+    useButtonLogic(props);
 
   return (
     <>
@@ -64,7 +65,9 @@ export const Button: FC<PropsWithChildren<Props>> = (props) => {
         .button {
           outline: none;
           border-radius: ${theme.layout.radius};
-          border: 1px solid ${colors.border};
+          border-width: 1px;
+          border-style: solid;
+          border-color: ${colors.border};
           background-color: ${colors.bg};
           color: ${colors.color};
           font-size: ${sizes.size};
@@ -76,6 +79,13 @@ export const Button: FC<PropsWithChildren<Props>> = (props) => {
           pointer-events: ${cursors.pointerEvents};
           font-family: ${theme.font.sans};
           text-align: center;
+          transition: ${theme.expressiveness.transition};
+        }
+        .button:hover,
+        .button:focus {
+          background: ${reaction.bg};
+          border-color: ${reaction.border};
+          color: ${reaction.color};
         }
         .button > .text {
           font-size: inherit;

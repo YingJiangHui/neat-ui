@@ -24,7 +24,9 @@ export const palette: ThemePalette = {
 
 export const layout = defaultLayout;
 
-export const expressiveness: Expressiveness = {};
+export const expressiveness: Expressiveness = {
+  transition: '.25s',
+};
 
 export const themes: NeatUITheme = {
   type: 'light',

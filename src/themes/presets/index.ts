@@ -19,7 +19,9 @@ export interface ThemeFont {
   sans: string;
   mono: string;
 }
-export interface Expressiveness {}
+export interface Expressiveness {
+  transition: string;
+}
 export interface Layout {
   gap: string;
   gapNegative: string;

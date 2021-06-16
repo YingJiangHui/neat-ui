@@ -5,6 +5,7 @@ import { useTheme } from '../hooks/use-theme';
 import {
   getButtonColors,
   getButtonCursor,
+  getButtonHoverColors,
   getButtonSizes,
 } from '@/Button/styles';
 
@@ -35,7 +36,11 @@ export const useButtonLogic = (props: Props & HTMLAttributes<any>) => {
     [theme, props],
   );
   const cursors = useMemo(() => getButtonCursor(disabled, loading), []);
-  return { theme, buttonProps, colors, sizes, cursors };
+  const reaction = useMemo(
+    () => getButtonHoverColors(theme.palette, props),
+    [theme, props],
+  );
+  return { theme, buttonProps, colors, sizes, cursors, reaction };
 };
 
 export default useButtonLogic;
