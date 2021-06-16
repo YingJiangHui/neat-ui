@@ -7,11 +7,13 @@ type LoadingContainerProps = {
   indicator?: React.ReactNode;
   loading?: boolean;
   opacity?: number;
+  maskColor: string;
 };
 const defaultProps: LoadingContainerProps = {
   indicator: <Loading />,
   loading: false,
   opacity: 0.5,
+  maskColor: '#fff',
 };
 type Props = PropsWithChildren<
   typeof defaultProps & LoadingContainerProps & HTMLAttributes<any>
@@ -21,6 +23,7 @@ const LoadingContainer: FC<PropsWithChildren<Props>> = ({
   indicator,
   children,
   opacity,
+  maskColor,
   ...rest
 }) => {
   return (
@@ -66,7 +69,7 @@ const LoadingContainer: FC<PropsWithChildren<Props>> = ({
           left: 0;
           width: 100%;
           height: 100%;
-          background: #fff;
+          background: ${maskColor};
           transition: all 0.25s;
           z-index: 10;
           opacity: ${opacity};
