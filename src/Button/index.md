@@ -6,7 +6,7 @@ nav:
 
 ## Button
 
-Demo
+### Default
 
 ```tsx
 import React from 'react';
@@ -16,7 +16,7 @@ export default () => {
 };
 ```
 
-Demo
+### Loading
 
 ```tsx
 import React from 'react';
@@ -40,7 +40,7 @@ export default () => {
 };
 ```
 
-Demo
+### Size
 
 ```tsx
 import React from 'react';
@@ -63,7 +63,7 @@ export default () => {
 };
 ```
 
-Demo
+Button Type
 
 ```tsx
 import React from 'react';
@@ -102,7 +102,7 @@ export default () => {
 };
 ```
 
-Demo
+Ghost - 反色
 
 ```tsx
 import React from 'react';

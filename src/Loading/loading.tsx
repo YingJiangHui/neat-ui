@@ -3,16 +3,10 @@ import withDefaults from '@/utils/with-defaults';
 import LoadingContainer from '@/Loading/loading-container';
 import { useTheme } from '@/hooks/use-theme';
 
-type LoadingProps = {
+interface LoadingProps {
   size?: 'small' | 'middle' | 'large';
   color?: string;
-};
-
-const sizeMap = {
-  small: 4,
-  middle: 6,
-  large: 8,
-};
+}
 
 const defaultProps = {
   size: 'middle',
@@ -20,55 +14,60 @@ const defaultProps = {
 type Props = PropsWithChildren<
   typeof defaultProps & LoadingProps & HTMLAttributes<any>
 >;
-
+const sizeMap = {
+  small: 4,
+  middle: 6,
+  large: 8,
+};
 const Loading: FC<Props> = ({ size, color, children, ...rest }) => {
+  const width = useMemo(() => sizeMap[size], [size]);
   const theme = useTheme();
   return (
-    <div className="loading-container" {...rest}>
-      <>
+    <>
+      <div className="loading-container" {...rest}>
         <div className="loading">
           <i />
           <i />
           <i />
         </div>
-        <style jsx>{`
-          .loading > i {
-            width: ${sizeMap[size]}px;
-            height: ${sizeMap[size]}px;
-            margin-right: 2px;
-          }
-        `}</style>
-        <style jsx>{`
-          .loading > i {
-            display: inline-block;
-            background: ${color || theme.palette.grayscale_8};
-            border-radius: 50%;
-            animation: loading-zoom 1.4s infinite both;
-          }
+      </div>
+      <style jsx>{`
+        .loading > i {
+          width: ${width}px;
+          height: ${width}px;
+          margin-right: 2px;
+        }
+      `}</style>
+      <style jsx>{`
+        .loading > i {
+          display: inline-block;
+          background: ${color || theme.palette.grayscale_8};
+          border-radius: 50%;
+          animation: loading-zoom 1.4s infinite both;
+        }
 
-          .loading > i:nth-child(2) {
-            animation-delay: 0.2s;
-          }
+        .loading > i:nth-child(2) {
+          animation-delay: 0.2s;
+        }
 
-          .loading > i:nth-child(3) {
-            animation-delay: 0.4s;
-            margin-right: 0;
-          }
+        .loading > i:nth-child(3) {
+          animation-delay: 0.4s;
+          margin-right: 0;
+        }
 
-          @keyframes loading-zoom {
-            0% {
-              opacity: 0.2;
-            }
-            20% {
-              opacity: 1;
-            }
-            100% {
-              opacity: 0.2;
-            }
+        @keyframes loading-zoom {
+          0% {
+            opacity: 0.2;
           }
-        `}</style>
-      </>
-    </div>
+          20% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0.2;
+          }
+        }
+      `}</style>
+    </>
   );
 };
 

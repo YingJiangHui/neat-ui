@@ -42,7 +42,7 @@ export type ButtonProps = {
   ghost?: boolean;
 };
 
-export type Props = typeof defaultProps &
+type Props = typeof defaultProps &
   ButtonProps &
   HTMLAttributes<HTMLButtonElement>;
 export const Button: FC<PropsWithChildren<Props>> = (props) => {

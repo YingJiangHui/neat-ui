@@ -3,13 +3,13 @@ import withDefaults from '@/utils/with-defaults';
 import Loading from './loading';
 import classnames from '@/shared/classnames';
 
-type LoadingContainerProps = {
+interface LoadingContainerProps {
   indicator?: React.ReactNode;
   loading?: boolean;
   opacity?: number;
   maskColor?: string;
   iconColor?: string;
-};
+}
 const defaultProps: LoadingContainerProps = {
   loading: false,
   opacity: 0.5,
@@ -18,7 +18,7 @@ const defaultProps: LoadingContainerProps = {
 type Props = PropsWithChildren<
   typeof defaultProps & LoadingContainerProps & HTMLAttributes<any>
 >;
-const LoadingContainer: FC<PropsWithChildren<Props>> = ({
+const LoadingContainer: FC<Props> = ({
   loading,
   indicator,
   children,

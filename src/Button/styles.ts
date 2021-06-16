@@ -1,4 +1,4 @@
-import { ButtonProps, ButtonTypes, NormalSizes, Props } from '@/Button/button';
+import { ButtonProps, ButtonTypes, NormalSizes } from '@/Button/button';
 import { ThemePalette } from '@/themes/presets';
 import hexToRgba from 'hex-to-rgba';
 
@@ -175,7 +175,10 @@ export const getButtonGhostHoverColors = (
   return colors[type] || null;
 };
 
-export const getButtonHoverColors = (palette: ThemePalette, props: Props) => {
+export const getButtonHoverColors = (
+  palette: ThemePalette,
+  props: ButtonProps,
+) => {
   const colors: {
     [K in ButtonTypes]: Omit<ButtonColors, 'color'> & { color?: string };
   } = {
@@ -226,8 +229,11 @@ export const getButtonHoverColors = (palette: ThemePalette, props: Props) => {
   };
 
   if (props.ghost) {
-    return getButtonGhostHoverColors(palette, props.type) || colors.default;
+    return (
+      getButtonGhostHoverColors(palette, props.type as ButtonTypes) ||
+      colors.default
+    );
   }
 
-  return colors[props.type] || colors.default;
+  return colors[props.type as ButtonTypes] || colors.default;
 };
