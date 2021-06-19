@@ -12,4 +12,4 @@ const Switch: FC<PropsWithChildren<Props>> = ({ ...rest }) => {
   return <div {...rest}></div>;
 };
 
-export default withDefaults(Switch, defaultProps) as React.FC<SwitchProps>;
+export default withDefaults(Switch, defaultProps);

@@ -83,7 +83,4 @@ const LoadingContainer: FC<Props> = ({
     </div>
   );
 };
-export default withDefaults(
-  LoadingContainer,
-  defaultProps,
-) as FC<LoadingContainerProps>;
+export default withDefaults(LoadingContainer, defaultProps);
