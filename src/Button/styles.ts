@@ -86,7 +86,10 @@ export const getButtonColors = (
   );
 };
 
-export const getButtonSizes = (size: NormalSizes = 'medium', auto: boolean) => {
+export const getButtonSizes = (
+  size: NormalSizes = 'medium',
+  auto?: boolean,
+) => {
   const getMinWidth = (width: string) => (auto ? '' : width);
   const getWidth = () => (auto ? 'auto' : 'max-content');
   const sizes: { [K in NormalSizes]: ButtonSizes } = {
@@ -126,11 +129,14 @@ export const getButtonSizes = (size: NormalSizes = 'medium', auto: boolean) => {
   return sizes[size];
 };
 export type CursorStyle = { cursor: string; pointerEvents: string };
-export const getButtonCursor = (
-  disabled: boolean,
-  loading: boolean,
-): CursorStyle => {
-  const cursorStyles: [boolean, CursorStyle][] = [
+export const getButtonCursor = ({
+  disabled,
+  loading,
+}: {
+  disabled?: boolean;
+  loading?: boolean;
+}): CursorStyle => {
+  const cursorStyles: [boolean | undefined, CursorStyle][] = [
     [disabled, { cursor: 'not-allowed', pointerEvents: 'none' }],
     [loading, { cursor: 'not-allowed', pointerEvents: 'none' }],
   ];
@@ -172,7 +178,7 @@ export const getButtonGhostHoverColors = (
 
 export const getButtonHoverColors = (
   palette: ThemePalette,
-  props: ButtonProps,
+  props: Partial<ButtonProps>,
 ) => {
   const buttonColor = getButtonColors(palette, props);
   const colors: {

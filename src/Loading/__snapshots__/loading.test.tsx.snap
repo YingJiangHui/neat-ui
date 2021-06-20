@@ -1,55 +1,57 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Loading.Container loading快照 1`] = `
-<div
-  className="loading-container"
->
+Array [
   <div
-    className="loading"
+    className="loading-container"
   >
-    <i />
-    <i />
-    <i />
-  </div>
+    <div
+      className="loading"
+    >
+      <i />
+      <i />
+      <i />
+    </div>
+  </div>,
   <style>
     
-          .loading &gt; i {
-            width: 6px;
-            height: 6px;
-            margin-right: 2px;
-          }
-        
-  </style>
+        .loading &gt; i {
+          width: 6px;
+          height: 6px;
+          margin-right: 2px;
+        }
+      
+  </style>,
   <style>
     
-          .loading &gt; i {
-            display: inline-block;
-            background: #111;
-            border-radius: 50%;
-            animation: loading-zoom 1.4s infinite both;
-          }
+        .loading &gt; i {
+          display: inline-block;
+          background: #111;
+          border-radius: 50%;
+          animation: loading-zoom 1.4s infinite both;
+        }
 
-          .loading &gt; i:nth-child(2) {
-            animation-delay: 0.2s;
-          }
+        .loading &gt; i:nth-child(2) {
+          animation-delay: 0.2s;
+        }
 
-          .loading &gt; i:nth-child(3) {
-            animation-delay: 0.4s;
-            margin-right: 0;
-          }
+        .loading &gt; i:nth-child(3) {
+          animation-delay: 0.4s;
+          margin-right: 0;
+        }
 
-          @keyframes loading-zoom {
-            0% {
-              opacity: 0.2;
-            }
-            20% {
-              opacity: 1;
-            }
-            100% {
-              opacity: 0.2;
-            }
+        @keyframes loading-zoom {
+          0% {
+            opacity: 0.2;
           }
-        
-  </style>
-</div>
+          20% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0.2;
+          }
+        }
+      
+  </style>,
+]
 `;

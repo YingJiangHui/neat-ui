@@ -96,5 +96,4 @@ const Button: FC<PropsWithChildren<ButtonProps>> = (props) => {
     </>
   );
 };
-
 export default withDefaults(Button, defaultProps);

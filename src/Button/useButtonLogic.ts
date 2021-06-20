@@ -1,5 +1,4 @@
-import { HTMLAttributes, useMemo } from 'react';
-import { ButtonProps } from '@/Button/button';
+import { useMemo } from 'react';
 import classnames from '@/shared/classnames';
 import { useTheme } from '../hooks/use-theme';
 import {
@@ -8,8 +7,9 @@ import {
   getButtonHoverColors,
   getButtonSizes,
 } from '@/Button/styles';
-
-export const useButtonLogic = (props: ButtonProps & HTMLAttributes<any>) => {
+import Button from '@/Button/button';
+type ButtonComponentProps = Parameters<typeof Button>[0];
+export const useButtonLogic = (props: ButtonComponentProps) => {
   const {
     className,
     auto,
@@ -35,7 +35,7 @@ export const useButtonLogic = (props: ButtonProps & HTMLAttributes<any>) => {
     () => getButtonColors(theme.palette, props),
     [theme, props],
   );
-  const cursors = useMemo(() => getButtonCursor(disabled, loading), []);
+  const cursors = useMemo(() => getButtonCursor({ disabled, loading }), []);
   const reaction = useMemo(
     () => getButtonHoverColors(theme.palette, props),
     [theme, props],
