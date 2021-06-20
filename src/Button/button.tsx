@@ -31,7 +31,7 @@ export type ButtonTypes =
   | 'warning-light'
   | 'error-light';
 export type NormalSizes = 'mini' | 'small' | 'medium' | 'large';
-export type ButtonProps = {
+type Props = {
   auto?: boolean;
   shadow?: boolean;
   size?: NormalSizes;
@@ -42,11 +42,10 @@ export type ButtonProps = {
   disabled?: boolean;
   ghost?: boolean;
 };
-type A = { name: 1 };
-type Props = typeof defaultProps &
-  ButtonProps &
+export type ButtonProps = typeof defaultProps &
+  Props &
   HTMLAttributes<HTMLButtonElement>;
-const Button: FC<PropsWithChildren<Props>> = (props) => {
+const Button: FC<PropsWithChildren<ButtonProps>> = (props) => {
   const { children, icon, loading } = props;
   const { buttonProps, theme, colors, sizes, cursors, reaction } =
     useButtonLogic(props);
@@ -64,7 +63,7 @@ const Button: FC<PropsWithChildren<Props>> = (props) => {
           </div>
         </Loading.Container>
       </button>
-      <style jsx>{`
+      <style jsx={true}>{`
         .button {
           outline: none;
           border-radius: ${theme.layout.radius};

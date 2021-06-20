@@ -1,5 +1,5 @@
 import { HTMLAttributes, useMemo } from 'react';
-import { Props } from '@/Button/button';
+import { ButtonProps } from '@/Button/button';
 import classnames from '@/shared/classnames';
 import { useTheme } from '../hooks/use-theme';
 import {
@@ -9,7 +9,7 @@ import {
   getButtonSizes,
 } from '@/Button/styles';
 
-export const useButtonLogic = (props: Props & HTMLAttributes<any>) => {
+export const useButtonLogic = (props: ButtonProps & HTMLAttributes<any>) => {
   const {
     className,
     auto,
