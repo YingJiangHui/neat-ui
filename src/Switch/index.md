@@ -1,7 +1,12 @@
 ---
 nav:
-  title: Components
+  title: Switch
   path: /components
+
+group:
+  title: Basic
+
+  path: /basic
 ---
 
 ## Switch

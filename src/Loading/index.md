@@ -1,7 +1,12 @@
 ---
 nav:
-  title: Components
+  title: Loading
+
   path: /components
+group:
+  title: Basic
+
+  path: /basic
 ---
 
 ## Loading

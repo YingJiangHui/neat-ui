@@ -1,6 +1,6 @@
 ---
 nav:
-  title: Components
+  title: Theme
   path: /components
 ---
 

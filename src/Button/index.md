@@ -1,7 +1,12 @@
 ---
 nav:
-  title: Components
+  title: Button
+
   path: /components
+group:
+  title: Basic
+
+  path: /basic
 ---
 
 ## Button
