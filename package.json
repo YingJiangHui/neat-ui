@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "@styled-jsx/plugin-sass": "^3.0.0",
+    "@testing-library/react-hooks": "^7.0.0",
     "@types/jest": "^26.0.23",
     "@types/react-test-renderer": "^17.0.1",
     "@umijs/test": "^3.0.5",
