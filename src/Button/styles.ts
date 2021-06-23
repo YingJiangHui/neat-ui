@@ -82,7 +82,8 @@ export const getButtonColors = (
   return (
     (props.ghost
       ? getButtonGhostColors(palette, withoutLightType)
-      : colors[props.type as ButtonTypes]) || (defaultColors as ButtonColors)
+      : colors[withoutLightType as ButtonTypes]) ||
+    (defaultColors as ButtonColors)
   );
 };
 
@@ -221,7 +222,7 @@ export const getButtonHoverColors = (
       border: 'transparent',
     },
     'secondary-light': {
-      bg: hexToRgba(palette.background, 0.8),
+      bg: hexToRgba(palette.foreground, 0.8),
       border: 'transparent',
     },
   };
@@ -239,3 +240,16 @@ export const getButtonHoverColors = (
       : hoverButtonColors[props.type!]) || colors.default
   );
 };
+
+// 第三方API
+type Fn1 = (n: number) => number;
+const api1 = (fn: Fn1) => {
+  const n = 0;
+  fn(n);
+};
+const fn = (n) => {
+  // 无法推断n的类型，隐士的具有any
+  // code...
+  return n;
+};
+api1(fn);
