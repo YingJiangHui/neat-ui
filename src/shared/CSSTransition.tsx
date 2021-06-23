@@ -6,6 +6,7 @@ interface Props {
   leaveTime?: number;
   clearTime?: number;
   name?: string;
+  isProtected: boolean;
 }
 
 const defaultProps = {
@@ -15,6 +16,7 @@ const defaultProps = {
   clearTime: 0,
   className: '',
   name: 'transition',
+  isProtected: false,
 };
 
 // .classPrefix-enter 进入
@@ -32,11 +34,12 @@ const CSSTransition: FC<React.PropsWithChildren<CSSTransitionProps>> = ({
   clearTime,
   children,
   className,
+  isProtected,
   ...props
 }) => {
   const [renderable, setRenderable] = useState(visible);
   const [classes, setClasses] = useState('');
-
+  const [v, setV] = useState(false);
   useEffect(() => {
     if (visible && !renderable) setRenderable(true);
     const status = visible ? 'enter' : 'leave';
@@ -52,7 +55,7 @@ const CSSTransition: FC<React.PropsWithChildren<CSSTransitionProps>> = ({
       // 设置了clearTime执行
       if (!visible && clearTime) {
         setClasses('');
-        setRenderable(false);
+        if (v) setRenderable(false);
       }
       clearTimeout(clearTimer);
     }, time + clearTime);
@@ -66,7 +69,12 @@ const CSSTransition: FC<React.PropsWithChildren<CSSTransitionProps>> = ({
   return React.cloneElement(children, {
     ...props,
     className: `${className || ''} ${children.props.className} ${classes}`,
+    onTransitionStart: (e: TransitionEvent) => {
+      setV(false);
+      children.props.onTransitionStart?.(e);
+    },
     onTransitionEnd: (e: TransitionEvent) => {
+      setV(true);
       // 没设置clearTime时执行
       children.props.onTransitionEnd?.(e);
       if (!visible && !clearTime) {

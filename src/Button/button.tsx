@@ -1,12 +1,13 @@
 import React, {
   ButtonHTMLAttributes,
-  FC,
+  forwardRef,
   HTMLAttributes,
   PropsWithChildren,
 } from 'react';
 import useButtonLogic from '@/Button/useButtonLogic';
 import { Loading } from '@/Loading';
 import withDefaults from '@/utils/with-defaults';
+import Ripple from '@/shared/animation/Ripple';
 
 const defaultProps = {
   htmlType: 'button',
@@ -45,60 +46,82 @@ type Props = {
 export type ButtonProps = typeof defaultProps &
   Props &
   HTMLAttributes<HTMLButtonElement>;
-const Button: FC<PropsWithChildren<ButtonProps>> = (props) => {
-  const { children, icon, loading } = props;
-  const { buttonProps, theme, colors, sizes, cursors, reaction } =
-    useButtonLogic(props);
-  return (
-    <>
-      <button {...buttonProps}>
-        <Loading.Container
-          maskColor={colors.bg}
-          iconColor={colors.color}
-          loading={loading}
-          opacity={1}
-        >
-          <div className="text">
-            {icon} {children}
-          </div>
-        </Loading.Container>
-      </button>
-      <style jsx={true}>{`
-        .button {
-          outline: none;
-          border-width: 1px;
-          border-style: solid;
-          text-align: center;
-          user-select: none;
-        }
-        .button > .text {
-          font-size: inherit;
-        }
-      `}</style>
-      <style jsx={true}>{`
-        .button {
-          border-radius: ${theme.layout.radius};
-          border-color: ${colors.border};
-          background-color: ${colors.bg};
-          color: ${colors.color};
-          font-size: ${sizes.size};
-          width: ${sizes.width};
-          min-width: ${sizes.minWidth};
-          padding: 0 ${sizes.padding};
-          line-height: ${sizes.lineHeight};
-          pointer-events: ${cursors.pointerEvents};
-          cursor: ${cursors.cursor};
-          font-family: ${theme.font.sans};
-          transition: ${theme.expressiveness.transition};
-        }
-        .button:hover,
-        .button:focus {
-          background: ${reaction.bg};
-          border-color: ${reaction.border};
-          color: ${reaction.color};
-        }
-      `}</style>
-    </>
-  );
-};
+const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProps>>(
+  (props, ref) => {
+    const { children, icon, loading } = props;
+    const {
+      buttonProps,
+      theme,
+      colors,
+      sizes,
+      cursors,
+      reaction,
+      pressing,
+      buttonRef,
+      pos,
+      getBoundingClientRect,
+    } = useButtonLogic(props, ref);
+
+    return (
+      <>
+        <button {...buttonProps} ref={buttonRef}>
+          <Ripple
+            visible={pressing}
+            x={pos.x}
+            y={pos.y}
+            r={getBoundingClientRect()?.width || 0}
+          />
+          <Loading.Container
+            maskColor={colors.bg}
+            iconColor={colors.color}
+            loading={loading}
+            opacity={1}
+          >
+            <div className="text">
+              {icon} {children}
+            </div>
+          </Loading.Container>
+        </button>
+        <style jsx={true}>{`
+          .button {
+            overflow: hidden;
+            position: relative;
+            outline: none;
+            border-width: 1px;
+            border-style: solid;
+            text-align: center;
+            user-select: none;
+          }
+          .button > .text {
+            font-size: inherit;
+          }
+        `}</style>
+        <style jsx={true}>{`
+          .button {
+            position: relative;
+            border-radius: ${theme.layout.radius};
+            border-color: ${colors.border};
+            background-color: ${colors.bg};
+            color: ${colors.color};
+            font-size: ${sizes.size};
+            width: ${sizes.width};
+            min-width: ${sizes.minWidth};
+            padding: 0 ${sizes.padding};
+            line-height: ${sizes.lineHeight};
+            pointer-events: ${cursors.pointerEvents};
+            cursor: ${cursors.cursor};
+            font-family: ${theme.font.sans};
+            transition: ${theme.expressiveness.transition};
+          }
+          .button:hover,
+          .button:focus {
+            background: ${reaction.bg};
+            border-color: ${reaction.border};
+            color: ${reaction.color};
+          }
+        `}</style>
+      </>
+    );
+  },
+);
 export default withDefaults(Button, defaultProps);
