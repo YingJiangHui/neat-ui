@@ -75,7 +75,13 @@ export const getButtonColors = (
       border: 'transparent',
     },
   };
-
+  if (props.disabled) {
+    return {
+      bg: palette.grayscale_1,
+      color: palette.grayscale_3,
+      border: palette.border,
+    };
+  }
   const defaultColors = colors.default;
   const withoutLightType = props.type?.replace('-light', '') as ButtonTypes;
 
@@ -138,8 +144,8 @@ export const getButtonCursor = ({
   loading?: boolean;
 }): CursorStyle => {
   const cursorStyles: [boolean | undefined, CursorStyle][] = [
-    [disabled, { cursor: 'not-allowed', pointerEvents: 'none' }],
-    [loading, { cursor: 'not-allowed', pointerEvents: 'none' }],
+    [disabled, { cursor: 'not-allowed', pointerEvents: 'auto' }],
+    [loading, { cursor: 'default', pointerEvents: 'none' }],
   ];
 
   for (let cursorStyle of cursorStyles)
@@ -226,30 +232,24 @@ export const getButtonHoverColors = (
       border: 'transparent',
     },
   };
+  if (props.disabled) {
+    return {
+      bg: palette.grayscale_1,
+      color: palette.grayscale_3,
+      border: palette.border,
+    };
+  }
 
+  // 补全默认的样式
   const hoverButtonColors: { [K in ButtonTypes]: ButtonColors } = (
     Object.keys(colors) as ButtonTypes[]
   ).reduce(
     (m, key) => ({ ...m, [key]: { ...buttonColor, ...colors[key] } }),
     {} as { [K in ButtonTypes]: ButtonColors },
   );
-
   return (
     (props.ghost
       ? getButtonGhostHoverColors(palette, props.type!)
       : hoverButtonColors[props.type!]) || colors.default
   );
 };
-
-// 第三方API
-type Fn1 = (n: number) => number;
-const api1 = (fn: Fn1) => {
-  const n = 0;
-  fn(n);
-};
-const fn = (n) => {
-  // 无法推断n的类型，隐士的具有any
-  // code...
-  return n;
-};
-api1(fn);

@@ -17,16 +17,7 @@ group:
 import React from 'react';
 import { Button } from 'neat-ui-react';
 export default () => {
-  return (
-    <Button
-      style={{ cursor: 'not-allowed', pointerEvents: 'none' }}
-      onClick={() => {
-        console.log(1);
-      }}
-    >
-      button
-    </Button>
-  );
+  return <Button>button</Button>;
 };
 ```
 
@@ -179,22 +170,22 @@ import { Button } from 'neat-ui-react';
 export default () => {
   return (
     <>
-      <Button auto type="secondary" ghost>
+      <Button auto type="secondary" ghost={true}>
         Secondary
       </Button>
       <br />
       <br />
-      <Button auto type="success" ghost>
+      <Button auto type="success" ghost={true}>
         Success
       </Button>
       <br />
       <br />
-      <Button auto type="warning" ghost>
+      <Button auto type="warning" ghost={true}>
         Warning
       </Button>
       <br />
       <br />
-      <Button auto type="error" ghost>
+      <Button auto type="error" ghost={true}>
         Error
       </Button>
     </>

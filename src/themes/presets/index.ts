@@ -7,6 +7,7 @@ export interface ThemePalette {
   grayscale_6: string;
   grayscale_7: string;
   grayscale_8: string;
+  grayscale_9: string;
   background: string;
   foreground: string;
   border: string;

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import classnames from '@/shared/classnames';
 import { useTheme } from '../hooks/use-theme';
 import {
@@ -19,16 +19,18 @@ export const useButtonLogic = (props: ButtonComponentProps) => {
     size,
     disabled,
     loading,
+    ghost,
     ...rest
   } = props;
   const theme = useTheme();
   const buttonProps = useMemo(
     () => ({
+      ...rest,
+      disabled,
       className: classnames(className, `button`),
       type: htmlType,
-      ...rest,
     }),
-    [],
+    [props],
   );
   const sizes = useMemo(() => getButtonSizes(size, auto), [size, auto]);
   const colors = useMemo(

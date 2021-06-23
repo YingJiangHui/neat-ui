@@ -10,12 +10,26 @@ nav:
 
 ```jsx
 import React, { useState } from 'react';
-import { NeatProvider, useTheme } from 'neat-ui-react';
+import { NeatProvider, useTheme, Button } from 'neat-ui-react';
 const Child = ({ switchTheme }) => {
   const theme = useTheme();
   return (
-    <div>
+    <div style={{ background: theme.palette.background, padding: '20px' }}>
       <button onClick={switchTheme}>switch theme</button> {theme.type}
+      <br />
+      <br />
+      <Button type={'error'}>button</Button>
+      <br />
+      <br />
+      <Button type={'secondary'}>button</Button>
+      <br />
+      <br />
+      <Button type={'secondary'} ghost>
+        button
+      </Button>
+      <br />
+      <br />
+      <Button type="success-light">button</Button>
     </div>
   );
 };

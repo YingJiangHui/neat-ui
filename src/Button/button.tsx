@@ -66,9 +66,18 @@ const Button: FC<PropsWithChildren<ButtonProps>> = (props) => {
       <style jsx={true}>{`
         .button {
           outline: none;
-          border-radius: ${theme.layout.radius};
           border-width: 1px;
           border-style: solid;
+          text-align: center;
+          user-select: none;
+        }
+        .button > .text {
+          font-size: inherit;
+        }
+      `}</style>
+      <style jsx={true}>{`
+        .button {
+          border-radius: ${theme.layout.radius};
           border-color: ${colors.border};
           background-color: ${colors.bg};
           color: ${colors.color};
@@ -77,10 +86,9 @@ const Button: FC<PropsWithChildren<ButtonProps>> = (props) => {
           min-width: ${sizes.minWidth};
           padding: 0 ${sizes.padding};
           line-height: ${sizes.lineHeight};
-          cursor: ${cursors.cursor};
           pointer-events: ${cursors.pointerEvents};
+          cursor: ${cursors.cursor};
           font-family: ${theme.font.sans};
-          text-align: center;
           transition: ${theme.expressiveness.transition};
         }
         .button:hover,
@@ -88,9 +96,6 @@ const Button: FC<PropsWithChildren<ButtonProps>> = (props) => {
           background: ${reaction.bg};
           border-color: ${reaction.border};
           color: ${reaction.color};
-        }
-        .button > .text {
-          font-size: inherit;
         }
       `}</style>
     </>

@@ -110,27 +110,31 @@ describe('useButtonLogic 测试用例', () => {
   });
 
   test('它支持不同的状态', () => {
-    const fn = jest.fn();
-    const container = getContainer();
     const { result: result1 } = renderHook(() =>
       useButtonLogic({ disabled: true }),
     );
     expect(result1.current.cursors).toEqual({
       cursor: 'not-allowed',
-      pointerEvents: 'none',
+      pointerEvents: 'auto',
+    });
+    expect(result1.current.colors).toEqual({
+      bg: palette.grayscale_1,
+      color: palette.grayscale_3,
+      border: palette.border,
     });
     const { result: result2 } = renderHook(() =>
       useButtonLogic({ loading: true }),
     );
     expect(result2.current.cursors).toEqual({
-      cursor: 'not-allowed',
+      cursor: 'default',
       pointerEvents: 'none',
     });
+    const fn = jest.fn();
+    const container = getContainer();
     act(() => {
-      render(<Button disabled onClick={fn} />, container);
+      render(<Button disabled={true} onClick={fn} />, container);
     });
-    const clickEvent = new Event('click');
-    container?.querySelector('.button')!.dispatchEvent(clickEvent);
+    (container?.querySelector('.button') as HTMLButtonElement)!.click();
     expect(fn.mock.calls.length).toBe(0);
   });
 });
