@@ -1,12 +1,12 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import withDefaults from '@/utils/with-defaults';
+
 interface Props {
   visible?: boolean;
   enterTime?: number;
   leaveTime?: number;
   clearTime?: number;
   name?: string;
-  isProtected: boolean;
 }
 
 const defaultProps = {
@@ -16,7 +16,6 @@ const defaultProps = {
   clearTime: 0,
   className: '',
   name: 'transition',
-  isProtected: false,
 };
 
 // .classPrefix-enter 进入
@@ -34,47 +33,54 @@ const CSSTransition: FC<React.PropsWithChildren<CSSTransitionProps>> = ({
   clearTime,
   children,
   className,
-  isProtected,
   ...props
 }) => {
   const [renderable, setRenderable] = useState(visible);
   const [classes, setClasses] = useState('');
-  const [v, setV] = useState(false);
-  useEffect(() => {
-    if (visible && !renderable) setRenderable(true);
-    const status = visible ? 'enter' : 'leave';
-    const time = visible ? enterTime : leaveTime;
+  const status = useMemo(() => (visible ? 'enter' : 'leave'), [visible]);
+  const time = useMemo(
+    () => (visible ? enterTime : leaveTime),
+    [visible, enterTime, leaveTime],
+  );
+
+  const animation = () => {
     setClasses(`${name}-${status}`);
 
-    const timer = setTimeout(() => {
+    const timer = window.setTimeout(() => {
       setClasses(`${name}-${status} ${name}-${status}-active`);
       clearTimeout(timer);
     }, time);
-    // leave时隐藏，enter时这个定时器没有效果
-    const clearTimer = setTimeout(() => {
-      // 设置了clearTime执行
-      if (!visible && clearTime) {
-        setClasses('');
-        if (v) setRenderable(false);
-      }
-      clearTimeout(clearTimer);
-    }, time + clearTime);
+    return timer;
+  };
 
-    return () => {
-      clearTimeout(clearTimer);
+  const clearComponent = () => {
+    const timer = window.setTimeout(() => {
+      // 设置了clearTime执行
+      setClasses('');
+      setRenderable(false);
       clearTimeout(timer);
+    }, time + clearTime);
+    return timer;
+  };
+  useEffect(() => {
+    if (visible && !renderable) setRenderable(true);
+    const timer = animation();
+    let clearTimer = 0;
+    // leave时隐藏，enter时这个定时器没有效果
+    if (!visible && clearTime) {
+      clearTimer = clearComponent();
+    }
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(clearTimer);
     };
-  }, [visible, renderable]);
+  }, [visible]);
+
   if (!React.isValidElement(children) || !renderable) return null;
   return React.cloneElement(children, {
     ...props,
     className: `${className || ''} ${children.props.className} ${classes}`,
-    onTransitionStart: (e: TransitionEvent) => {
-      setV(false);
-      children.props.onTransitionStart?.(e);
-    },
     onTransitionEnd: (e: TransitionEvent) => {
-      setV(true);
       // 没设置clearTime时执行
       children.props.onTransitionEnd?.(e);
       if (!visible && !clearTime) {
