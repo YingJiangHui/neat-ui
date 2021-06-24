@@ -13,7 +13,7 @@ const defaultProps = {
   visible: false,
   enterTime: 60,
   leaveTime: 60,
-  clearTime: 0,
+  clearTime: 250,
   className: '',
   name: 'transition',
 };
@@ -42,7 +42,6 @@ const CSSTransition: FC<React.PropsWithChildren<CSSTransitionProps>> = ({
     () => (visible ? enterTime : leaveTime),
     [visible, enterTime, leaveTime],
   );
-
   const animation = () => {
     setClasses(`${name}-${status}`);
 
@@ -59,7 +58,7 @@ const CSSTransition: FC<React.PropsWithChildren<CSSTransitionProps>> = ({
       setClasses('');
       setRenderable(false);
       clearTimeout(timer);
-    }, time + clearTime);
+    }, clearTime);
     return timer;
   };
   useEffect(() => {
@@ -67,7 +66,7 @@ const CSSTransition: FC<React.PropsWithChildren<CSSTransitionProps>> = ({
     const timer = animation();
     let clearTimer = 0;
     // leave时隐藏，enter时这个定时器没有效果
-    if (!visible && clearTime) {
+    if (!visible) {
       clearTimer = clearComponent();
     }
     return () => {
@@ -80,14 +79,6 @@ const CSSTransition: FC<React.PropsWithChildren<CSSTransitionProps>> = ({
   return React.cloneElement(children, {
     ...props,
     className: `${className || ''} ${children.props.className} ${classes}`,
-    onTransitionEnd: (e: TransitionEvent) => {
-      // 没设置clearTime时执行
-      children.props.onTransitionEnd?.(e);
-      if (!visible && !clearTime) {
-        setClasses('');
-        setRenderable(false);
-      }
-    },
   });
 };
 

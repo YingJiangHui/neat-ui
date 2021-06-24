@@ -1,10 +1,4 @@
-import React, {
-  FC,
-  HTMLAttributes,
-  PropsWithChildren,
-  useEffect,
-  useState,
-} from 'react';
+import React, { FC, HTMLAttributes, PropsWithChildren } from 'react';
 import withDefaults from '@/utils/with-defaults';
 import CSSTransition from '@/shared/CSSTransition';
 
@@ -41,7 +35,7 @@ const Ripple: FC<PropsWithChildren<Props>> = ({
         `}</style>
         <style jsx>{`
           .ripple {
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.03);
             width: ${r * 2}px;
             height: ${r * 2}px;
             transform-origin: top left;
