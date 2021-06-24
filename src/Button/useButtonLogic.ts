@@ -36,6 +36,7 @@ export const useButtonLogic = (
     ...rest
   } = props;
   const theme = useTheme();
+  const mouseDownPos = useMouseDownPosition();
   const buttonProps: HTMLAttributes<HTMLButtonElement> = useMemo(
     () => ({
       ...rest,
@@ -65,7 +66,6 @@ export const useButtonLogic = (
   );
   const [pressing, setPressing] = useState(false);
 
-  const mouseDownPos = useMouseDownPosition();
   const buttonRef = useRef<HTMLButtonElement>(null);
   useImperativeHandle(ref, () => ({ ...buttonRef.current }));
   const pos = useMemo(() => {

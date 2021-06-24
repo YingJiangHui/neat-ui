@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 export const useMouseDownPosition = () => {
   const [pos, setPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const onMouseDown = (e: MouseEvent) => {
-    setPos({ x: e.pageX, y: e.pageY });
+    setPos({ x: e.x, y: e.y });
   };
   useEffect(() => {
     document.addEventListener('mousedown', onMouseDown);
