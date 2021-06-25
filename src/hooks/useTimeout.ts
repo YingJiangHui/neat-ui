@@ -1,15 +1,16 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 type UseTimeoutType = <T>(
   timeout: number,
   callback: () => void,
   deps?: T[],
-) => { trigger: () => void; clear: () => void };
+) => { trigger: () => void; clear: () => void; loading: boolean };
 
 const useTimeout: UseTimeoutType = (timeout, callback, deps = []) => {
   const refCallback = useRef<() => void>(() => {});
   const refTimer = useRef<number | NodeJS.Timeout | null>(null);
   const refTimeout = useRef<number>();
+  const [loading, setLoading] = useState<boolean>(false);
   const clear = () => {
     if (window) window.clearTimeout(refTimer.current as number);
     else {
@@ -20,8 +21,10 @@ const useTimeout: UseTimeoutType = (timeout, callback, deps = []) => {
 
   const trigger = useCallback(() => {
     if (refTimer.current) return;
+    setLoading(true);
     refTimer.current = setTimeout(() => {
       refCallback.current();
+      setLoading(false);
       clear();
     }, refTimeout.current);
   }, []);
@@ -29,11 +32,11 @@ const useTimeout: UseTimeoutType = (timeout, callback, deps = []) => {
   useEffect(() => {
     refCallback.current = callback;
     refTimeout.current = timeout;
-  }, deps);
+  }, [...deps, callback, timeout]);
 
   useEffect(() => clear, []);
 
-  return { clear, trigger };
+  return { clear, trigger, loading };
 };
 
 export default useTimeout;
