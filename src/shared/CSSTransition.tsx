@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import withDefaults from '@/utils/with-defaults';
+import useTimeout from '@/hooks/useTimeout';
 
 interface Props {
   visible?: boolean;
@@ -7,14 +8,17 @@ interface Props {
   leaveTime?: number;
   clearTime?: number;
   name?: string;
-  timeout: number | { enter: number; leave: number };
+  timeout?: number | { enter: number; leave: number };
+  onEnter: () => void;
+  onLeave: () => void;
 }
 
 const defaultProps = {
   visible: false,
   className: '',
-  timeout: 250,
   name: 'transition',
+  onEnter: () => {},
+  onLeave: () => {},
 };
 
 // .classPrefix-enter 进入
@@ -30,13 +34,16 @@ const CSSTransition: FC<React.PropsWithChildren<CSSTransitionProps>> = ({
   children,
   className,
   timeout: _timeout,
+  onEnter,
+  onLeave,
   ...props
 }) => {
+  const interval = 30;
   const [renderable, setRenderable] = useState(visible);
   const [classes, setClasses] = useState('');
   const timeout = useMemo(() => {
     let enter: number, leave: number;
-    if (timeout && typeof _timeout !== 'number') {
+    if (_timeout && typeof _timeout !== 'number') {
       enter = _timeout.enter;
       leave = _timeout.leave;
     } else if (typeof _timeout === 'number') {
@@ -49,39 +56,68 @@ const CSSTransition: FC<React.PropsWithChildren<CSSTransitionProps>> = ({
       leave,
     };
   }, [_timeout]);
+  const {
+    trigger: enterTrigger,
+    clear: clearEnterTimer,
+    loading: enterLoading,
+  } = useTimeout(
+    interval + timeout.enter,
+    () => {
+      onEnter();
+    },
+    [],
+  );
+  const { trigger: leaveTrigger, clear: clearLeaveTimer } = useTimeout(
+    interval + timeout.leave,
+    () => {
+      onLeave();
+    },
+    [],
+  );
+
   const status = useMemo(() => (visible ? 'enter' : 'leave'), [visible]);
+  useEffect(() => {
+    console.log(visible, enterLoading);
+    if (!visible && enterLoading) return () => {};
+    const timer = animation();
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [enterLoading, visible]);
   const animation = () => {
     setClasses(`${name}-${status}`);
+    if (visible) {
+      enterTrigger();
+    } else {
+      leaveTrigger();
+    }
     const timer = window.setTimeout(() => {
       setClasses(`${name}-${status} ${name}-${status}-active`);
       clearTimeout(timer);
-    }, 30);
+    }, interval);
     return timer;
   };
-
   const clearComponent = () => {
     const timer = window.setTimeout(() => {
       // 设置了clearTime执行
       setClasses('');
       setRenderable(false);
       clearTimeout(timer);
-    }, 30 + timeout.leave);
+    }, interval + timeout.leave);
     return timer;
   };
   useEffect(() => {
     if (visible && !renderable) setRenderable(true);
-    const timer = animation();
+
     let clearTimer = 0;
     // leave时隐藏，enter时这个定时器没有效果
     if (!visible) {
       clearTimer = clearComponent();
     }
     return () => {
-      clearTimeout(timer);
       clearTimeout(clearTimer);
     };
   }, [visible]);
-
   if (!React.isValidElement(children) || !renderable) return null;
   return React.cloneElement(children, {
     ...props,
