@@ -35,7 +35,7 @@ describe('CSSTransition', () => {
     const container = getContainer();
     act(() => {
       render(
-        <CSSTransition name="box" clearTime={1000} visible={true}>
+        <CSSTransition name="box" timeout={1000} visible={true}>
           <div className="box" />
         </CSSTransition>,
         getContainer(),
@@ -43,7 +43,7 @@ describe('CSSTransition', () => {
     });
     act(() => {
       render(
-        <CSSTransition name="box" visible={false} clearTime={1000}>
+        <CSSTransition name="box" timeout={1000} visible={false}>
           <div className="box" />
         </CSSTransition>,
         getContainer(),
@@ -60,16 +60,5 @@ describe('CSSTransition', () => {
       jest.advanceTimersByTime(1000);
     });
     expect(container?.querySelector('.box')).toBeFalsy();
-  });
-
-  it('不传递 clearTime 时使用 onTransitionEnd 事件清除元素', () => {
-    // 还不知都怎么写
-    // const container = getContainer();
-    // act(() => {
-    //   render(<CSSTransition name='box' visible={true}><div className='box' style={{opacity:1,transition:'0.2s'}}/></CSSTransition>, getContainer());
-    // });
-    // act(() => {
-    //   render(<CSSTransition name='box' visible={false} ><div className='box' style={{opacity:0,transition:'0.2s'}} onTransitionEnd={()=>{done();console.log('ac------')}}/></CSSTransition>, getContainer());
-    // });
   });
 });

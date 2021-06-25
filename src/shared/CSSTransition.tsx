@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import withDefaults from '@/utils/with-defaults';
 
 interface Props {
@@ -7,14 +7,13 @@ interface Props {
   leaveTime?: number;
   clearTime?: number;
   name?: string;
+  timeout: number | { enter: number; leave: number };
 }
 
 const defaultProps = {
   visible: false,
-  enterTime: 60,
-  leaveTime: 60,
-  clearTime: 250,
   className: '',
+  timeout: 250,
   name: 'transition',
 };
 
@@ -28,27 +27,35 @@ type CSSTransitionProps = Props &
 const CSSTransition: FC<React.PropsWithChildren<CSSTransitionProps>> = ({
   visible,
   name,
-  enterTime,
-  leaveTime,
-  clearTime,
   children,
   className,
+  timeout: _timeout,
   ...props
 }) => {
   const [renderable, setRenderable] = useState(visible);
   const [classes, setClasses] = useState('');
+  const timeout = useMemo(() => {
+    let enter: number, leave: number;
+    if (timeout && typeof _timeout !== 'number') {
+      enter = _timeout.enter;
+      leave = _timeout.leave;
+    } else if (typeof _timeout === 'number') {
+      enter = leave = _timeout;
+    } else {
+      enter = leave = 0;
+    }
+    return {
+      enter,
+      leave,
+    };
+  }, [_timeout]);
   const status = useMemo(() => (visible ? 'enter' : 'leave'), [visible]);
-  const time = useMemo(
-    () => (visible ? enterTime : leaveTime),
-    [visible, enterTime, leaveTime],
-  );
   const animation = () => {
     setClasses(`${name}-${status}`);
-
     const timer = window.setTimeout(() => {
       setClasses(`${name}-${status} ${name}-${status}-active`);
       clearTimeout(timer);
-    }, time);
+    }, 30);
     return timer;
   };
 
@@ -58,7 +65,7 @@ const CSSTransition: FC<React.PropsWithChildren<CSSTransitionProps>> = ({
       setClasses('');
       setRenderable(false);
       clearTimeout(timer);
-    }, clearTime);
+    }, 30 + timeout.leave);
     return timer;
   };
   useEffect(() => {
