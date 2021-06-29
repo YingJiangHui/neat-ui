@@ -1,6 +1,8 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import withDefaults from '@/utils/with-defaults';
 import useTimeout from '@/hooks/useTimeout';
+import useUpdateEffect from '@/hooks/useUpdateEffect';
+import useFirstTrigger from '@/hooks/useFirstTrigger';
 
 interface Props {
   visible?: boolean;
@@ -38,9 +40,10 @@ const CSSTransition: FC<React.PropsWithChildren<CSSTransitionProps>> = ({
   onLeave,
   ...props
 }) => {
-  const interval = 30;
+  const interval = 5;
   const [renderable, setRenderable] = useState(visible);
   const [classes, setClasses] = useState('');
+  const { reset, trigger, isFirstTriggerRef } = useFirstTrigger();
   const timeout = useMemo(() => {
     let enter: number, leave: number;
     if (_timeout && typeof _timeout !== 'number') {
@@ -56,67 +59,55 @@ const CSSTransition: FC<React.PropsWithChildren<CSSTransitionProps>> = ({
       leave,
     };
   }, [_timeout]);
-  const {
-    trigger: enterTrigger,
-    clear: clearEnterTimer,
-    loading: enterLoading,
-  } = useTimeout(
+  const { trigger: enterTrigger, loading: enterLoading } = useTimeout(
     interval + timeout.enter,
     () => {
       onEnter();
     },
     [],
   );
-  const { trigger: leaveTrigger, clear: clearLeaveTimer } = useTimeout(
+  const { trigger: leaveTrigger, loading: leaveLoading } = useTimeout(
     interval + timeout.leave,
     () => {
+      setClasses('');
+      setRenderable(false);
       onLeave();
+    },
+    [],
+  );
+  const { trigger: intervalTrigger } = useTimeout(
+    interval,
+    () => {
+      setClasses(`${name}-${status} ${name}-${status}-active`);
     },
     [],
   );
 
   const status = useMemo(() => (visible ? 'enter' : 'leave'), [visible]);
-  useEffect(() => {
-    console.log(visible, enterLoading);
-    if (!visible && enterLoading) return () => {};
-    const timer = animation();
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [enterLoading, visible]);
+  useUpdateEffect(() => {
+    if (enterLoading || leaveLoading) return;
+    animation();
+  }, [visible, enterLoading]);
+
   const animation = () => {
-    setClasses(`${name}-${status}`);
     if (visible) {
-      enterTrigger();
+      // 避免用户按住按钮是一直触发定时器
+      if (isFirstTriggerRef.current) {
+        console.log('true');
+        trigger();
+        enterTrigger();
+      }
     } else {
+      console.log('false');
+      reset();
       leaveTrigger();
     }
-    const timer = window.setTimeout(() => {
-      setClasses(`${name}-${status} ${name}-${status}-active`);
-      clearTimeout(timer);
-    }, interval);
-    return timer;
+    setClasses(`${name}-${status}`);
+    intervalTrigger();
   };
-  const clearComponent = () => {
-    const timer = window.setTimeout(() => {
-      // 设置了clearTime执行
-      setClasses('');
-      setRenderable(false);
-      clearTimeout(timer);
-    }, interval + timeout.leave);
-    return timer;
-  };
+
   useEffect(() => {
     if (visible && !renderable) setRenderable(true);
-
-    let clearTimer = 0;
-    // leave时隐藏，enter时这个定时器没有效果
-    if (!visible) {
-      clearTimer = clearComponent();
-    }
-    return () => {
-      clearTimeout(clearTimer);
-    };
   }, [visible]);
   if (!React.isValidElement(children) || !renderable) return null;
   return React.cloneElement(children, {

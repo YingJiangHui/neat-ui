@@ -1,12 +1,4 @@
-import React, {
-  FC,
-  HTMLAttributes,
-  PropsWithChildren,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { FC, HTMLAttributes, PropsWithChildren } from 'react';
 import withDefaults from '@/utils/with-defaults';
 import CSSTransition from '@/shared/CSSTransition';
 
@@ -32,33 +24,9 @@ const Ripple: FC<PropsWithChildren<Props>> = ({
   r,
   ...rest
 }) => {
-  const [, update] = useState({});
-  const ref = useRef<boolean>(true);
-  useEffect(() => {
-    if (visible) ref.current = false;
-  }, [visible]);
-  const v = useMemo(() => {
-    if (visible) {
-      return ref.current;
-    } else {
-      if (ref.current) {
-        return false;
-      } else {
-        return true;
-      }
-    }
-  }, [visible]);
   return (
     <CSSTransition
-      onLeave={() => {
-        ref.current = true;
-        update({});
-        console.log('action');
-      }}
-      timeout={{ enter: 1000, leave: 250 }}
-      onEnter={() => {
-        console.log('enter');
-      }}
+      timeout={{ enter: 500, leave: 300 }}
       name="ripple"
       visible={visible}
     >
@@ -78,7 +46,7 @@ const Ripple: FC<PropsWithChildren<Props>> = ({
             transform: translate(-50%, -50%);
             position: absolute;
             border-radius: 50%;
-            transition: transform 0.5s, opacity 0.25s;
+            transition: transform 500ms, opacity 300ms;
           }
           .ripple-enter {
             transform: scale(0) translate(-50%, -50%);
