@@ -44,6 +44,7 @@ const CSSTransition: FC<React.PropsWithChildren<CSSTransitionProps>> = ({
   const [renderable, setRenderable] = useState(visible);
   const [classes, setClasses] = useState('');
   const { reset, trigger, isFirstTriggerRef } = useFirstTrigger();
+  const status = useMemo(() => (visible ? 'enter' : 'leave'), [visible]);
   const timeout = useMemo(() => {
     let enter: number, leave: number;
     if (_timeout && typeof _timeout !== 'number') {
@@ -80,10 +81,9 @@ const CSSTransition: FC<React.PropsWithChildren<CSSTransitionProps>> = ({
     () => {
       setClasses(`${name}-${status} ${name}-${status}-active`);
     },
-    [],
+    [status, name],
   );
 
-  const status = useMemo(() => (visible ? 'enter' : 'leave'), [visible]);
   useUpdateEffect(() => {
     if (enterLoading || leaveLoading) return;
     animation();

@@ -1,13 +1,13 @@
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
 
 export const useFirstTrigger = () => {
   const firstTriggerRef = useRef(true);
-  const trigger = () => {
+  const trigger = useCallback(() => {
     firstTriggerRef.current = false;
-  };
-  const reset = () => {
+  }, []);
+  const reset = useCallback(() => {
     firstTriggerRef.current = true;
-  };
+  }, []);
   return { isFirstTriggerRef: firstTriggerRef, trigger, reset };
 };
 

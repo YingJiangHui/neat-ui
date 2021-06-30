@@ -11,13 +11,13 @@ const useTimeout: UseTimeoutType = (timeout, callback, deps = []) => {
   const refTimer = useRef<number | NodeJS.Timeout | null>(null);
   const refTimeout = useRef<number>();
   const [loading, setLoading] = useState<boolean>(false);
-  const clear = () => {
+  const clear = useCallback(() => {
     if (window) window.clearTimeout(refTimer.current as number);
     else {
       clearTimeout(refTimer.current as NodeJS.Timeout);
     }
     refTimer.current = null;
-  };
+  }, []);
 
   const trigger = useCallback(() => {
     if (refTimer.current) return;
@@ -32,7 +32,7 @@ const useTimeout: UseTimeoutType = (timeout, callback, deps = []) => {
   useEffect(() => {
     refCallback.current = callback;
     refTimeout.current = timeout;
-  }, [...deps, callback, timeout]);
+  }, [...deps, timeout]);
 
   useEffect(() => clear, []);
 
