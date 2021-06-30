@@ -1,29 +1,37 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import useTimeout from '@/hooks/useTimeout';
-import { useState } from 'react';
+
 jest.useFakeTimers();
 describe('useTimeout', () => {
   test('开启一个定时器', () => {
     const fn = jest.fn();
     const { result: result2 } = renderHook(() => useTimeout(100, fn, []));
-    result2.current.trigger();
-    jest.advanceTimersByTime(1000);
+    act(() => {
+      result2.current.trigger();
+      jest.runAllTimers(); // trigger setTimeout
+    });
     expect(fn).toBeCalled();
   });
   test('连续开启定时器值只执行一次', () => {
     const fn = jest.fn();
     const { result: result2 } = renderHook(() => useTimeout(100, fn, []));
-    result2.current.trigger();
-    result2.current.trigger();
-    jest.advanceTimersByTime(1000);
+    act(() => {
+      result2.current.trigger();
+      result2.current.trigger();
+      jest.runAllTimers(); // trigger setTimeout
+    });
     expect(fn.mock.calls.length).toBe(1);
   });
   test('手动关闭定时器', () => {
     const fn = jest.fn();
     const { result: result2 } = renderHook(() => useTimeout(100, fn, []));
-    result2.current.trigger();
+    act(() => {
+      result2.current.trigger();
+    });
     result2.current.clear();
-    jest.advanceTimersByTime(1000);
+    act(() => {
+      jest.runAllTimers(); // trigger setTimeout
+    });
     expect(fn.mock.calls.length).toBe(0);
   });
   test('前一个定时器结束后再次触发定时器', () => {
@@ -34,10 +42,13 @@ describe('useTimeout', () => {
       },
     );
     rerender({ timeout: 200, callback: fn });
-    result2.current.trigger();
-    jest.advanceTimersByTime(1000);
-    result2.current.trigger();
-    jest.advanceTimersByTime(1000);
+
+    act(() => {
+      result2.current.trigger();
+      jest.runAllTimers(); // trigger setTimeout
+      result2.current.trigger();
+      jest.runAllTimers(); // trigger setTimeout
+    });
     expect(fn.mock.calls.length).toBe(2);
   });
   test('测试依赖更新', () => {

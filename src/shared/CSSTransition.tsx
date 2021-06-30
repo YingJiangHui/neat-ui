@@ -92,13 +92,10 @@ const CSSTransition: FC<React.PropsWithChildren<CSSTransitionProps>> = ({
   const animation = () => {
     if (visible) {
       // 避免用户按住按钮是一直触发定时器
-      if (isFirstTriggerRef.current) {
-        console.log('true');
-        trigger();
-        enterTrigger();
-      }
+      if (!isFirstTriggerRef.current) return;
+      trigger();
+      enterTrigger();
     } else {
-      console.log('false');
       reset();
       leaveTrigger();
     }
