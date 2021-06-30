@@ -1,5 +1,6 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import useTimeout from '@/hooks/useTimeout';
+import { useState } from 'react';
 
 jest.useFakeTimers();
 describe('useTimeout', () => {
@@ -53,5 +54,20 @@ describe('useTimeout', () => {
   });
   test('测试依赖更新', () => {
     // 无法测试：根据依赖更新回调函数内部的值，在测试环境中不论如何都能获取到state的最新值
+    // const {result} = renderHook(()=>useState(0))
+    // const { result: result2, rerender } = renderHook(
+    //   ({ timeout, callback }: { timeout: number; callback: () => void }) => {
+    //     return useTimeout(timeout, callback, []);
+    //   },
+    // );
+    // rerender({timeout:100,callback:()=>{
+    //   console.log(result.current[0],'----------------')
+    //   }})
+    // act(()=>{
+    //   result2.current.trigger()
+    //   result.current[1](n=>n+1)
+    //   result.current[1](n=>n+1)
+    //   jest.runAllTimers(); // trigger setTimeout
+    // })
   });
 });
