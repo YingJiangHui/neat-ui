@@ -8,8 +8,8 @@ const defaultProps = {};
 type TreeProps = {};
 
 type Props = typeof defaultProps & TreeProps & HTMLAttributes<HTMLDivElement>;
-const Tree: FC<PropsWithChildren<Props>> = ({ ...rest }) => {
-  return <div {...rest}></div>;
+const Tree: FC<PropsWithChildren<Props>> = ({ children, ...rest }) => {
+  return <div {...rest}>{children}</div>;
 };
 const TreeWithDefaults = withDefaults(Tree, defaultProps);
 

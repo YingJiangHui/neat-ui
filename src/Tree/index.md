@@ -17,7 +17,16 @@ import { Tree } from 'neat-ui-react';
 export default () => {
   return (
     <>
-      <Tree>1</Tree>
+      <Tree>
+        <Tree.Folder name="文件夹1">
+          <Tree.File>文件1</Tree.File>
+        </Tree.Folder>
+        <Tree.Folder name="文件夹2">
+          <Tree.Folder name="文件夹1">
+            <Tree.File>文件1</Tree.File>
+          </Tree.Folder>
+        </Tree.Folder>
+      </Tree>
     </>
   );
 };

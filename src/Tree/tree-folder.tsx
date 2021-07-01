@@ -1,13 +1,42 @@
-import React, { FC, HTMLAttributes, PropsWithChildren } from 'react';
+import React, { FC, HTMLAttributes, PropsWithChildren, useState } from 'react';
 import withDefaults from '@/utils/with-defaults';
+import useTreeFolderLogic from '@/Tree/use-tree-folder-logic';
+import CSSTransition from '@/shared/CSSTransition';
 
-const defaultProps = {};
+const defaultProps = {
+  defaultFold: false,
+};
 
-type TreeFolderProps = {};
+type Props = {
+  defaultFold?: boolean;
+  name: string;
+};
 
-type Props = typeof defaultProps & TreeFolderProps & HTMLAttributes<any>;
-const TreeFolder: FC<PropsWithChildren<Props>> = ({ ...rest }) => {
-  return <div {...rest}></div>;
+export type TreeFolderProps = typeof defaultProps &
+  Props &
+  React.HTMLAttributes<HTMLDivElement>;
+const TreeFolder: FC<PropsWithChildren<TreeFolderProps>> = (props) => {
+  const { children, name, ...rest } = props;
+  const { isFold, treeFolderProps, trigger } = useTreeFolderLogic(props);
+  return (
+    <div {...treeFolderProps}>
+      <div onClick={trigger} className="folder">
+        {name}
+      </div>
+      <CSSTransition visible={isFold}>
+        <div className="directory">{children}</div>
+      </CSSTransition>
+
+      <style jsx={true}>{`
+        .folder {
+          cursor: pointer;
+        }
+        .directory {
+          margin: 1rem 0 1rem 2rem;
+        }
+      `}</style>
+    </div>
+  );
 };
 
 export default withDefaults(TreeFolder, defaultProps);
