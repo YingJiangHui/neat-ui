@@ -3,7 +3,7 @@ import withDefaults from '@/utils/with-defaults';
 
 const defaultProps = {};
 
-type TreeFileProps = {};
+type TreeFileProps = { name: string };
 
 type Props = typeof defaultProps & TreeFileProps & HTMLAttributes<any>;
 const TreeFile: FC<PropsWithChildren<Props>> = ({ ...rest }) => {
