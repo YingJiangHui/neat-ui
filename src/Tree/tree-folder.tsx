@@ -2,21 +2,25 @@ import React, { FC, HTMLAttributes, PropsWithChildren, useState } from 'react';
 import withDefaults from '@/utils/with-defaults';
 import useTreeFolderLogic from '@/Tree/use-tree-folder-logic';
 import CSSTransition from '@/shared/CSSTransition';
+import { Files } from '@/Tree/tree';
+import TreeFile from '@/Tree/tree-file';
+import { Tree } from '@/Tree/index';
 
 const defaultProps = {
   defaultFold: false,
 };
 
-type Props = {
+export type Directory = {
+  files?: Files;
   defaultFold?: boolean;
   name: string;
 };
 
 export type TreeFolderProps = typeof defaultProps &
-  Props &
+  Directory &
   React.HTMLAttributes<HTMLDivElement>;
 const TreeFolder: FC<PropsWithChildren<TreeFolderProps>> = (props) => {
-  const { children, name, ...rest } = props;
+  const { children, name, files, ...rest } = props;
   const { isFold, treeFolderProps, trigger } = useTreeFolderLogic(props);
   return (
     <div {...treeFolderProps}>
@@ -24,7 +28,9 @@ const TreeFolder: FC<PropsWithChildren<TreeFolderProps>> = (props) => {
         {name}
       </div>
       <CSSTransition visible={isFold}>
-        <div className="directory">{children}</div>
+        <div className="directory">
+          {files ? <Tree files={files} /> : children}
+        </div>
       </CSSTransition>
 
       <style jsx={true}>{`
@@ -32,7 +38,7 @@ const TreeFolder: FC<PropsWithChildren<TreeFolderProps>> = (props) => {
           cursor: pointer;
         }
         .directory {
-          margin: 1rem 0 1rem 2rem;
+          margin: 0.5rem 0 0.5rem 1rem;
         }
       `}</style>
     </div>
