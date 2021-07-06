@@ -28,8 +28,8 @@ const Tree: FC<PropsWithChildren<TreeProps>> = ({
   ...rest
 }) => {
   const renderTree = useCallback(() => {
-    return value?.map((file) =>
-      file.type === 'file' ? <TreeFile {...file} /> : <TreeFolder {...file} />,
+    return value?.map(({ type, ...file }) =>
+      type === 'file' ? <TreeFile {...file} /> : <TreeFolder {...file} />,
     );
   }, [value]);
   const renderChildren = useMemo(() => {

@@ -22,14 +22,14 @@ const TreeFolder: FC<PropsWithChildren<TreeFolderProps>> = (props) => {
   const { children, name, value, ...rest } = props;
   const { isFold, treeFolderProps, trigger } = useTreeFolderLogic(props);
   return (
-    <div {...treeFolderProps}>
+    <div {...rest}>
       <div onClick={trigger} className="folder">
         {name}
       </div>
-      <CSSTransition visible={isFold}>
-        <div className="directory">
+      <CSSTransition name="directory" visible={isFold} timeout={250}>
+        <ul className="directory">
           {value ? <Tree value={value} /> : children}
-        </div>
+        </ul>
       </CSSTransition>
 
       <style jsx={true}>{`
@@ -38,6 +38,32 @@ const TreeFolder: FC<PropsWithChildren<TreeFolderProps>> = (props) => {
         }
         .directory {
           margin: 0.5rem 0 0.5rem 1rem;
+          transition: height 300ms;
+          min-height: 0;
+        }
+        .directory-enter {
+          overflow: hidden;
+          height: 0;
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+
+        .directory-enter-active {
+          height: 50px;
+        }
+
+        .directory-leave {
+          height: 0;
+          overflow: hidden;
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+        .directory-leave-active {
+          height: 0;
+        }
+        ul {
+          margin: 0;
+          padding: 0;
         }
       `}</style>
     </div>

@@ -40,6 +40,20 @@ const files = [
               console.log('file2');
             },
           },
+          {
+            type: 'file',
+            name: 'file2',
+            onClick: () => {
+              console.log('file2');
+            },
+          },
+          {
+            type: 'file',
+            name: 'file2',
+            onClick: () => {
+              console.log('file2');
+            },
+          },
         ],
       },
     ],

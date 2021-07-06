@@ -13,7 +13,16 @@ const TreeFile: FC<PropsWithChildren<TreeFileProps>> = ({
   name,
   ...rest
 }) => {
-  return <div {...rest}>{name || children}</div>;
+  return (
+    <li {...rest}>
+      {name || children}
+      <style jsx>{`
+        li {
+          list-style: none;
+        }
+      `}</style>
+    </li>
+  );
 };
 
 export default withDefaults(TreeFile, defaultProps);
