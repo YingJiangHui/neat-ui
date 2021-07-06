@@ -17,7 +17,7 @@ import {
   getButtonSizes,
 } from '@/Button/styles';
 import Button from '@/Button/button';
-import useMouseDownPosition from '@/hooks/use-position';
+import useMouseDownPosition from '@/hooks/use-mouse-down-position';
 type ButtonComponentProps = Parameters<typeof Button>[0];
 export const useButtonLogic = (
   props: ButtonComponentProps,
