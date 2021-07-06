@@ -1,26 +1,25 @@
-import React, { FC, HTMLAttributes, PropsWithChildren, useState } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import withDefaults from '@/utils/with-defaults';
 import useTreeFolderLogic from '@/Tree/use-tree-folder-logic';
 import CSSTransition from '@/shared/CSSTransition';
-import { Files } from '@/Tree/tree';
-import TreeFile from '@/Tree/tree-file';
+import { Directors } from '@/Tree/tree';
 import { Tree } from '@/Tree/index';
 
 const defaultProps = {
   defaultFold: false,
 };
 
-export type Directory = {
-  files?: Files;
-  defaultFold?: boolean;
+export type TreeFolder = {
   name: string;
+  value?: Directors;
+  defaultFold?: boolean;
 };
 
 export type TreeFolderProps = typeof defaultProps &
-  Directory &
+  TreeFolder &
   React.HTMLAttributes<HTMLDivElement>;
 const TreeFolder: FC<PropsWithChildren<TreeFolderProps>> = (props) => {
-  const { children, name, files, ...rest } = props;
+  const { children, name, value, ...rest } = props;
   const { isFold, treeFolderProps, trigger } = useTreeFolderLogic(props);
   return (
     <div {...treeFolderProps}>
@@ -29,7 +28,7 @@ const TreeFolder: FC<PropsWithChildren<TreeFolderProps>> = (props) => {
       </div>
       <CSSTransition visible={isFold}>
         <div className="directory">
-          {files ? <Tree files={files} /> : children}
+          {value ? <Tree value={value} /> : children}
         </div>
       </CSSTransition>
 

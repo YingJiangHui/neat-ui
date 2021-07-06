@@ -1,5 +1,5 @@
 import Tree from './tree';
-import TreeFile from './tree-file';
+import TreeFile from './treeFile';
 import TreeFolder from './tree-folder';
 
 Tree.File = TreeFile;

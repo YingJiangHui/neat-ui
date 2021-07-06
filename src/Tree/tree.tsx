@@ -6,29 +6,35 @@ import React, {
   useMemo,
 } from 'react';
 import withDefaults from '@/utils/with-defaults';
-import TreeFile, { TreeFileProps } from '@/Tree/tree-file';
+import TreeFile, { TreeFileProps } from '@/Tree/treeFile';
 import TreeFolder, { TreeFolderProps } from '@/Tree/tree-folder';
 const defaultProps = {};
 
-export type Files = (
+export type Directory =
   | (TreeFolderProps & { type: 'directory' })
-  | (TreeFileProps & { type: 'file' })
-)[];
+  | (TreeFileProps & { type: 'file' });
 
-type TreeProps = {
-  files?: Files;
+export type Directors = Array<Directory>;
+
+type Tree = {
+  value?: Directors;
 };
 
-type Props = typeof defaultProps & TreeProps & HTMLAttributes<HTMLDivElement>;
-const Tree: FC<PropsWithChildren<Props>> = ({ files, children, ...rest }) => {
+type TreeProps = typeof defaultProps & Tree & HTMLAttributes<HTMLDivElement>;
+
+const Tree: FC<PropsWithChildren<TreeProps>> = ({
+  value,
+  children,
+  ...rest
+}) => {
   const renderTree = useCallback(() => {
-    return files?.map((file) =>
+    return value?.map((file) =>
       file.type === 'file' ? <TreeFile {...file} /> : <TreeFolder {...file} />,
     );
-  }, [files]);
+  }, [value]);
   const renderChildren = useMemo(() => {
-    return files ? renderTree() : children;
-  }, [files, renderTree]);
+    return value ? renderTree() : children;
+  }, [value, renderTree]);
   return <div {...rest}>{renderChildren}</div>;
 };
 const TreeWithDefaults = withDefaults(Tree, defaultProps);
