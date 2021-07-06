@@ -35,7 +35,16 @@ const Tree: FC<PropsWithChildren<TreeProps>> = ({
   const renderChildren = useMemo(() => {
     return value ? renderTree() : children;
   }, [value, renderTree]);
-  return <div {...rest}>{renderChildren}</div>;
+  return (
+    <div {...rest} className="tree">
+      {renderChildren}
+      <style jsx>{`
+        .tree {
+          user-select: none;
+        }
+      `}</style>
+    </div>
+  );
 };
 const TreeWithDefaults = withDefaults(Tree, defaultProps);
 

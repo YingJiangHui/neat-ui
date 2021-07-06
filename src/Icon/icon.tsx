@@ -2,23 +2,24 @@ import React, { FC, PropsWithChildren, SVGAttributes } from 'react';
 import '../importSvg';
 import withDefaults from '@/utils/with-defaults';
 
+type size = 'small' | 'medium' | 'large';
+
 const defaultProps = {
   size: 'medium',
 };
 
-type IconProps = {
-  color: string;
-  size: 'small' | 'medium' | 'large';
-};
-
-const sizes: { [key in IconProps['size']]: number } = {
-  small: 14,
-  medium: 16,
-  large: 18,
-};
+interface IconProps {
+  color?: string;
+  size?: size;
+  name: string;
+}
 
 type Props = typeof defaultProps & IconProps & SVGAttributes<SVGElement>;
-
+const sizeMap: { [key in size]: number } = {
+  small: 8,
+  medium: 10,
+  large: 14,
+};
 export const Icon: FC<PropsWithChildren<Props>> = ({
   size,
   color,
@@ -30,8 +31,8 @@ export const Icon: FC<PropsWithChildren<Props>> = ({
       <use xlinkHref={'#' + name} />
       <style jsx={true}>{`
         .icon {
-          width: ${sizes[size]}px;
-          height: ${sizes[size]}px;
+          width: ${sizeMap[size]}px;
+          height: ${sizeMap[size]}px;
         }
       `}</style>
     </svg>

@@ -4,7 +4,7 @@ import useTreeFolderLogic from '@/Tree/use-tree-folder-logic';
 import CSSTransition from '@/shared/CSSTransition';
 import { Directors } from '@/Tree/tree';
 import { Tree } from '@/Tree/index';
-
+import { Icon } from '@/Icon';
 const defaultProps = {
   defaultFold: false,
 };
@@ -24,6 +24,7 @@ const TreeFolder: FC<PropsWithChildren<TreeFolderProps>> = (props) => {
   return (
     <div {...rest}>
       <div onClick={trigger} className="folder">
+        <i>{isFold ? <Icon name={'bottom'} /> : <Icon name={'right'} />}</i>
         {name}
       </div>
       <CSSTransition name="directory" visible={isFold} timeout={250}>
@@ -34,7 +35,14 @@ const TreeFolder: FC<PropsWithChildren<TreeFolderProps>> = (props) => {
 
       <style jsx={true}>{`
         .folder {
+          display: flex;
+          align-items: center;
           cursor: pointer;
+        }
+        .folder {
+          > i {
+            margin-right: 6px;
+          }
         }
         .directory {
           margin: 0.5rem 0 0.5rem 1rem;
