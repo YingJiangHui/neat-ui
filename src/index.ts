@@ -14,3 +14,4 @@ export { Switch } from '@/Switch';
 
 export { Tree } from '@/Tree';
 export { Icon } from '@/Icon';
+export { Space } from '@/Space';

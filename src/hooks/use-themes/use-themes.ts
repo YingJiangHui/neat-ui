@@ -2,10 +2,10 @@ import React from 'react';
 import { getPresets } from '@/themes/themes';
 import { NeatUITheme } from '@/themes/presets';
 
-export interface ThemesConfig {
+export type ThemesConfig = {
   themes: NeatUITheme[];
-}
-export const themesConfig: ThemesConfig = {
+};
+export const themesConfig = {
   themes: getPresets(),
 };
 export const ThemesContext = React.createContext(themesConfig);
