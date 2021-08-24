@@ -54,6 +54,26 @@ const files = [
               console.log('file2');
             },
           },
+          {
+            type: 'directory',
+            name: 'folder1',
+            value: [
+              {
+                type: 'file',
+                name: 'file2',
+                onClick: () => {
+                  console.log('file2');
+                },
+              },
+              {
+                type: 'file',
+                name: 'file2',
+                onClick: () => {
+                  console.log('file2');
+                },
+              },
+            ],
+          },
         ],
       },
     ],

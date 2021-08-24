@@ -18,6 +18,7 @@ export type Directors = Array<Directory>;
 
 type Tree = {
   value?: Directors;
+  onChange?: () => void;
 };
 
 type TreeProps = typeof defaultProps & Tree & HTMLAttributes<HTMLDivElement>;
@@ -25,11 +26,16 @@ type TreeProps = typeof defaultProps & Tree & HTMLAttributes<HTMLDivElement>;
 const Tree: FC<PropsWithChildren<TreeProps>> = ({
   value,
   children,
+  onChange,
   ...rest
 }) => {
   const renderTree = useCallback(() => {
     return value?.map(({ type, ...file }) =>
-      type === 'file' ? <TreeFile {...file} /> : <TreeFolder {...file} />,
+      type === 'file' ? (
+        <TreeFile {...file} />
+      ) : (
+        <TreeFolder {...file} onChange={onChange} />
+      ),
     );
   }, [value]);
   const renderChildren = useMemo(() => {
