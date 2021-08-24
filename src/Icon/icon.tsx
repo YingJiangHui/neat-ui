@@ -20,12 +20,8 @@ const sizeMap: { [key in size]: number } = {
   medium: 10,
   large: 14,
 };
-export const Icon: FC<PropsWithChildren<Props>> = ({
-  size,
-  color,
-  name,
-  ...rest
-}) => {
+const IconComponent: FC<PropsWithChildren<Props>> = (props) => {
+  const { size, color, name, ...rest } = props;
   return (
     <svg {...rest} className="icon" style={{ fill: color, ...rest.style }}>
       <use xlinkHref={'#' + name} />
@@ -39,4 +35,8 @@ export const Icon: FC<PropsWithChildren<Props>> = ({
   );
 };
 
-export default withDefaults(Icon, defaultProps);
+const Icon = withDefaults(IconComponent, defaultProps);
+
+export { Icon };
+
+export default Icon;
