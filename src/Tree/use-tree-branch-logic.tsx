@@ -3,16 +3,15 @@ import { BranchProps } from '@/Tree/tree-branch';
 import useUpdateEffect from '@/hooks/useUpdateEffect';
 
 export const useBranchLogic = (props: BranchProps) => {
-  const { defaultExpand, className, onChange } = props;
-  const [isExpand, setIsExpand] = useState(defaultExpand);
+  const { autoExpand, onChange } = props;
+  const [isExpand, setIsExpand] = useState(autoExpand);
   const directoryRef = useRef<HTMLUListElement | null>(null);
 
   const trigger = useCallback(() => {
     setIsExpand((isExpand) => !isExpand);
   }, []);
-
   useEffect(() => {
-    if (defaultExpand) {
+    if (autoExpand) {
       Object.assign(directoryRef.current?.style, {
         height: `auto`,
       });
@@ -21,7 +20,7 @@ export const useBranchLogic = (props: BranchProps) => {
         height: `0px`,
       });
     }
-  }, [defaultExpand]);
+  }, [autoExpand]);
 
   useUpdateEffect(() => {
     if (!directoryRef.current) return;

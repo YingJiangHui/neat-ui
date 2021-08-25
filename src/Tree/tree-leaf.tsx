@@ -3,7 +3,9 @@ import withDefaults from '@/utils/with-defaults';
 
 const defaultProps = {};
 
-type Leaf = { name: string };
+type Leaf = {
+  name: string;
+};
 
 export type LeafProps = typeof defaultProps & Leaf & HTMLAttributes<any>;
 const Leaf: FC<PropsWithChildren<LeafProps>> = ({

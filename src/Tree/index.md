@@ -20,6 +20,7 @@ const files = [
   {
     type: 'leaf',
     name: 'file1',
+    key: '1',
     onClick: () => {
       console.log('file1');
     },
@@ -27,13 +28,16 @@ const files = [
   {
     type: 'branch',
     name: 'folder1',
+    key: '2',
     onClick: () => console.log('folder1'),
     value: [
       {
+        key: '2-1',
         type: 'branch',
         name: 'folder1',
         value: [
           {
+            key: '2-1-1',
             type: 'leaf',
             name: 'file2',
             onClick: () => {
@@ -41,6 +45,7 @@ const files = [
             },
           },
           {
+            key: '2-1-2',
             type: 'leaf',
             name: 'file2',
             onClick: () => {
@@ -48,6 +53,7 @@ const files = [
             },
           },
           {
+            key: '2-1-3',
             type: 'leaf',
             name: 'file2',
             onClick: () => {
@@ -55,10 +61,12 @@ const files = [
             },
           },
           {
+            key: '2-1-4',
             type: 'branch',
             name: 'folder1',
             value: [
               {
+                key: '2-1-4-1',
                 type: 'leaf',
                 name: 'file2',
                 onClick: () => {
@@ -66,6 +74,7 @@ const files = [
                 },
               },
               {
+                key: '2-1-4-2',
                 type: 'leaf',
                 name: 'file2',
                 onClick: () => {
@@ -97,8 +106,9 @@ export default () => {
   return (
     <>
       <Tree>
-        <Tree.Folder name="文件夹1">
+        <Tree.Folder name="文件夹1" key={'1'}>
           <Tree.File
+            key={'1-2'}
             onClick={() => {
               console.log('文件1');
             }}
@@ -107,13 +117,15 @@ export default () => {
           </Tree.File>
         </Tree.Folder>
         <Tree.Folder
+          key={'2'}
           name="文件夹2"
           onClick={() => {
             console.log('文件夹2');
           }}
         >
-          <Tree.Folder name="文件夹1">
+          <Tree.Folder name="文件夹1" key={'2-1'}>
             <Tree.File
+              key={'2-1-1'}
               onClick={() => {
                 console.log('文件2');
               }}

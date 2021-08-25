@@ -5,13 +5,13 @@ import { Forest } from '@/Tree/tree';
 import { Tree } from '@/Tree/index';
 import { Icon } from '@/Icon';
 const defaultProps = {
-  defaultExpand: true,
+  autoExpand: false,
 };
 
 export type Branch = {
   name: string;
   value?: Forest;
-  defaultExpand?: boolean;
+  autoExpand?: boolean;
   onChange?: () => void;
 };
 
@@ -22,7 +22,27 @@ const Branch: FC<PropsWithChildren<BranchProps>> = (props) => {
   const { children, name, value, ...rest } = props;
   const { isExpand, trigger, setHeightToAuto, directoryRef } =
     useBranchLogic(props);
-
+  const renderChildrenNode = () => {
+    if (value)
+      return (
+        <Tree
+          onChange={() => {
+            setHeightToAuto();
+          }}
+          value={value}
+        />
+      );
+    if (children)
+      return React.cloneElement(
+        children as React.DetailedReactHTMLElement<any, HTMLElement>,
+        {
+          onChange: () => {
+            setHeightToAuto();
+          },
+        },
+      );
+    else return <></>;
+  };
   return (
     <div {...rest}>
       <div
@@ -38,23 +58,7 @@ const Branch: FC<PropsWithChildren<BranchProps>> = (props) => {
         ref={(node) => (directoryRef.current = node)}
         className="tree-compose"
       >
-        {value ? (
-          <Tree
-            onChange={() => {
-              setHeightToAuto();
-            }}
-            value={value}
-          />
-        ) : (
-          React.cloneElement(
-            children as React.DetailedReactHTMLElement<any, HTMLElement>,
-            {
-              onChange: () => {
-                setHeightToAuto();
-              },
-            },
-          )
-        )}
+        {renderChildrenNode()}
       </ul>
 
       <style jsx={true}>{`
