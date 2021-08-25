@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { TreeFolderProps } from '@/Tree/tree-folder';
-import classnames from '@/shared/classnames';
 import useUpdateEffect from '@/hooks/useUpdateEffect';
 
 export const useTreeFolderLogic = (props: TreeFolderProps) => {
@@ -8,13 +7,6 @@ export const useTreeFolderLogic = (props: TreeFolderProps) => {
   const [isExpand, setIsExpand] = useState(defaultExpand);
   const directoryRef = useRef<HTMLUListElement | null>(null);
 
-  const treeFolderProps = useMemo<TreeFolderProps>(
-    () => ({
-      className: classnames('tree-folder-container', className),
-      ...props,
-    }),
-    [],
-  );
   const trigger = useCallback(() => {
     setIsExpand((isExpand) => !isExpand);
   }, []);
@@ -64,7 +56,7 @@ export const useTreeFolderLogic = (props: TreeFolderProps) => {
     });
   };
 
-  return { isExpand, treeFolderProps, trigger, setHeightToAuto, directoryRef };
+  return { isExpand, trigger, setHeightToAuto, directoryRef };
 };
 
 export default useTreeFolderLogic;

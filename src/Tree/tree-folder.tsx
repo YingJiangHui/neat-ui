@@ -26,7 +26,7 @@ export type TreeFolderProps = typeof defaultProps &
   React.HTMLAttributes<HTMLDivElement>;
 const TreeFolder: FC<PropsWithChildren<TreeFolderProps>> = (props) => {
   const { children, name, value, ...rest } = props;
-  const { isExpand, treeFolderProps, trigger, setHeightToAuto, directoryRef } =
+  const { isExpand, trigger, setHeightToAuto, directoryRef } =
     useTreeFolderLogic(props);
 
   return (
