@@ -2,24 +2,22 @@ import React, { FC, PropsWithChildren } from 'react';
 import withDefaults from '@/utils/with-defaults';
 import useBranchLogic from '@/Tree/use-tree-branch-logic';
 import { Forest } from '@/Tree/tree';
-import { Tree } from '@/Tree/index';
+import Tree from './tree';
 import { Icon } from '@/Icon';
 const defaultProps = {
   autoExpand: false,
 };
 
-export type Branch = {
+export interface Branch extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
   value?: Forest;
   autoExpand?: boolean;
   onChange?: () => void;
-};
+}
 
-export type BranchProps = typeof defaultProps &
-  Branch &
-  React.HTMLAttributes<HTMLDivElement>;
+export type BranchProps = typeof defaultProps & Branch;
 const Branch: FC<PropsWithChildren<BranchProps>> = (props) => {
-  const { children, name, value, ...rest } = props;
+  const { children, name, value, onClick, ...rest } = props;
   const { isExpand, trigger, setHeightToAuto, directoryRef } =
     useBranchLogic(props);
   const renderChildrenNode = () => {
@@ -43,11 +41,13 @@ const Branch: FC<PropsWithChildren<BranchProps>> = (props) => {
       );
     else return <></>;
   };
+
   return (
     <div {...rest}>
       <div
-        onClick={() => {
+        onClick={(e) => {
           trigger();
+          onClick?.(e);
         }}
         className="branch"
       >

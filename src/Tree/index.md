@@ -21,15 +21,11 @@ const files = [
     type: 'leaf',
     name: 'file1',
     key: '1',
-    onClick: () => {
-      console.log('file1');
-    },
   },
   {
     type: 'branch',
     name: 'folder1',
     key: '2',
-    onClick: () => console.log('folder1'),
     value: [
       {
         key: '2-1',
@@ -40,25 +36,16 @@ const files = [
             key: '2-1-1',
             type: 'leaf',
             name: 'file2',
-            onClick: () => {
-              console.log('file2');
-            },
           },
           {
             key: '2-1-2',
             type: 'leaf',
             name: 'file2',
-            onClick: () => {
-              console.log('file2');
-            },
           },
           {
             key: '2-1-3',
             type: 'leaf',
             name: 'file2',
-            onClick: () => {
-              console.log('file2');
-            },
           },
           {
             key: '2-1-4',
@@ -69,9 +56,6 @@ const files = [
                 key: '2-1-4-1',
                 type: 'leaf',
                 name: 'file2',
-                onClick: () => {
-                  console.log('file2');
-                },
               },
               {
                 key: '2-1-4-2',
@@ -91,7 +75,7 @@ const files = [
 export default () => {
   return (
     <>
-      <Tree value={files} />
+      <Tree onSelect={console.log} value={files} />
     </>
   );
 };

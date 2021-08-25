@@ -3,42 +3,70 @@ import React, {
   HTMLAttributes,
   PropsWithChildren,
   useCallback,
+  useContext,
   useMemo,
 } from 'react';
-import withDefaults from '@/utils/with-defaults';
 import Leaf, { LeafProps } from '@/Tree/tree-leaf';
 import Branch, { BranchProps } from '@/Tree/tree-branch';
-const defaultProps = {
-  autoExpand: false,
-};
+import useUpdateEffect from '@/hooks/useUpdateEffect';
+import { TreeContext } from '@/Tree/tree-wrapper';
+const defaultProps = {};
 
-export type TreeCompose =
+export type TreeCompose = { key: string | number } & (
   | (BranchProps & { type: 'branch' })
-  | (LeafProps & { type: 'leaf' });
+  | (LeafProps & { type: 'leaf' })
+);
 
 export type Forest = Array<TreeCompose>;
 
-type Tree = {
+export interface TreeEvent {
+  nativeEvent: React.MouseEvent<HTMLDivElement, MouseEvent>;
+  node: TreeCompose;
+  selected: boolean;
+  selectedNodes: TreeCompose[];
+}
+
+interface Tree extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   value?: Forest;
   onChange?: () => void;
   autoExpand?: boolean;
-};
+  onSelect?: (keys: (string | number)[], e: TreeEvent | {}) => void;
+  multiple?: boolean;
+}
 
-type TreeProps = typeof defaultProps & Tree & HTMLAttributes<HTMLDivElement>;
+export type TreeProps = Partial<typeof defaultProps> & Tree;
 
 const Tree: FC<PropsWithChildren<TreeProps>> = ({
   value,
   children,
   onChange,
   autoExpand,
+  onSelect,
   ...rest
 }) => {
+  const { updateSelectedObject, selectObject } = useContext(TreeContext);
+  useUpdateEffect(() => {
+    onSelect?.(selectObject.keys, selectObject.e);
+  }, [selectObject]);
   const renderTree = useCallback(() => {
-    return value?.map(({ type, ...leafOrBranch }) => {
+    return value?.map((props) => {
+      const { type, ...leafOrBranch } = props;
       return type === 'leaf' ? (
-        <Leaf {...leafOrBranch} />
+        <Leaf
+          {...leafOrBranch}
+          onClick={(e) => {
+            updateSelectedObject(leafOrBranch.key, props, e);
+          }}
+        />
       ) : (
-        <Branch {...leafOrBranch} onChange={onChange} autoExpand={autoExpand} />
+        <Branch
+          {...leafOrBranch}
+          onChange={onChange}
+          autoExpand={autoExpand}
+          onClick={(e) => {
+            updateSelectedObject(leafOrBranch.key, props, e);
+          }}
+        />
       );
     });
   }, [value]);
@@ -56,9 +84,4 @@ const Tree: FC<PropsWithChildren<TreeProps>> = ({
     </div>
   );
 };
-const TreeWithDefaults = withDefaults(Tree, defaultProps);
-
-export default TreeWithDefaults as typeof TreeWithDefaults & {
-  File: typeof Leaf;
-  Folder: typeof Branch;
-};
+export default Tree;

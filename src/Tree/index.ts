@@ -1,4 +1,4 @@
-import Tree from './tree';
+import Tree from './tree-wrapper';
 import Leaf from './tree-leaf';
 import Branch from './tree-branch';
 
