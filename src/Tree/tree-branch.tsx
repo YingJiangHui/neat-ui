@@ -1,33 +1,27 @@
-import React, {
-  FC,
-  PropsWithChildren,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import withDefaults from '@/utils/with-defaults';
-import useTreeFolderLogic from '@/Tree/use-tree-folder-logic';
-import { Directors } from '@/Tree/tree';
+import useBranchLogic from '@/Tree/use-tree-branch-logic';
+import { Forest } from '@/Tree/tree';
 import { Tree } from '@/Tree/index';
 import { Icon } from '@/Icon';
 const defaultProps = {
   defaultExpand: true,
 };
 
-export type TreeFolder = {
+export type Branch = {
   name: string;
-  value?: Directors;
+  value?: Forest;
   defaultExpand?: boolean;
   onChange?: () => void;
 };
 
-export type TreeFolderProps = typeof defaultProps &
-  TreeFolder &
+export type BranchProps = typeof defaultProps &
+  Branch &
   React.HTMLAttributes<HTMLDivElement>;
-const TreeFolder: FC<PropsWithChildren<TreeFolderProps>> = (props) => {
+const Branch: FC<PropsWithChildren<BranchProps>> = (props) => {
   const { children, name, value, ...rest } = props;
   const { isExpand, trigger, setHeightToAuto, directoryRef } =
-    useTreeFolderLogic(props);
+    useBranchLogic(props);
 
   return (
     <div {...rest}>
@@ -35,12 +29,15 @@ const TreeFolder: FC<PropsWithChildren<TreeFolderProps>> = (props) => {
         onClick={() => {
           trigger();
         }}
-        className="folder"
+        className="branch"
       >
         <i>{isExpand ? <Icon name={'bottom'} /> : <Icon name={'right'} />}</i>
         {name}
       </div>
-      <ul ref={(node) => (directoryRef.current = node)} className="directory">
+      <ul
+        ref={(node) => (directoryRef.current = node)}
+        className="tree-compose"
+      >
         {value ? (
           <Tree
             onChange={() => {
@@ -61,17 +58,17 @@ const TreeFolder: FC<PropsWithChildren<TreeFolderProps>> = (props) => {
       </ul>
 
       <style jsx={true}>{`
-        .folder {
+        .branch {
           display: flex;
           align-items: center;
           cursor: pointer;
         }
-        .folder {
+        .branch {
           > i {
             margin-right: 6px;
           }
         }
-        .directory {
+        .tree-compose {
           overflow: hidden;
           transition: height 300ms;
           margin: 0.5rem 0 0.5rem 1rem;
@@ -86,4 +83,4 @@ const TreeFolder: FC<PropsWithChildren<TreeFolderProps>> = (props) => {
   );
 };
 
-export default withDefaults(TreeFolder, defaultProps);
+export default withDefaults(Branch, defaultProps);

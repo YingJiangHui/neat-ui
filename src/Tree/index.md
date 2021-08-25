@@ -18,55 +18,55 @@ import React from 'react';
 import { Tree } from 'neat-ui-react';
 const files = [
   {
-    type: 'file',
+    type: 'leaf',
     name: 'file1',
     onClick: () => {
       console.log('file1');
     },
   },
   {
-    type: 'directory',
+    type: 'branch',
     name: 'folder1',
     onClick: () => console.log('folder1'),
     value: [
       {
-        type: 'directory',
+        type: 'branch',
         name: 'folder1',
         value: [
           {
-            type: 'file',
+            type: 'leaf',
             name: 'file2',
             onClick: () => {
               console.log('file2');
             },
           },
           {
-            type: 'file',
+            type: 'leaf',
             name: 'file2',
             onClick: () => {
               console.log('file2');
             },
           },
           {
-            type: 'file',
+            type: 'leaf',
             name: 'file2',
             onClick: () => {
               console.log('file2');
             },
           },
           {
-            type: 'directory',
+            type: 'branch',
             name: 'folder1',
             value: [
               {
-                type: 'file',
+                type: 'leaf',
                 name: 'file2',
                 onClick: () => {
                   console.log('file2');
                 },
               },
               {
-                type: 'file',
+                type: 'leaf',
                 name: 'file2',
                 onClick: () => {
                   console.log('file2');

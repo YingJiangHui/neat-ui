@@ -3,12 +3,10 @@ import withDefaults from '@/utils/with-defaults';
 
 const defaultProps = {};
 
-type TreeFile = { name: string };
+type Leaf = { name: string };
 
-export type TreeFileProps = typeof defaultProps &
-  TreeFile &
-  HTMLAttributes<any>;
-const TreeFile: FC<PropsWithChildren<TreeFileProps>> = ({
+export type LeafProps = typeof defaultProps & Leaf & HTMLAttributes<any>;
+const Leaf: FC<PropsWithChildren<LeafProps>> = ({
   children,
   name,
   ...rest
@@ -25,4 +23,4 @@ const TreeFile: FC<PropsWithChildren<TreeFileProps>> = ({
   );
 };
 
-export default withDefaults(TreeFile, defaultProps);
+export default withDefaults(Leaf, defaultProps);

@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { TreeFolderProps } from '@/Tree/tree-folder';
+import { BranchProps } from '@/Tree/tree-branch';
 import useUpdateEffect from '@/hooks/useUpdateEffect';
 
-export const useTreeFolderLogic = (props: TreeFolderProps) => {
+export const useBranchLogic = (props: BranchProps) => {
   const { defaultExpand, className, onChange } = props;
   const [isExpand, setIsExpand] = useState(defaultExpand);
   const directoryRef = useRef<HTMLUListElement | null>(null);
@@ -59,4 +59,4 @@ export const useTreeFolderLogic = (props: TreeFolderProps) => {
   return { isExpand, trigger, setHeightToAuto, directoryRef };
 };
 
-export default useTreeFolderLogic;
+export default useBranchLogic;

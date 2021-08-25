@@ -6,18 +6,18 @@ import React, {
   useMemo,
 } from 'react';
 import withDefaults from '@/utils/with-defaults';
-import TreeFile, { TreeFileProps } from '@/Tree/treeFile';
-import TreeFolder, { TreeFolderProps } from '@/Tree/tree-folder';
+import Leaf, { LeafProps } from '@/Tree/tree-leaf';
+import Branch, { BranchProps } from '@/Tree/tree-branch';
 const defaultProps = {};
 
-export type Directory =
-  | (TreeFolderProps & { type: 'directory' })
-  | (TreeFileProps & { type: 'file' });
+export type TreeCompose =
+  | (BranchProps & { type: 'branch' })
+  | (LeafProps & { type: 'leaf' });
 
-export type Directors = Array<Directory>;
+export type Forest = Array<TreeCompose>;
 
 type Tree = {
-  value?: Directors;
+  value?: Forest;
   onChange?: () => void;
 };
 
@@ -30,11 +30,11 @@ const Tree: FC<PropsWithChildren<TreeProps>> = ({
   ...rest
 }) => {
   const renderTree = useCallback(() => {
-    return value?.map(({ type, ...file }) =>
-      type === 'file' ? (
-        <TreeFile {...file} />
+    return value?.map(({ type, ...leaf }) =>
+      type === 'leaf' ? (
+        <Leaf {...leaf} />
       ) : (
-        <TreeFolder {...file} onChange={onChange} />
+        <Branch {...leaf} onChange={onChange} />
       ),
     );
   }, [value]);
@@ -55,6 +55,6 @@ const Tree: FC<PropsWithChildren<TreeProps>> = ({
 const TreeWithDefaults = withDefaults(Tree, defaultProps);
 
 export default TreeWithDefaults as typeof TreeWithDefaults & {
-  File: typeof TreeFile;
-  Folder: typeof TreeFolder;
+  File: typeof Leaf;
+  Folder: typeof Branch;
 };
