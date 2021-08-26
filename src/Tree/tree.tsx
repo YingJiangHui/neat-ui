@@ -10,6 +10,7 @@ import Leaf, { LeafProps } from '@/Tree/tree-leaf';
 import Branch, { BranchProps } from '@/Tree/tree-branch';
 import useUpdateEffect from '@/hooks/useUpdateEffect';
 import { TreeContext } from '@/Tree/tree-wrapper';
+import { classnames } from '@/shared/classnames';
 const defaultProps = {};
 
 export type TreeCompose = { key: string | number } & (
@@ -44,7 +45,8 @@ const Tree: FC<PropsWithChildren<TreeProps>> = ({
   onSelect,
   ...rest
 }) => {
-  const { updateSelectedObject, selectObject } = useContext(TreeContext);
+  const { updateSelectedObject, selectObject, selectedKeysIncludeTo } =
+    useContext(TreeContext);
   useUpdateEffect(() => {
     onSelect?.(selectObject.keys, selectObject.e);
   }, [selectObject]);
@@ -54,6 +56,10 @@ const Tree: FC<PropsWithChildren<TreeProps>> = ({
       return type === 'leaf' ? (
         <Leaf
           {...leafOrBranch}
+          className={classnames(
+            leafOrBranch.className,
+            selectedKeysIncludeTo(leafOrBranch.key) && 'leaf-selected',
+          )}
           onClick={(e) => {
             updateSelectedObject(leafOrBranch.key, props, e);
           }}
@@ -61,6 +67,10 @@ const Tree: FC<PropsWithChildren<TreeProps>> = ({
       ) : (
         <Branch
           {...leafOrBranch}
+          className={classnames(
+            leafOrBranch.className,
+            selectedKeysIncludeTo(leafOrBranch.key) && 'branch-selected',
+          )}
           onChange={onChange}
           autoExpand={autoExpand}
           onClick={(e) => {
@@ -69,7 +79,7 @@ const Tree: FC<PropsWithChildren<TreeProps>> = ({
         />
       );
     });
-  }, [value]);
+  }, [value, selectObject]);
   const renderChildren = useMemo(() => {
     return value ? renderTree() : children;
   }, [value, renderTree]);

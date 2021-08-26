@@ -17,6 +17,10 @@ export const useTreeLogic = (props: TreeProps) => {
     selectMapRef.current = {};
   }, []);
 
+  const selectedKeysIncludeTo = (key: string | number) => {
+    return selectObject.keys.indexOf(key) !== -1;
+  };
+
   const updateSelectedObject = (
     key: string | number,
     selectObject: TreeCompose,
@@ -48,5 +52,5 @@ export const useTreeLogic = (props: TreeProps) => {
       },
     });
   };
-  return { updateSelectedObject, selectObject };
+  return { updateSelectedObject, selectObject, selectedKeysIncludeTo };
 };

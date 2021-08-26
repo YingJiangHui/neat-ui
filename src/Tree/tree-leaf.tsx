@@ -24,6 +24,9 @@ const Leaf: FC<PropsWithChildren<LeafProps>> = ({
         li {
           list-style: none;
         }
+        .leaf-selected {
+          background: red;
+        }
       `}</style>
     </li>
   );

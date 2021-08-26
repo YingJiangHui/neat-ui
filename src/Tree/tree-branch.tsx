@@ -1,9 +1,12 @@
-import React, { FC, PropsWithChildren } from 'react';
+import React, { FC, PropsWithChildren, useContext } from 'react';
 import withDefaults from '@/utils/with-defaults';
 import useBranchLogic from '@/Tree/use-tree-branch-logic';
 import { Forest } from '@/Tree/tree';
 import Tree from './tree';
 import { Icon } from '@/Icon';
+import { TreeContext } from '@/Tree/tree-wrapper';
+import { useTheme } from '@/hooks';
+import { classnames } from '@/shared/classnames';
 const defaultProps = {
   autoExpand: false,
 };
@@ -17,9 +20,11 @@ export interface Branch extends React.HTMLAttributes<HTMLDivElement> {
 
 export type BranchProps = typeof defaultProps & Branch;
 const Branch: FC<PropsWithChildren<BranchProps>> = (props) => {
-  const { children, name, value, onClick, ...rest } = props;
+  const { children, name, value, onClick, className, ...rest } = props;
   const { isExpand, trigger, setHeightToAuto, directoryRef } =
     useBranchLogic(props);
+  const { selectedKeysIncludeTo } = useContext(TreeContext);
+  const theme = useTheme();
   const renderChildrenNode = () => {
     if (value)
       return (
@@ -41,7 +46,7 @@ const Branch: FC<PropsWithChildren<BranchProps>> = (props) => {
       );
     else return <></>;
   };
-
+  console.log(className);
   return (
     <div {...rest}>
       <div
@@ -49,7 +54,7 @@ const Branch: FC<PropsWithChildren<BranchProps>> = (props) => {
           trigger();
           onClick?.(e);
         }}
-        className="branch"
+        className={classnames(className, 'branch')}
       >
         <i>{isExpand ? <Icon name={'bottom'} /> : <Icon name={'right'} />}</i>
         {name}
@@ -66,6 +71,12 @@ const Branch: FC<PropsWithChildren<BranchProps>> = (props) => {
           display: flex;
           align-items: center;
           cursor: pointer;
+          background: ${selectedKeysIncludeTo('value')
+            ? theme.palette.grayscale_1
+            : 'none'};
+        }
+        .branch-selected {
+          background: red;
         }
         .branch {
           > i {
