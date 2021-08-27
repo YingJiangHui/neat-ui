@@ -1,4 +1,5 @@
 import React, {
+  cloneElement,
   FC,
   HTMLAttributes,
   PropsWithChildren,
@@ -11,6 +12,7 @@ import Branch, { BranchProps } from '@/Tree/tree-branch';
 import useUpdateEffect from '@/hooks/useUpdateEffect';
 import { TreeContext } from '@/Tree/tree-wrapper';
 import { classnames } from '@/shared/classnames';
+
 const defaultProps = {};
 
 export type TreeCompose = { key: string | number } & (
@@ -56,10 +58,7 @@ const Tree: FC<PropsWithChildren<TreeProps>> = ({
       return type === 'leaf' ? (
         <Leaf
           {...leafOrBranch}
-          className={classnames(
-            leafOrBranch.className,
-            selectedKeysIncludeTo(leafOrBranch.key) && 'leaf-selected',
-          )}
+          selected={selectedKeysIncludeTo(leafOrBranch.key)}
           onClick={(e) => {
             updateSelectedObject(leafOrBranch.key, props, e);
           }}
@@ -67,10 +66,7 @@ const Tree: FC<PropsWithChildren<TreeProps>> = ({
       ) : (
         <Branch
           {...leafOrBranch}
-          className={classnames(
-            leafOrBranch.className,
-            selectedKeysIncludeTo(leafOrBranch.key) && 'branch-selected',
-          )}
+          selected={selectedKeysIncludeTo(leafOrBranch.key)}
           onChange={onChange}
           autoExpand={autoExpand}
           onClick={(e) => {
@@ -80,9 +76,31 @@ const Tree: FC<PropsWithChildren<TreeProps>> = ({
       );
     });
   }, [value, selectObject]);
+
+  const cloneChildren = () => {
+    return Array.isArray(children)
+      ? children.map((children) =>
+          cloneElement(children || <></>, {
+            ...children?.props,
+            onClick: (e) => {
+              children?.onClick?.(e);
+              updateSelectedObject(children?.key, children?.props, e);
+            },
+          }),
+        )
+      : cloneElement(children || <></>, {
+          ...children?.props,
+          onClick: (e) => {
+            children?.onClick?.(e);
+            updateSelectedObject(children?.key, children?.props, e);
+          },
+        });
+  };
+
   const renderChildren = useMemo(() => {
-    return value ? renderTree() : children;
-  }, [value, renderTree]);
+    return value ? renderTree() : cloneChildren();
+  }, [value, renderTree, children]);
+
   return (
     <div {...rest} className="tree">
       {renderChildren}

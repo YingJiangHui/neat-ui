@@ -7,20 +7,24 @@ import { Icon } from '@/Icon';
 import { TreeContext } from '@/Tree/tree-wrapper';
 import { useTheme } from '@/hooks';
 import { classnames } from '@/shared/classnames';
+
 const defaultProps = {
   autoExpand: false,
+  selected: false,
 };
 
-export interface Branch extends React.HTMLAttributes<HTMLDivElement> {
-  name: string;
+export interface Branch extends React.HTMLAttributes<any> {
+  name?: string;
   value?: Forest;
   autoExpand?: boolean;
   onChange?: () => void;
+  selected?: boolean;
 }
 
-export type BranchProps = typeof defaultProps & Branch;
+export type BranchProps = Partial<typeof defaultProps> & Branch;
 const Branch: FC<PropsWithChildren<BranchProps>> = (props) => {
-  const { children, name, value, onClick, className, ...rest } = props;
+  const { children, name, value, onClick, className, selected, ...rest } =
+    props;
   const { isExpand, trigger, setHeightToAuto, directoryRef } =
     useBranchLogic(props);
   const { selectedKeysIncludeTo } = useContext(TreeContext);
@@ -46,18 +50,18 @@ const Branch: FC<PropsWithChildren<BranchProps>> = (props) => {
       );
     else return <></>;
   };
-  console.log(className);
   return (
     <div {...rest}>
-      <div
-        onClick={(e) => {
-          trigger();
-          onClick?.(e);
-        }}
-        className={classnames(className, 'branch')}
-      >
-        <i>{isExpand ? <Icon name={'bottom'} /> : <Icon name={'right'} />}</i>
-        {name}
+      <div className={classnames(className, 'branch')}>
+        <span onClick={trigger} className={'open-icon'}>
+          {isExpand ? <Icon name={'bottom'} /> : <Icon name={'right'} />}
+        </span>
+        <span
+          onClick={onClick}
+          className={classnames(selected && 'branch-selected', 'branch-name')}
+        >
+          {name}
+        </span>
       </div>
       <ul
         ref={(node) => (directoryRef.current = node)}
@@ -71,17 +75,19 @@ const Branch: FC<PropsWithChildren<BranchProps>> = (props) => {
           display: flex;
           align-items: center;
           cursor: pointer;
-          background: ${selectedKeysIncludeTo('value')
-            ? theme.palette.grayscale_1
-            : 'none'};
+        }
+        .branch > span {
+          padding-left: 0.2em;
+          padding-right: 0.2em;
+        }
+        .branch-name {
+          transition: 0.25s;
         }
         .branch-selected {
-          background: red;
+          background: ${theme.palette.grayscale_2};
         }
-        .branch {
-          > i {
-            margin-right: 6px;
-          }
+        .open-icon {
+          padding-right: 6px;
         }
         .tree-compose {
           overflow: hidden;
