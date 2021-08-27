@@ -75,7 +75,7 @@ const files = [
 export default () => {
   return (
     <>
-      <Tree onSelect={console.log} value={files} />
+      <Tree onSelect={console.log} multiple={true} value={files} />
     </>
   );
 };
