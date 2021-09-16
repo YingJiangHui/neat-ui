@@ -1,6 +1,7 @@
 import React, { FC, PropsWithChildren, SVGAttributes } from 'react';
 import '../importSvg';
 import withDefaults from '@/utils/with-defaults';
+import classnames from '@/shared/classnames';
 
 type size = 'small' | 'medium' | 'large';
 
@@ -21,9 +22,9 @@ const sizeMap: { [key in size]: number } = {
   large: 14,
 };
 const IconComponent: FC<PropsWithChildren<Props>> = (props) => {
-  const { size, color, name, ...rest } = props;
+  const { size, style, color, name, className, ...rest } = props;
   return (
-    <svg {...rest} className="icon" style={{ fill: color, ...rest.style }}>
+    <svg {...rest} className={classnames(className, 'icon', `${name}-icon`)}>
       <use xlinkHref={'#' + name} />
       <style jsx={true}>{`
         .icon {
