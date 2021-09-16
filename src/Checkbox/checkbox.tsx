@@ -1,6 +1,6 @@
 import React, {
   FC,
-  HTMLAttributes,
+  InputHTMLAttributes,
   PropsWithChildren,
   useEffect,
   useRef,
@@ -11,17 +11,18 @@ import { Icon } from '@/Icon';
 const defaultProps = {};
 
 interface Props {
-  defaultChecked: boolean;
-  checked: boolean;
-  disabled: boolean;
-  indeterminate: boolean;
+  defaultChecked?: boolean;
+  checked?: boolean;
+  disabled?: boolean;
+  indeterminate?: boolean;
 }
 
 type CheckboxProps = Partial<typeof defaultProps> &
   Props &
-  HTMLAttributes<HTMLInputElement>;
+  InputHTMLAttributes<HTMLInputElement>;
+
 export const Checkbox: FC<PropsWithChildren<CheckboxProps>> = (props) => {
-  const { defaultChecked, checked, indeterminate, ...rest } = {
+  const { defaultChecked, disabled, checked, indeterminate, ...rest } = {
     ...defaultProps,
     ...props,
   };
@@ -40,6 +41,7 @@ export const Checkbox: FC<PropsWithChildren<CheckboxProps>> = (props) => {
         {...rest}
         ref={inputRef}
         id={idRef.current}
+        disabled={disabled}
         checked={checked}
         defaultChecked={defaultChecked}
         type="checkbox"
