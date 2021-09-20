@@ -19,12 +19,13 @@ export default defineConfig({
   //     }
   //   ],
   // ],
-  // extraBabelPlugins: [
-  //   [
-  //     'styled-jsx/babel',
-  //     { plugins: ['@styled-jsx/plugin-sass'], optimizeForSpeed: true },
-  //   ],
-  // ],
+
+  extraBabelPlugins: [
+    [
+      'styled-jsx/babel',
+      { plugins: ['@styled-jsx/plugin-sass'], optimizeForSpeed: true },
+    ],
+  ],
   apiParser: {
     propFilter: {
       skipNodeModules: true,

@@ -19,3 +19,5 @@ export { Space } from '@/Space';
 export { Checkbox } from '@/Checkbox';
 
 export { Line } from '@/Line';
+
+export { Row, Col } from '@/Grid';

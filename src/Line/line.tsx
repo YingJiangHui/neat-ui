@@ -19,6 +19,7 @@ const Line: FC<LineProps> = (props) => {
   const { level, className } = { ...defaultProps, ...props };
   const theme = useTheme();
   const { palette } = theme;
+  console.log(palette);
   const levelList = [
     undefined,
     palette.grayscale_1,
