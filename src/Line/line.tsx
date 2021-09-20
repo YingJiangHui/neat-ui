@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
 import { useTheme } from '@/hooks';
+import classnames from '@/shared/classnames';
 
 const defaultProps = {
   level: 2,
 };
 
-interface Props {
+interface Props extends React.HTMLAttributes<any> {
   /**
    * @description       color深度等级 1 ~ 9
    * @description.zh-CN color深度等级 1 ~ 9
@@ -15,7 +16,7 @@ interface Props {
 }
 type LineProps = Props & Partial<typeof defaultProps>;
 const Line: FC<LineProps> = (props) => {
-  const { level } = { ...defaultProps, ...props };
+  const { level, className } = { ...defaultProps, ...props };
   const theme = useTheme();
   const { palette } = theme;
   const levelList = [
@@ -32,13 +33,13 @@ const Line: FC<LineProps> = (props) => {
   ];
   return (
     <>
-      <hr />
+      <hr className={classnames('neat-line', className)} />
       <style jsx>
         {`
-          hr {
+          hr.neat-line {
             background-color: ${levelList[level]};
           }
-          hr {
+          hr.neat-line {
             border: none;
             height: 1px;
             width: 100%;
