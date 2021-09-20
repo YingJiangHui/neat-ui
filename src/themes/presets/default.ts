@@ -7,12 +7,12 @@ import { defaultLayout, font } from '@/themes/presets/shared';
 
 export const palette: ThemePalette = {
   grayscale_1: '#fafafa',
-  grayscale_2: '#eaeaea',
-  grayscale_3: '#aaa',
-  grayscale_4: '#999',
-  grayscale_5: '#888',
-  grayscale_6: '#666',
-  grayscale_7: '#444',
+  grayscale_2: '#dadada',
+  grayscale_3: '#bababa',
+  grayscale_4: '#aaa',
+  grayscale_5: '#999',
+  grayscale_6: '#888',
+  grayscale_7: '#666',
   grayscale_8: '#333',
   grayscale_9: '#111',
   background: '#fff',
