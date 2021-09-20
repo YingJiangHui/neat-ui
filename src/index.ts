@@ -17,3 +17,5 @@ export { Icon } from '@/Icon';
 export { Space } from '@/Space';
 
 export { Checkbox } from '@/Checkbox';
+
+export { Line } from '@/Line';
