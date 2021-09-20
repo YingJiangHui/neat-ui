@@ -74,6 +74,7 @@ export const Space: FC<PropsWithChildren<SpaceProps>> = (props) => {
       {children}
       <style jsx>{`
         .space {
+          width: 100%;
           display: inline-flex;
         }
       `}</style>
