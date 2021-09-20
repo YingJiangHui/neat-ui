@@ -1,5 +1,6 @@
 import { defineConfig } from 'dumi';
 import chainWebpack from './chainWebpack.config';
+
 export default defineConfig({
   title: 'neat-ui-react',
   favicon:
@@ -10,11 +11,25 @@ export default defineConfig({
   // more config: https://d.umijs.org/config
   publicPath: '/neat-ui-react/',
   base: '/neat-ui-react/',
-  extraBabelPlugins: [
-    [
-      'styled-jsx/babel',
-      { plugins: ['@styled-jsx/plugin-sass'], optimizeForSpeed: true },
-    ],
-  ],
+  // extraBabelPresets: [
+  //   [
+  //     'styled-jsx/babel',
+  //     {
+  //       'styled-jsx': {plugins: ['@styled-jsx/plugin-sass'], optimizeForSpeed: true},
+  //     }
+  //   ],
+  // ],
+  // extraBabelPlugins: [
+  //   [
+  //     'styled-jsx/babel',
+  //     { plugins: ['@styled-jsx/plugin-sass'], optimizeForSpeed: true },
+  //   ],
+  // ],
+  apiParser: {
+    propFilter: {
+      skipNodeModules: true,
+      skipPropsWithoutDoc: true,
+    },
+  },
   chainWebpack,
 });
