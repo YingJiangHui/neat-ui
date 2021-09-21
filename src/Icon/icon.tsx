@@ -1,6 +1,5 @@
 import React, { FC, PropsWithChildren, SVGAttributes } from 'react';
 import '../importSvg';
-import withDefaults from '@/utils/with-defaults';
 import classnames from '@/shared/classnames';
 
 type size = 'small' | 'medium' | 'large';
@@ -10,19 +9,28 @@ const defaultProps = {
 };
 
 interface IconProps {
-  color?: string;
   size?: size;
+  /**
+   * @description       宽度1/24
+   * @description.zh-CN 宽度1/24
+   * @default           -
+   */
   name: string;
 }
 
-type Props = typeof defaultProps & IconProps & SVGAttributes<SVGElement>;
+type Props = Partial<typeof defaultProps> &
+  IconProps &
+  SVGAttributes<SVGElement>;
 const sizeMap: { [key in size]: number } = {
   small: 8,
   medium: 10,
   large: 14,
 };
-const IconComponent: FC<PropsWithChildren<Props>> = (props) => {
-  const { size, style, color, name, className, ...rest } = props;
+export const Icon: FC<PropsWithChildren<Props>> = (props) => {
+  const { size, style, name, className, ...rest } = {
+    ...defaultProps,
+    ...props,
+  };
   return (
     <svg
       {...rest}
@@ -31,16 +39,12 @@ const IconComponent: FC<PropsWithChildren<Props>> = (props) => {
       <use xlinkHref={'#' + name} />
       <style jsx={true}>{`
         .neat-icon {
-          width: ${sizeMap[size]}px;
-          height: ${sizeMap[size]}px;
+          width: ${sizeMap[size as size]}px;
+          height: ${sizeMap[size as size]}px;
         }
       `}</style>
     </svg>
   );
 };
-
-const Icon = withDefaults(IconComponent, defaultProps);
-
-export { Icon };
 
 export default Icon;
