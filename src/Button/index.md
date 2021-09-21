@@ -90,7 +90,7 @@ export default () => {
 };
 ```
 
-Button Type
+### Type
 
 ```tsx
 import React from 'react';
@@ -129,7 +129,7 @@ export default () => {
 };
 ```
 
-Light
+### Light - 亮
 
 ```tsx
 import React from 'react';
@@ -160,7 +160,7 @@ export default () => {
 };
 ```
 
-Ghost - 反色
+### Ghost - 反色
 
 ```tsx
 import React from 'react';
@@ -185,6 +185,22 @@ export default () => {
       <br />
       <Button auto type="error" ghost={true}>
         Error
+      </Button>
+    </>
+  );
+};
+```
+
+### Inner Icon
+
+```tsx
+import React from 'react';
+import { Button, Icon } from 'neat-ui-react';
+export default () => {
+  return (
+    <>
+      <Button icon={<Icon name="close" />} auto type="secondary" ghost={true}>
+        Close
       </Button>
     </>
   );

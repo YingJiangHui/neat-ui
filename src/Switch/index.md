@@ -1,10 +1,10 @@
 ---
 nav:
-  title: Switch
-  path: /components
+title: Switch
+path: /components
 
 group:
-  title: 数据收集
+title: 数据收集
 ---
 
 ## Switch

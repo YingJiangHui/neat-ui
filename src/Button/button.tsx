@@ -33,22 +33,67 @@ export type ButtonTypes =
   | 'error-light';
 export type NormalSizes = 'mini' | 'small' | 'medium' | 'large';
 type Props = {
+  /**
+   * @description       按钮宽度自动随字体的宽度变化
+   * @description.zh-CN 按钮宽度自动随字体的宽度变化
+   * @default           false
+   */
   auto?: boolean;
+  /**
+   * @description       边框阴影
+   * @description.zh-CN 边框阴影
+   * @default           false
+   */
   shadow?: boolean;
+  /**
+   * @description       按钮大小
+   * @description.zh-CN 按钮大小
+   * @default           medium
+   */
   size?: NormalSizes;
+  /**
+   * @description       按钮类型
+   * @description.zh-CN 按钮类型
+   * @default           default
+   */
   type?: ButtonTypes;
+  /**
+   * @description       按钮icon
+   * @description.zh-CN 按钮icon
+   * @default           -
+   */
   icon?: React.ReactNode;
+  /**
+   * @description       触发按钮加载
+   * @description.zh-CN 触发按钮加载
+   * @default           false
+   */
   loading?: boolean;
+  /**
+   * @description       定义元素html类型
+   * @description.zh-CN 定义元素html类型
+   * @default           "button"
+   */
   htmlType?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
+  /**
+   * @description       禁用按钮
+   * @description.zh-CN 禁用按钮
+   * @default           false
+   */
   disabled?: boolean;
+  /**
+   * @description       颜色反色（样式）
+   * @description.zh-CN 颜色反色（样式）
+   * @default           false
+   */
   ghost?: boolean;
 };
-export type ButtonProps = typeof defaultProps &
+export type ButtonProps = Partial<typeof defaultProps> &
   Props &
   HTMLAttributes<HTMLButtonElement>;
 const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProps>>(
   (props, ref) => {
-    const { children, icon, loading } = props;
+    const { children, icon, loading } = { ...defaultProps, ...props };
     const {
       buttonProps,
       theme,
@@ -78,7 +123,9 @@ const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProps>>(
             opacity={1}
           >
             <div className="text">
-              {icon} {children}
+              {React.isValidElement(icon) &&
+                React.cloneElement(icon, { fill: colors.color })}{' '}
+              {children}
             </div>
           </Loading.Container>
         </button>
@@ -92,6 +139,7 @@ const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProps>>(
             text-align: center;
             user-select: none;
           }
+
           .button > .text {
             font-size: inherit;
           }
@@ -113,6 +161,7 @@ const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProps>>(
             font-family: ${theme.font.sans};
             transition: ${theme.expressiveness.transition};
           }
+
           .button:hover,
           .button:focus {
             background: ${reaction.bg};
@@ -120,8 +169,14 @@ const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProps>>(
             color: ${reaction.color};
           }
         `}</style>
+        <style jsx global>{`
+          .button:hover .neat-icon,
+          .button:focus .neat-icon {
+            fill: ${reaction.color};
+          }
+        `}</style>
       </>
     );
   },
 );
-export default withDefaults(Button, defaultProps);
+export default Button;

@@ -24,10 +24,13 @@ const sizeMap: { [key in size]: number } = {
 const IconComponent: FC<PropsWithChildren<Props>> = (props) => {
   const { size, style, color, name, className, ...rest } = props;
   return (
-    <svg {...rest} className={classnames(className, 'icon', `${name}-icon`)}>
+    <svg
+      {...rest}
+      className={classnames(className, 'neat-icon', `${name}-icon`)}
+    >
       <use xlinkHref={'#' + name} />
       <style jsx={true}>{`
-        .icon {
+        .neat-icon {
           width: ${sizeMap[size]}px;
           height: ${sizeMap[size]}px;
         }
