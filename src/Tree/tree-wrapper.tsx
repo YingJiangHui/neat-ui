@@ -10,7 +10,9 @@ const defaultProps = {
   multiple: false,
 };
 
-export const TreeContext = createContext<ReturnType<typeof useTreeLogic>>(null);
+export const TreeContext = createContext<ReturnType<
+  typeof useTreeLogic
+> | null>(null);
 
 const TreeWrapper: FC<TreeProps> = (props) => {
   const { ...rest } = { ...defaultProps, ...props };

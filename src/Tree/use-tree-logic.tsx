@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Key, useEffect, useRef, useState } from 'react';
 import { TreeCompose, TreeEvent, TreeProps } from '@/Tree/tree';
 
 interface SetRefFn<T, V> {
@@ -22,9 +22,9 @@ export const useTreeLogic = (props: TreeProps) => {
   };
 
   const updateSelectedObject = (
-    key: string | number,
+    key: Key,
     selectObject: TreeCompose,
-    nativeEvent: React.MouseEvent<any, MouseEvent>,
+    nativeEvent: React.MouseEvent<HTMLElement, MouseEvent>,
   ) => {
     if (!selectMapRef.current) return;
 

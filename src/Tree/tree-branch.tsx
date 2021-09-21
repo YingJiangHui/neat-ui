@@ -17,8 +17,8 @@ export interface Branch extends React.HTMLAttributes<any> {
   name?: string;
   value?: Forest;
   autoExpand?: boolean;
-  onChange?: () => void;
   selected?: boolean;
+  onChange: () => void;
 }
 
 export type BranchProps = Partial<typeof defaultProps> & Branch;
@@ -35,7 +35,6 @@ const Branch: FC<PropsWithChildren<BranchProps>> = (props) => {
   } = props;
   const { isExpand, trigger, setHeightToAuto, directoryRef } =
     useBranchLogic(props);
-  const { selectedKeysIncludeTo } = useContext(TreeContext);
   const theme = useTheme();
   const renderChildrenNode = () => {
     if (value)

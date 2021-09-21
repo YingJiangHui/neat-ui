@@ -47,13 +47,14 @@ interface Tree extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
    * @description.zh-CN 选中一个结点时触发
    * @default           -
    */
-  onSelect?: (keys: (string | number)[], e: TreeEvent | {}) => void;
+  onSelect?: (keys?: (string | number)[], e?: TreeEvent | {}) => void;
   /**
    * @description       同时选中多个结点
    * @description.zh-CN 同时选中多个结点
    * @default           false
    */
   multiple?: boolean;
+  onChange: () => void;
 }
 
 export type TreeProps = Partial<typeof defaultProps> & Tree;
@@ -67,9 +68,9 @@ const Tree: FC<PropsWithChildren<TreeProps>> = ({
   ...rest
 }) => {
   const { updateSelectedObject, selectObject, selectedKeysIncludeTo } =
-    useContext(TreeContext);
+    useContext(TreeContext) || {};
   useUpdateEffect(() => {
-    onSelect?.(selectObject.keys, selectObject.e);
+    onSelect?.(selectObject?.keys, selectObject?.e);
   }, [selectObject]);
   const renderTree = useCallback(() => {
     return value?.map((props) => {
@@ -77,19 +78,19 @@ const Tree: FC<PropsWithChildren<TreeProps>> = ({
       return type === 'leaf' ? (
         <Leaf
           {...leafOrBranch}
-          selected={selectedKeysIncludeTo(leafOrBranch.key)}
+          selected={selectedKeysIncludeTo?.(leafOrBranch.key)}
           onClick={(e) => {
-            updateSelectedObject(leafOrBranch.key, props, e);
+            updateSelectedObject?.(leafOrBranch.key, props, e);
           }}
         />
       ) : (
         <Branch
           {...leafOrBranch}
-          selected={selectedKeysIncludeTo(leafOrBranch.key)}
+          selected={selectedKeysIncludeTo?.(leafOrBranch.key)}
           onChange={onChange}
           autoExpand={autoExpand}
           onClick={(e) => {
-            updateSelectedObject(leafOrBranch.key, props, e);
+            updateSelectedObject?.(leafOrBranch.key, props, e);
           }}
         />
       );
@@ -99,20 +100,28 @@ const Tree: FC<PropsWithChildren<TreeProps>> = ({
   const cloneChildren = () => {
     if (React.isValidElement(children))
       return Array.isArray(children)
-        ? children.map((children) =>
-            cloneElement(children, {
-              ...children?.props,
-              onClick: (e) => {
-                children?.onClick?.(e);
-                updateSelectedObject(children?.key, children?.props, e);
-              },
-            }),
+        ? children.map(
+            (
+              children: React.ReactElement<
+                any,
+                string | React.JSXElementConstructor<any>
+              >,
+            ) =>
+              cloneElement(children, {
+                ...children?.props,
+                onClick: (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+                  children?.props?.onClick?.(e);
+                  children?.key &&
+                    updateSelectedObject?.(children?.key, children?.props, e);
+                },
+              }),
           )
         : cloneElement(children, {
             ...children?.props,
-            onClick: (e) => {
-              children?.onClick?.(e);
-              updateSelectedObject(children?.key, children?.props, e);
+            onClick: (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+              children.props?.onClick?.(e);
+              children.key &&
+                updateSelectedObject?.(children.key, children?.props, e);
             },
           });
   };

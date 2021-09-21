@@ -15,7 +15,7 @@ import {
   getButtonCursor,
   getButtonHoverColors,
   getButtonSizes,
-} from '@/Button/styles';
+} from './styles';
 import Button from '@/Button/button';
 import useMouseDownPosition from '@/hooks/use-mouse-down-position';
 type ButtonComponentProps = Parameters<typeof Button>[0];
@@ -66,8 +66,10 @@ export const useButtonLogic = (
   );
   const [pressing, setPressing] = useState(false);
 
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  useImperativeHandle(ref, () => ({ ...buttonRef.current }));
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  useImperativeHandle(ref, () => ({
+    ...(buttonRef.current as HTMLButtonElement),
+  }));
   const pos = useMemo(() => {
     if (pressing)
       return {

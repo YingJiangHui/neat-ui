@@ -6,7 +6,6 @@ import React, {
 } from 'react';
 import useButtonLogic from '@/Button/useButtonLogic';
 import { Loading } from '@/Loading';
-import withDefaults from '@/utils/with-defaults';
 import Ripple from '@/shared/animation/Ripple';
 
 const defaultProps = {
