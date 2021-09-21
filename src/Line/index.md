@@ -5,9 +5,7 @@ nav:
   path: /components
 
 group:
-  title: Basic
-
-  path: /basic
+  title: 布局
 ---
 
 ## Line

@@ -4,9 +4,7 @@ nav:
 
   path: /components
 group:
-  title: Basic
-
-  path: /basic
+  title: 反应
 ---
 
 ## Loading

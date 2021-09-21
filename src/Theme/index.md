@@ -2,6 +2,9 @@
 nav:
   title: Theme
   path: /components
+
+group:
+  title: 主题
 ---
 
 ## Theme

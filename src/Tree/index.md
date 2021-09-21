@@ -4,9 +4,7 @@ nav:
   path: /components
 
 group:
-  title: Basic
-
-  path: /basic
+  title: 数据展示
 ---
 
 ## Tree

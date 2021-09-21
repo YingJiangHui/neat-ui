@@ -4,9 +4,7 @@ nav:
 
   path: /components
 group:
-  title: Basic
-
-  path: /basic
+  title: 通用
 ---
 
 ## Button
