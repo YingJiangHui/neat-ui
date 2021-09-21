@@ -35,13 +35,22 @@ const Loading: FC<Props> = ({ size, color, children, ...rest }) => {
         .loading > i {
           width: ${width}px;
           height: ${width}px;
-          margin-right: 2px;
+          background: ${color || theme.palette.grayscale_8};
         }
       `}</style>
       <style jsx>{`
-        .loading > i {
+        .loading-container {
           display: inline-block;
-          background: ${color || theme.palette.grayscale_8};
+        }
+
+        .loading {
+          display: flex;
+          align-items: center;
+        }
+
+        .loading > i {
+          margin-right: 2px;
+          display: inline-block;
           border-radius: 50%;
           animation: loading-zoom 1.4s infinite both;
         }

@@ -10,18 +10,20 @@ const defaultProps = {
 };
 
 interface Props extends React.HTMLAttributes<any> {
-  whenPullingReactNode?: React.ReactNode;
   waitingDistance?: number;
   updatableDistance?: number;
   maxPullDownDistance?: number;
-  completedWaitTime?: number;
+  completedStayTime?: number;
   upGlideLoading?: boolean;
   pullDownUpdating?: boolean;
   enableUpGlideLoad?: boolean; // 启用下滑加载 default false
-  enablePullDownUpdate?: boolean; // 禁用下拉更新 default false
+  enablePullDownUpdate?: boolean; // 启用下拉更新 default false
   onPullDownUpdate?: (status: PullDownStatus) => void;
   onUpGlideLoad?: () => void;
-  onChange?: (status: PullDownStatus, updatableRate: number) => void;
+  customPullingAnimation?: (
+    status: PullDownStatus,
+    updatableRate: number,
+  ) => React.ReactNode;
   customLoadingNode?: React.ReactNode;
 }
 
@@ -29,17 +31,16 @@ export type ScrollProps = Props & Partial<typeof defaultProps>;
 const Scroll: FC<React.PropsWithChildren<ScrollProps>> = (props) => {
   const {
     children,
-    upGlideLoading,
     customLoadingNode,
     className,
     style,
-    whenPullingReactNode,
+    customPullingAnimation,
     ...rest
   } = {
     ...defaultProps,
     ...props,
   };
-  const { getScrollPropsMap } = useScrollLogic(rest);
+  const { getScrollPropsMap, status, updatableRate } = useScrollLogic(rest);
   const {
     getPullingAnimationProps,
     getScrollContainerProps,
@@ -53,14 +54,14 @@ const Scroll: FC<React.PropsWithChildren<ScrollProps>> = (props) => {
           className="pull-animation-wrapper"
           {...getPullingAnimationProps?.()}
         >
-          {whenPullingReactNode}
+          {customPullingAnimation?.(status, updatableRate)}
         </div>
         <div
           className={classnames(className, 'content')}
           {...getScrollContainerProps?.({ style })}
         >
           {children}
-          {upGlideLoading ? (
+          {props.upGlideLoading ? (
             <div className="loading-wrapper">{customLoadingNode}</div>
           ) : (
             ''

@@ -77,7 +77,7 @@ const useScrollLogic = (props: useScrollProps) => {
     updatableDistance = 100,
     waitingDistance = 60,
     maxPullDownDistance = 9999,
-    completedWaitTime = 0,
+    completedStayTime = 0,
     upGlideLoading = false,
     pullDownUpdating = false,
     enablePullDownUpdate = false,
@@ -86,13 +86,12 @@ const useScrollLogic = (props: useScrollProps) => {
     onUpGlideLoad: _onUpGlideLoad,
   } = props;
   const { count, increment, reset } = useCounter();
-  const completedWaitTimer = useTimeout(completedWaitTime, () => {
+  const completedWaitTimer = useTimeout(completedStayTime, () => {
     setPullTop(0);
   });
   const barVisibleTimer = useTimeout(5000, () => {
     setBarVisible(false);
   });
-
   const [barHeight, setBarHeight] = useState(0);
   const [barTop, _setBarTop] = useState(0);
   const [pullTop, _setPullTop] = useState(0);
@@ -155,7 +154,11 @@ const useScrollLogic = (props: useScrollProps) => {
   );
   const updatableRate = useMemo(
     () =>
-      pullTop >= updatableDistance ? 100 : (pullTop / updatableDistance) * 100,
+      Math.floor(
+        pullTop >= updatableDistance
+          ? 100
+          : (pullTop / updatableDistance) * 100,
+      ),
     [pullTop, updatableDistance],
   );
 
@@ -287,8 +290,6 @@ const useScrollLogic = (props: useScrollProps) => {
     scrollHeight: number;
     viewHeight: number;
   }) => {
-    console.log('inner loading', upGlideLoading);
-
     if (
       scrollTop + viewHeight + 300 >= scrollHeight &&
       lastScrollTop.current < scrollTop &&
@@ -324,7 +325,7 @@ const useScrollLogic = (props: useScrollProps) => {
     setPullTop(waitingDistance);
   };
   const onCompleted = () => {
-    if (completedWaitTime !== 0) {
+    if (completedStayTime !== 0) {
       completedWaitTimer.trigger();
     } else {
       setPullTop(0);
@@ -397,6 +398,8 @@ const useScrollLogic = (props: useScrollProps) => {
       getPullingAnimationProps,
       getTrackProps,
     },
+    updatableRate,
+    status,
   };
 };
 
