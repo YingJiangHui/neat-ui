@@ -4,34 +4,95 @@ import classnames from '@/shared/classnames';
 import { Loading } from '@/Loading';
 
 const defaultProps = {
-  customLoadingNode: <Loading />,
+  loadingNode: <Loading />,
   enableUpGlideLoad: false,
   enablePullDownUpdate: false,
 };
 
 interface Props extends React.HTMLAttributes<any> {
-  waitingDistance?: number;
+  /**
+   * @description       更新时内容于顶部的距离
+   * @description.zh-CN 更新时内容于顶部的距离
+   * @default           60px
+   */
+  stayDistance?: number;
+  /**
+   * @description       下拉到多少距离可以触发更新
+   * @description.zh-CN 下拉到多少距离可以触发更新
+   * @default           100px
+   */
   updatableDistance?: number;
+  /**
+   * @description       最大可下拉的距离
+   * @description.zh-CN 最大可下拉的距离
+   * @default           9999px
+   */
   maxPullDownDistance?: number;
+  /**
+   * @description       更新成功后下拉动画停留的时间
+   * @description.zh-CN 更新成功后下拉动画停留的时间
+   * @default           0
+   */
   completedStayTime?: number;
+  /**
+   * @description       下滑加载，加载中
+   * @description.zh-CN 下滑加载，加载中
+   * @default           false
+   */
   upGlideLoading?: boolean;
+  /**
+   * @description       下拉更新，加载中
+   * @description.zh-CN 下拉更新，加载中
+   * @default           false
+   */
   pullDownUpdating?: boolean;
+  /**
+   * @description       启用下滑加载
+   * @description.zh-CN 启用下滑加载
+   * @default           false
+   */
   enableUpGlideLoad?: boolean; // 启用下滑加载 default false
-  enablePullDownUpdate?: boolean; // 启用下拉更新 default false
+
+  /**
+   * @description       启用下拉更新
+   * @description.zh-CN 启用下拉更新
+   * @default           false
+   */
+  enablePullDownUpdate?: boolean;
+  /**
+   * @description       下拉更新事件
+   * @description.zh-CN 下拉更新事件
+   * @default           -
+   */
   onPullDownUpdate?: (status: PullDownStatus) => void;
+  /**
+   * @description       下滑加载事件
+   * @description.zh-CN 下滑加载事件
+   * @default           -
+   */
   onUpGlideLoad?: () => void;
+  /**
+   * @description       自定义下拉更新动画
+   * @description.zh-CN 自定义下拉更新动画
+   * @default           -
+   */
   customPullingAnimation?: (
     status: PullDownStatus,
     updatableRate: number,
   ) => React.ReactNode;
-  customLoadingNode?: React.ReactNode;
+  /**
+   * @description       定义加载动画
+   * @description.zh-CN 定义加载动画
+   * @default           <Loading/>
+   */
+  loadingNode?: React.ReactNode;
 }
 
 export type ScrollProps = Props & Partial<typeof defaultProps>;
 const Scroll: FC<React.PropsWithChildren<ScrollProps>> = (props) => {
   const {
     children,
-    customLoadingNode,
+    loadingNode,
     className,
     style,
     customPullingAnimation,
@@ -62,7 +123,7 @@ const Scroll: FC<React.PropsWithChildren<ScrollProps>> = (props) => {
         >
           {children}
           {props.upGlideLoading ? (
-            <div className="loading-wrapper">{customLoadingNode}</div>
+            <div className="loading-wrapper">{loadingNode}</div>
           ) : (
             ''
           )}

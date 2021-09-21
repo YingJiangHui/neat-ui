@@ -75,7 +75,7 @@ const statusList: PullDownStatus[] = Array.from(
 const useScrollLogic = (props: useScrollProps) => {
   const {
     updatableDistance = 100,
-    waitingDistance = 60,
+    stayDistance = 60,
     maxPullDownDistance = 9999,
     completedStayTime = 0,
     upGlideLoading = false,
@@ -322,7 +322,7 @@ const useScrollLogic = (props: useScrollProps) => {
     if (!touchTriggerRef.current) setPullTop(0);
   };
   const onUpdating = () => {
-    setPullTop(waitingDistance);
+    setPullTop(stayDistance);
   };
   const onCompleted = () => {
     if (completedStayTime !== 0) {

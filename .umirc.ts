@@ -29,7 +29,6 @@ export default defineConfig({
   apiParser: {
     propFilter: {
       skipNodeModules: true,
-      skipPropsWithoutDoc: true,
     },
   },
   chainWebpack,

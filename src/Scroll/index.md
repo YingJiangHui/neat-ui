@@ -49,6 +49,7 @@ export default () => {
     <>
       <div style={{ width: 300, height: '50vh', border: '1px solid black' }}>
         <Scroll
+          upGlideLoading={loading}
           pullDownUpdating={loading}
           enablePullDownUpdate={true}
           onPullDownUpdate={(status) => {
@@ -97,7 +98,7 @@ const request = (): Promise<{ name: string; age: number }[]> => {
         age: Math.floor(Math.random() * 100),
       });
       resolve(a);
-    }, 1000);
+    }, 5000);
   });
 };
 export default () => {
@@ -114,7 +115,7 @@ export default () => {
   return (
     <>
       <div style={{ width: 300, height: '50vh', border: '1px solid black' }}>
-        <Scroll style={{ paddingLeft: '1em' }}>
+        <Scroll upGlideLoading={loading} style={{ paddingLeft: '1em' }}>
           {data.map((data, index) => (
             <div>
               id：{index + 1}，姓名：{data.name}，年龄：{data.age}
@@ -221,6 +222,7 @@ export default () => {
     <>
       <div style={{ width: 300, height: '50vh', border: '1px solid black' }}>
         <Scroll
+          upGlideLoading={loading}
           pullDownUpdating={loading}
           enablePullDownUpdate={true}
           onPullDownUpdate={(status) => {
