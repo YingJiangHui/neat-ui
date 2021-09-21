@@ -4,7 +4,17 @@ import LoadingContainer from '@/Loading/loading-container';
 import { useTheme } from '@/hooks/use-theme';
 
 interface LoadingProps {
+  /**
+   * @description       Loading动画的大小
+   * @description.zh-CN Loading动画的大小
+   * @default           middle
+   */
   size?: 'small' | 'middle' | 'large';
+  /**
+   * @description       Loading动画基础颜色
+   * @description.zh-CN Loading动画基础颜色
+   * @default           随主题变化
+   */
   color?: string;
 }
 

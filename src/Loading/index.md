@@ -64,16 +64,51 @@ export default () => (
 
 ```tsx
 import React, { useState } from 'react';
-import { Loading } from 'neat-ui-react';
+import { Loading, Button } from 'neat-ui-react';
 
 export default () => {
   const [loading, setLoading] = useState(false);
   return (
     <>
+      <Button onClick={() => setLoading((loading) => !loading)}>
+        {loading ? 'stop' : 'loading'}
+      </Button>
       <Loading.Container loading={loading}>
-        <p>这是一段内容</p>
+        <p>
+          一段文字。一段文字。一段文字。一段文字。一段文字。一段文字。一段文字。一段文字
+        </p>
+        <p>一段文字</p>
       </Loading.Container>
-      <button onClick={() => setLoading((loading) => !loading)}>off</button>
+    </>
+  );
+};
+```
+
+其他配置
+
+```tsx
+import React, { useState } from 'react';
+import { Loading, Button, useTheme } from 'neat-ui-react';
+
+export default () => {
+  const [loading, setLoading] = useState(false);
+  const theme = useTheme();
+  return (
+    <>
+      <Button onClick={() => setLoading((loading) => !loading)}>
+        {loading ? 'stop' : 'loading'}
+      </Button>
+      <Loading.Container
+        iconColor={theme.palette.warning}
+        opacity={1}
+        maskColor={theme.palette.success}
+        loading={loading}
+      >
+        <p>
+          一段文字。一段文字。一段文字。一段文字。一段文字。一段文字。一段文字。一段文字
+        </p>
+        <p>一段文字</p>
+      </Loading.Container>
     </>
   );
 };

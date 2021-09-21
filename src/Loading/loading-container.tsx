@@ -1,37 +1,70 @@
 import React, { FC, HTMLAttributes, PropsWithChildren } from 'react';
-import withDefaults from '@/utils/with-defaults';
 import Loading from './loading';
 import classnames from '@/shared/classnames';
 
 interface LoadingContainerProps {
+  /**
+   * @description       自定义loading动画
+   * @description.zh-CN 自定义loading动画
+   * @default           <Loading/>
+   */
   indicator?: React.ReactNode;
+  /**
+   * @description       加载中
+   * @description.zh-CN 加载中
+   * @default           false
+   */
   loading?: boolean;
+  /**
+   * @description       遮罩透明度
+   * @description.zh-CN 遮罩透明度
+   * @default           0.5
+   */
   opacity?: number;
+  /**
+   * @description       遮罩颜色
+   * @description.zh-CN 遮罩颜色
+   * @default           #fff
+   */
   maskColor?: string;
+  /**
+   * @description       loading 动画的基础颜色
+   * @description.zh-CN loading 动画的基础颜色
+   * @default           随主题变化
+   */
   iconColor?: string;
 }
+
 const defaultProps: LoadingContainerProps = {
+  indicator: <Loading />,
   loading: false,
   opacity: 0.5,
   maskColor: '#fff',
 };
 type Props = PropsWithChildren<
-  typeof defaultProps & LoadingContainerProps & HTMLAttributes<any>
+  Partial<typeof defaultProps> & LoadingContainerProps & HTMLAttributes<any>
 >;
-const LoadingContainer: FC<Props> = ({
-  loading,
-  indicator,
-  children,
-  opacity,
-  maskColor,
-  iconColor,
-  ...rest
-}) => {
+const LoadingContainer: FC<Props> = (props) => {
+  const {
+    loading,
+    indicator,
+    children,
+    opacity,
+    maskColor,
+    iconColor,
+    ...rest
+  } = { ...defaultProps, ...props };
   return (
     <div className="loading-container-wrapper">
       {loading && (
         <div className="loading-mask">
-          {indicator || <Loading color={iconColor} />}
+          <div className={'loading-animation'}>
+            {React.isValidElement(indicator) &&
+              React.cloneElement(indicator, {
+                ...indicator.props,
+                color: iconColor,
+              })}
+          </div>
         </div>
       )}
       <div
@@ -43,6 +76,11 @@ const LoadingContainer: FC<Props> = ({
       <style jsx>{`
         .loading-container-wrapper {
           position: relative;
+        }
+
+        .loading-animation {
+          display: flex;
+          z-index: 15;
         }
 
         .loading-mask {
@@ -59,10 +97,6 @@ const LoadingContainer: FC<Props> = ({
 
         .loading-container {
           transition: opacity 0.25s;
-        }
-
-        .loading-blur {
-          opacity: 0.5;
         }
 
         .loading-blur::after {
@@ -83,4 +117,4 @@ const LoadingContainer: FC<Props> = ({
     </div>
   );
 };
-export default withDefaults(LoadingContainer, defaultProps);
+export default LoadingContainer;
