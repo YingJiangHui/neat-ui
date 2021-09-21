@@ -24,6 +24,6 @@ const TreeWrapper: FC<TreeProps> = (props) => {
 
 const TreeWithDefaults = withDefaults(TreeWrapper, defaultProps);
 export default TreeWithDefaults as typeof TreeWithDefaults & {
-  File: typeof Leaf;
-  Folder: typeof Branch;
+  Leaf: typeof Leaf;
+  Branch: typeof Branch;
 };

@@ -23,8 +23,16 @@ export interface Branch extends React.HTMLAttributes<any> {
 
 export type BranchProps = Partial<typeof defaultProps> & Branch;
 const Branch: FC<PropsWithChildren<BranchProps>> = (props) => {
-  const { children, name, value, onClick, className, selected, ...rest } =
-    props;
+  const {
+    children,
+    name,
+    value,
+    onClick,
+    autoExpand,
+    className,
+    selected,
+    ...rest
+  } = props;
   const { isExpand, trigger, setHeightToAuto, directoryRef } =
     useBranchLogic(props);
   const { selectedKeysIncludeTo } = useContext(TreeContext);
@@ -36,6 +44,7 @@ const Branch: FC<PropsWithChildren<BranchProps>> = (props) => {
           onChange={() => {
             setHeightToAuto();
           }}
+          autoExpand={autoExpand}
           value={value}
         />
       );
@@ -92,7 +101,7 @@ const Branch: FC<PropsWithChildren<BranchProps>> = (props) => {
         .tree-compose {
           overflow: hidden;
           transition: height 300ms;
-          margin: 0.5rem 0 0.5rem 1rem;
+          margin: 0.2rem 0 0.2rem 1rem;
           min-height: 0;
         }
         ul {

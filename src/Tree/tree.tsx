@@ -30,10 +30,29 @@ export interface TreeEvent {
 }
 
 interface Tree extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
+  /**
+   * @description       接受一片森林
+   * @description.zh-CN 接受一片森林
+   * @default           -
+   */
   value?: Forest;
-  onChange?: () => void;
+  /**
+   * @description       自动展开树组件
+   * @description.zh-CN 自动展开树组件
+   * @default           false
+   */
   autoExpand?: boolean;
+  /**
+   * @description       选中一个结点时触发
+   * @description.zh-CN 选中一个结点时触发
+   * @default           -
+   */
   onSelect?: (keys: (string | number)[], e: TreeEvent | {}) => void;
+  /**
+   * @description       同时选中多个结点
+   * @description.zh-CN 同时选中多个结点
+   * @default           false
+   */
   multiple?: boolean;
 }
 
@@ -78,23 +97,24 @@ const Tree: FC<PropsWithChildren<TreeProps>> = ({
   }, [value, selectObject]);
 
   const cloneChildren = () => {
-    return Array.isArray(children)
-      ? children.map((children) =>
-          cloneElement(children || <></>, {
+    if (React.isValidElement(children))
+      return Array.isArray(children)
+        ? children.map((children) =>
+            cloneElement(children, {
+              ...children?.props,
+              onClick: (e) => {
+                children?.onClick?.(e);
+                updateSelectedObject(children?.key, children?.props, e);
+              },
+            }),
+          )
+        : cloneElement(children, {
             ...children?.props,
             onClick: (e) => {
               children?.onClick?.(e);
               updateSelectedObject(children?.key, children?.props, e);
             },
-          }),
-        )
-      : cloneElement(children || <></>, {
-          ...children?.props,
-          onClick: (e) => {
-            children?.onClick?.(e);
-            updateSelectedObject(children?.key, children?.props, e);
-          },
-        });
+          });
   };
 
   const renderChildren = useMemo(() => {
