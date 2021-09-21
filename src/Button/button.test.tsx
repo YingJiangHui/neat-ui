@@ -17,7 +17,7 @@ describe('useButtonLogic 测试用例', () => {
     const { result } = renderHook(() => useButtonLogic({}));
     expect(result.current.colors).toEqual({
       bg: palette.background,
-      color: palette.grayscale_5,
+      color: palette.grayscale_6,
       border: palette.border,
     });
   });

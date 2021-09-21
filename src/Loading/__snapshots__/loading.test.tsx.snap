@@ -18,15 +18,24 @@ Array [
         .loading &gt; i {
           width: 6px;
           height: 6px;
-          margin-right: 2px;
+          background: #333;
         }
       
   </style>,
   <style>
     
-        .loading &gt; i {
+        .loading-container {
           display: inline-block;
-          background: #333;
+        }
+
+        .loading {
+          display: flex;
+          align-items: center;
+        }
+
+        .loading &gt; i {
+          margin-right: 2px;
+          display: inline-block;
           border-radius: 50%;
           animation: loading-zoom 1.4s infinite both;
         }

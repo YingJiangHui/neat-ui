@@ -4,7 +4,6 @@ import Checkbox from '@/Checkbox/checkbox';
 import { render } from 'react-dom';
 import React, { useState } from 'react';
 import { renderHook, act as actHook } from '@testing-library/react-hooks';
-import useButtonLogic from '@/Button/useButtonLogic';
 
 const { unMount, mount, getContainer } = useContainer();
 
@@ -38,11 +37,7 @@ describe('checkbox unit test', () => {
   });
   it('使用state控制是否选中（受控）', () => {
     const container = getContainer();
-    const {
-      result: {
-        current: [checked, setChecked],
-      },
-    } = renderHook(() => useState(false));
+    let checked = false;
     act(() => {
       render(
         <Checkbox
@@ -64,20 +59,13 @@ describe('checkbox unit test', () => {
         <Checkbox
           checked={checked}
           onChange={(e) => {
-            console.log(2);
-            // actHook(()=>{
-            //   setChecked(e.target?.checked);
-            // })
+            checked = e.target?.checked;
           }}
         />,
         container,
       );
     });
-    console.log(0);
     input?.click();
-    console.log(1);
-    // actHook(() => {
-    // });
     expect(checked).toBeTruthy();
   });
 });
