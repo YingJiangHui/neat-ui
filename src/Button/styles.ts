@@ -46,7 +46,7 @@ export const getButtonColors = (
   const colors: { [K in ButtonTypes]?: ButtonColors } = {
     default: {
       bg: palette.background,
-      color: palette.grayscale_5,
+      color: palette.grayscale_6,
       border: palette.border,
     },
     success: {

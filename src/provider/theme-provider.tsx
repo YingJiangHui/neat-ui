@@ -5,6 +5,11 @@ import { ThemesConfig, ThemesContext } from '@/hooks/use-themes';
 import Theme, { NeatUIUserTheme } from '@/themes/themes';
 
 export interface ThemeProviderProps {
+  /**
+   * @description       row 和 col 之间的间隙
+   * @description.zh-CN row 和 col 之间的间隙
+   * @default           0
+   */
   themeType?: ThemeType;
   themes?: NeatUIUserTheme[];
 }
