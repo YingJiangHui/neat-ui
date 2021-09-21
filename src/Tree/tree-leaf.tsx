@@ -7,7 +7,7 @@ const defaultProps = {
   selected: false,
 };
 
-interface Leaf extends HTMLAttributes<any> {
+interface Leaf extends HTMLAttributes<HTMLElement> {
   name?: string;
   selected?: boolean;
 }
@@ -20,12 +20,8 @@ const Leaf: FC<PropsWithChildren<LeafProps>> = ({
   ...rest
 }) => {
   const theme = useTheme();
-  const onClick = (e: React.MouseEvent<any, MouseEvent>) => {
-    // e.stopPropagation()
-    rest.onClick?.(e);
-  };
   return (
-    <li {...rest} className={classnames(rest.className)} onClick={onClick}>
+    <li {...rest} className={classnames(rest.className)}>
       <span className={classnames(selected && 'leaf-selected', 'leaf-name')}>
         {' '}
         {name || children}

@@ -66,8 +66,10 @@ export const useButtonLogic = (
   );
   const [pressing, setPressing] = useState(false);
 
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  useImperativeHandle(ref, () => ({ ...buttonRef.current }));
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  useImperativeHandle(ref, () => ({
+    ...(buttonRef.current as HTMLButtonElement),
+  }));
   const pos = useMemo(() => {
     if (pressing)
       return {
