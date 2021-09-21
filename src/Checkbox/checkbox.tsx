@@ -11,9 +11,29 @@ import { Icon } from '@/Icon';
 const defaultProps = {};
 
 interface Props {
+  /**
+   * @description       默认选中
+   * @description.zh-CN 默认选中
+   * @default           false
+   */
   defaultChecked?: boolean;
+  /**
+   * @description       选中（受控）
+   * @description.zh-CN 选中（受控）
+   * @default           false
+   */
   checked?: boolean;
+  /**
+   * @description       禁用
+   * @description.zh-CN 禁用
+   * @default           false
+   */
   disabled?: boolean;
+  /**
+   * @description       未知的
+   * @description.zh-CN 未知的
+   * @default           false
+   */
   indeterminate?: boolean;
 }
 
@@ -36,7 +56,7 @@ export const Checkbox: FC<PropsWithChildren<CheckboxProps>> = (props) => {
   }, [indeterminate]);
 
   return (
-    <>
+    <div className="neat-checkbox-wrapper">
       <input
         {...rest}
         ref={inputRef}
@@ -98,6 +118,10 @@ export const Checkbox: FC<PropsWithChildren<CheckboxProps>> = (props) => {
       </style>
 
       <style jsx>{`
+        .neat-checkbox-wrapper {
+          display: inline-block;
+        }
+
         .checkbox + .checkbox-ui {
           transition: color 0.1s, background-color 0.2s;
         }
@@ -131,7 +155,7 @@ export const Checkbox: FC<PropsWithChildren<CheckboxProps>> = (props) => {
           display: none;
         }
       `}</style>
-    </>
+    </div>
   );
 };
 

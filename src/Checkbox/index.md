@@ -12,37 +12,73 @@ group:
 ### 基础使用
 
 ```jsx
+import React from 'react';
+import { Space, Checkbox } from 'neat-ui-react';
+
+export default () => (
+  <Space>
+    <Checkbox /> <Checkbox defaultChecked />
+  </Space>
+);
+```
+
+### 受控组件
+
+```jsx
 import React, { useState } from 'react';
-import { Checkbox, Button } from 'neat-ui-react';
+import { Checkbox, Button, Space } from 'neat-ui-react';
 
 export default () => {
   const [checked, setChecked] = useState(true);
-  const [indeterminate, setIndeterminate] = useState(false);
   return (
-    <>
-      <Button
-        onClick={() => {
-          setChecked((checked) => !checked);
-        }}
-      >
-        check
-      </Button>
-      <Button
-        onClick={() => {
-          setIndeterminate((checked) => !checked);
-        }}
-      >
-        indeterminate
-      </Button>
+    <Space>
       <Checkbox
-        indeterminate={indeterminate}
+        checked={!checked}
+        onChange={(e) => {
+          setChecked(!e.target.checked);
+        }}
+      />
+      <Checkbox
         checked={checked}
         onChange={(e) => {
           setChecked(e.target.checked);
         }}
       />
-      <Checkbox defaultChecked={checked} />
-    </>
+    </Space>
   );
 };
 ```
+
+### 未知的状态
+
+```jsx
+import React, { useState } from 'react';
+import { Checkbox, Button, Space } from 'neat-ui-react';
+
+export default () => {
+  return (
+    <Space>
+      <Checkbox indeterminate={true} />
+    </Space>
+  );
+};
+```
+
+### 禁用
+
+```jsx
+import React, { useState } from 'react';
+import { Checkbox, Button, Space } from 'neat-ui-react';
+
+export default () => {
+  return (
+    <Space>
+      <Checkbox disabled />
+      <Checkbox disabled checked />
+      <Checkbox disabled indeterminate />
+    </Space>
+  );
+};
+```
+
+<API src="checkbox.tsx"></API>

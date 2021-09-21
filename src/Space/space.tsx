@@ -16,9 +16,29 @@ const defaultProps: Required<Props> = {
 type SpaceSize = 'small' | 'medium' | 'large' | number;
 
 interface Props {
+  /**
+   * @description       间隙大小
+   * @description.zh-CN 间隙大小
+   * @default           medium
+   */
   size?: SpaceSize | [SpaceSize, SpaceSize];
+  /**
+   * @description       水平位置
+   * @description.zh-CN 水平位置
+   * @default           normal
+   */
   align?: 'center' | 'start' | 'end' | 'baseline' | 'normal';
+  /**
+   * @description       布局方向
+   * @description.zh-CN 布局方向
+   * @default           horizontal
+   */
   direction?: 'vertical' | 'horizontal';
+  /**
+   * @description       溢出是否换行
+   * @description.zh-CN 溢出是否换行
+   * @default           false
+   */
   wrap?: boolean;
 }
 

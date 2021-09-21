@@ -9,7 +9,7 @@ group:
 
 ## Space
 
-### Basics
+### 基础使用
 
 ```tsx
 import React, { useState } from 'react';
@@ -27,7 +27,7 @@ export default () => {
 };
 ```
 
-### Size
+### 使用 size
 
 ```tsx
 import React, { useState } from 'react';
@@ -75,7 +75,7 @@ export default () => {
 };
 ```
 
-### Direction
+### 使用 direction
 
 ```tsx
 import React, { useState } from 'react';
@@ -94,7 +94,7 @@ export default () => {
 };
 ```
 
-### Wrap
+### 使用 wrap
 
 ```tsx
 import React, { useState } from 'react';
@@ -220,3 +220,5 @@ export default () => {
   );
 };
 ```
+
+<API src="Space.tsx"></API>
