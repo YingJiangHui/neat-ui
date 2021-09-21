@@ -1,19 +1,45 @@
 import React, { FC } from 'react';
-import { GetScrollPropsMap } from '@/Scroll/useScroll';
+import useScrollLogic, { PullDownStatus } from '@/Scroll/useScrollLogic';
+import classnames from '@/shared/classnames';
+import { Loading } from '@/Loading';
 
-const defaultProps = {};
+const defaultProps = {
+  customLoadingNode: <Loading />,
+  enableUpGlideLoad: false,
+  enablePullDownUpdate: false,
+};
 
 interface Props extends React.HTMLAttributes<any> {
   whenPullingReactNode?: React.ReactNode;
-  getScrollPropsMap?: GetScrollPropsMap;
+  waitingDistance?: number;
+  updatableDistance?: number;
+  maxPullDownDistance?: number;
+  completedWaitTime?: number;
+  upGlideLoading?: boolean;
+  pullDownUpdating?: boolean;
+  enableUpGlideLoad?: boolean; // 启用下滑加载 default false
+  enablePullDownUpdate?: boolean; // 禁用下拉更新 default false
+  onPullDownUpdate?: (status: PullDownStatus) => void;
+  onUpGlideLoad?: () => void;
+  onChange?: (status: PullDownStatus, updatableRate: number) => void;
+  customLoadingNode?: React.ReactNode;
 }
 
-type ScrollProps = Props & Partial<typeof defaultProps>;
+export type ScrollProps = Props & Partial<typeof defaultProps>;
 const Scroll: FC<React.PropsWithChildren<ScrollProps>> = (props) => {
-  const { children, whenPullingReactNode, getScrollPropsMap } = {
+  const {
+    children,
+    upGlideLoading,
+    customLoadingNode,
+    className,
+    style,
+    whenPullingReactNode,
+    ...rest
+  } = {
     ...defaultProps,
     ...props,
   };
+  const { getScrollPropsMap } = useScrollLogic(rest);
   const {
     getPullingAnimationProps,
     getScrollContainerProps,
@@ -29,7 +55,17 @@ const Scroll: FC<React.PropsWithChildren<ScrollProps>> = (props) => {
         >
           {whenPullingReactNode}
         </div>
-        <main {...getScrollContainerProps?.()}>{children}</main>
+        <div
+          className={classnames(className, 'content')}
+          {...getScrollContainerProps?.({ style })}
+        >
+          {children}
+          {upGlideLoading ? (
+            <div className="loading-wrapper">{customLoadingNode}</div>
+          ) : (
+            ''
+          )}
+        </div>
         <div className="bar-track" {...getTrackProps?.()}>
           <div className="bar" {...getScrollBarProps?.()} />
         </div>
@@ -37,7 +73,6 @@ const Scroll: FC<React.PropsWithChildren<ScrollProps>> = (props) => {
       <style jsx>{`
         .neat-scroll {
           position: relative;
-          border: 1px solid red;
           overflow: hidden;
           height: 100%;
         }
@@ -49,8 +84,7 @@ const Scroll: FC<React.PropsWithChildren<ScrollProps>> = (props) => {
           justify-content: center;
         }
 
-        main {
-          border: 1px solid blue;
+        .content {
           overflow: auto;
           position: absolute;
           left: 0;
@@ -73,6 +107,13 @@ const Scroll: FC<React.PropsWithChildren<ScrollProps>> = (props) => {
           position: absolute;
           left: 10%;
           background: rgba(0, 0, 0, 0.15);
+        }
+
+        .loading-wrapper {
+          text-align: center;
+          margin-top: 0.5em;
+          margin-bottom: 0.5em;
+          width: 100%;
         }
       `}</style>
     </>

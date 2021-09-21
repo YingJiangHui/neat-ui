@@ -4,6 +4,8 @@ import useCalculateScrollBarWidth from './useCalculateScrollBarWidth';
 import useTimeout from '@/hooks/useTimeout';
 import mixExec from '@/utils/mixExec';
 import useCounter from '@/hooks/useCounter';
+import { ScrollProps } from '@/Scroll/scroll';
+import useUpdateEffect from '@/hooks/useUpdateEffect';
 
 type DivFunc = (
   props?: React.HTMLAttributes<HTMLDivElement>,
@@ -49,17 +51,7 @@ export interface GetScrollPropsMap {
   getPullingAnimationProps: DivFunc;
   getTrackProps: DivFunc;
 }
-export interface useScrollProps {
-  onEvent?: () => PullDownEventMap;
-  waitingDistance?: number;
-  updatableDistance?: number;
-  maxPullDownDistance?: number;
-  completedWaitTime?: number;
-  upGlideLoading?: boolean;
-  pullDownUpdating?: boolean;
-  enableUpGlideLoad?: boolean; // 启用下滑加载 default false
-  disablePullDownUpdate?: boolean; // 禁用下拉更新 default false
-}
+export interface useScrollProps extends ScrollProps {}
 
 const lifeCycleMap: { disUpdate: disStatus[]; updatable: ableStatus[] } = {
   updatable: ['updatable', 'updating', 'completed', 'none'],
@@ -80,17 +72,18 @@ const statusList: PullDownStatus[] = Array.from(
   ),
 );
 
-const useScroll = (props: useScrollProps) => {
+const useScrollLogic = (props: useScrollProps) => {
   const {
     updatableDistance = 100,
     waitingDistance = 60,
-    onEvent,
     maxPullDownDistance = 9999,
     completedWaitTime = 0,
     upGlideLoading = false,
     pullDownUpdating = false,
-    disablePullDownUpdate = false,
+    enablePullDownUpdate = false,
     enableUpGlideLoad = false,
+    onPullDownUpdate,
+    onUpGlideLoad: _onUpGlideLoad,
   } = props;
   const { count, increment, reset } = useCounter();
   const completedWaitTimer = useTimeout(completedWaitTime, () => {
@@ -117,7 +110,7 @@ const useScroll = (props: useScrollProps) => {
   const touchTriggerRef = useRef(false);
   const lastScrollTop = useRef<number>(0);
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     const onStatusEventMap: Omit<
       PullDownStatusToOtherMap<'Event'>,
       'onCanceledUpdating' | 'onUpGlideLoad'
@@ -129,7 +122,7 @@ const useScroll = (props: useScrollProps) => {
       onEnd,
     };
     onStatusEventMap[pullDownStatusToEventName[status]](); // 内部事件
-    onEvent?.()[pullDownStatusToEventName[status]]?.(); // 用户事件
+    onPullDownUpdate?.(status);
   }, [status, touchTriggerRef.current]);
   useEffect(() => {
     setStatus(lifeLine[count]);
@@ -200,8 +193,7 @@ const useScroll = (props: useScrollProps) => {
           s === 'updating' &&
           (status === 'updatable' || status === 'disUpdate')
         )
-          onCanceledUpdating?.();
-        if (statusList.indexOf(status) === -1) return s;
+          if (statusList.indexOf(status) === -1) return s;
         return status;
       });
   };
@@ -295,13 +287,15 @@ const useScroll = (props: useScrollProps) => {
     scrollHeight: number;
     viewHeight: number;
   }) => {
+    console.log('inner loading', upGlideLoading);
+
     if (
       scrollTop + viewHeight + 300 >= scrollHeight &&
       lastScrollTop.current < scrollTop &&
       enableUpGlideLoad &&
       !upGlideLoading
     )
-      onEvent?.()['onUpGlideLoad']?.();
+      _onUpGlideLoad?.();
   };
 
   const onScroll = (e: React.UIEvent<HTMLDivElement>) => {
@@ -336,9 +330,6 @@ const useScroll = (props: useScrollProps) => {
       setPullTop(0);
     }
   };
-  const onCanceledUpdating = () => {
-    onEvent?.()['onCanceledUpdating']?.();
-  };
 
   const onEnd = () => {};
 
@@ -348,11 +339,11 @@ const useScroll = (props: useScrollProps) => {
 
   const getScrollContainerProps: DivFunc = (props) => {
     const ref = containerRef;
-    const _onTouchStart = !disablePullDownUpdate ? onTouchStart : () => {};
-    const _onTouchMove = !disablePullDownUpdate ? onTouchMove : () => {};
-    const _onTouchEnd = !disablePullDownUpdate ? onTouchEnd : () => {};
-
+    const _onTouchStart = enablePullDownUpdate ? onTouchStart : () => {};
+    const _onTouchMove = enablePullDownUpdate ? onTouchMove : () => {};
+    const _onTouchEnd = enablePullDownUpdate ? onTouchEnd : () => {};
     return {
+      ...props,
       style: {
         right: -scrollBarWidth,
         transform: `translateY(${pullTop}px)`,
@@ -366,7 +357,6 @@ const useScroll = (props: useScrollProps) => {
       onSelect: mixExec(props?.onSelect)(onSelect),
       onTransitionEnd: mixExec(props?.onTransitionEnd)(onTransitionEnd),
       ref,
-      ...props,
     };
   };
   const getScrollBarProps: DivFunc = (props) => {
@@ -407,11 +397,7 @@ const useScroll = (props: useScrollProps) => {
       getPullingAnimationProps,
       getTrackProps,
     },
-    status,
-    touchTrigger: touchTriggerRef.current,
-    updatableRate,
-    downGlideUpdated,
   };
 };
 
-export default useScroll;
+export default useScrollLogic;

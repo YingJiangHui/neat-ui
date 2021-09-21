@@ -23,4 +23,4 @@ export { Line } from '@/Line';
 
 export { Row, Col } from '@/Grid';
 
-export { Scroll, useScroll } from '@/Scroll';
+export { Scroll } from '@/Scroll';
