@@ -46,7 +46,7 @@ export const useBranchLogic = (props: BranchProps) => {
         height: '0px',
       });
     }
-    onChange?.({});
+    onChange?.();
   }, [isExpand]);
 
   const setHeightToAuto = () => {
