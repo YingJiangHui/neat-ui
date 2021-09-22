@@ -9,14 +9,14 @@
     <link
       rel="shortcut icon"
       type="image/x-icon"
-      href="https://user-images.githubusercontent.com/9554297/83762004-a0761b00-a6a9-11ea-83b4-9c8ff721d4b8.png"
+      href="https://user-images.githubusercontent.com/9554297/83762004-a0761b00-a6a9-11ea-83b4-9c8ff721d4b7.png"
     />
     <link rel="stylesheet" href="/neat-ui-react/umi.css" />
     <script>
       window.routerBase = "/neat-ui-react/";
     </script>
     <script>
-      //! umi version: 3.4.23
+      //! umi version: 3.4.25
     </script>
     <script>
       !(function () {
@@ -25,7 +25,7 @@
           r = ["light", "dark", "auto"];
         document.documentElement.setAttribute(
           "data-prefers-color",
-          e === r[2] ? (t ? r[1] : r[0]) : r.includes(e) ? e : r[0]
+          e === r[2] ? (t ? r[1] : r[0]) : r.indexOf(e) > -1 ? e : r[0]
         );
       })();
     </script>
