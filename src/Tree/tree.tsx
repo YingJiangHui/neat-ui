@@ -54,6 +54,7 @@ interface Tree extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
    * @default           false
    */
   multiple?: boolean;
+  onChange: () => void;
 }
 
 export type TreeProps = Partial<typeof defaultProps> & Tree;

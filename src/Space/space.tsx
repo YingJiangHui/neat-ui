@@ -5,8 +5,7 @@ import React, {
   useCallback,
   useMemo,
 } from 'react';
-import classNames from 'classnames';
-
+import classNames from '@/shared/classnames';
 const defaultProps: Required<Props> = {
   size: 'medium',
   align: 'normal',

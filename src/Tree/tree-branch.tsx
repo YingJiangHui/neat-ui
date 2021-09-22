@@ -18,6 +18,7 @@ export interface Branch extends React.HTMLAttributes<any> {
   value?: Forest;
   autoExpand?: boolean;
   selected?: boolean;
+  onChange: () => void;
 }
 
 export type BranchProps = Partial<typeof defaultProps> & Branch;

@@ -1,7 +1,7 @@
 import { ButtonProps, ButtonTypes, NormalSizes } from '@/Button/button';
 import { ThemePalette } from '@/themes/presets';
-import hexToRgba from 'hex-to-rgba';
 import { PartialSome } from '@/utils/types';
+const hexToRgba = require('hex-to-rgba');
 
 export type ButtonColors = { bg: string; border: string; color: string };
 export type ButtonSizes = {

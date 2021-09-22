@@ -15,7 +15,7 @@ import {
   getButtonCursor,
   getButtonHoverColors,
   getButtonSizes,
-} from '@/Button/styles';
+} from './styles';
 import Button from '@/Button/button';
 import useMouseDownPosition from '@/hooks/use-mouse-down-position';
 type ButtonComponentProps = Parameters<typeof Button>[0];
