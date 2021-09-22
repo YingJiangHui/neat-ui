@@ -76,34 +76,53 @@ export const Checkbox: FC<PropsWithChildren<CheckboxProps>> = (props) => {
         <Icon
           name={'true'}
           className={'checkbox-inner-icon'}
-          fill={theme.palette.background}
+          // fill={theme.palette.background}
         />
       </label>
       <label htmlFor={idRef.current} />
 
       <style jsx>{`
+        .checkbox-ui {
+          background-color: ${theme.palette.background};
+        }
+
         .checkbox:checked + .checkbox-ui {
           color: ${theme.palette.success};
           background: ${theme.palette.success};
         }
 
-        .checkbox-ui {
-          background-color: ${theme.palette.background};
-        }
-
         .checkbox:indeterminate + .checkbox-ui {
           background: ${theme.palette.background};
+        }
+
+        .checkbox:disabled + .checkbox-ui {
+          cursor: not-allowed;
+          color: ${theme.palette.grayscale_3};
+          background: ${theme.palette.grayscale_2};
+        }
+
+        .checkbox:indeterminate:disabled + .checkbox-ui {
+          background: ${theme.palette.grayscale_2};
+        }
+
+        .checkbox:checked:disabled + .checkbox-ui {
+          background: ${theme.palette.grayscale_2};
         }
       `}</style>
 
       <style global jsx>
         {`
           .checkbox:checked + .checkbox-ui .true-icon {
+            fill: ${theme.palette.background};
             opacity: 1;
           }
 
           .checkbox:indeterminate + .checkbox-ui .line-icon {
             opacity: 1;
+          }
+
+          .checkbox:indeterminate:disabled + .checkbox-ui .line-icon {
+            fill: ${theme.palette.background};
           }
 
           .checkbox + .checkbox-ui .checkbox-inner-icon {
@@ -139,7 +158,7 @@ export const Checkbox: FC<PropsWithChildren<CheckboxProps>> = (props) => {
           box-sizing: border-box;
           box-shadow: inset 0 1px, inset 1px 0, inset -1px 0, inset 0 -1px;
           background-clip: content-box;
-          color: #d0d0d5;
+          color: ${theme.palette.grayscale_3};
           -webkit-transition: color 0.2s, background-color 0.1s;
           transition: color 0.2s, background-color 0.1s;
           -webkit-user-select: none;

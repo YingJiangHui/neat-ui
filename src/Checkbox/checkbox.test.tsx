@@ -39,15 +39,7 @@ describe('checkbox unit test', () => {
     const container = getContainer();
     let checked = false;
     act(() => {
-      render(
-        <Checkbox
-          checked={checked}
-          onChange={(e) => {
-            console.log(e.target.checked);
-          }}
-        />,
-        container,
-      );
+      render(<Checkbox checked={checked} onChange={(e) => {}} />, container);
     });
     const input = container?.querySelector<HTMLInputElement>('.checkbox');
     expect(input?.checked).toBeFalsy();
@@ -59,7 +51,7 @@ describe('checkbox unit test', () => {
         <Checkbox
           checked={checked}
           onChange={(e) => {
-            checked = e.target?.checked;
+            checked = e.target.checked;
           }}
         />,
         container,
@@ -67,5 +59,37 @@ describe('checkbox unit test', () => {
     });
     input?.click();
     expect(checked).toBeTruthy();
+    act(() => {
+      render(<Checkbox checked={checked} onChange={(e) => {}} />, container);
+    });
+    expect(input?.checked).toBeTruthy();
+    checked = false;
+    act(() => {
+      render(<Checkbox checked={checked} onChange={(e) => {}} />, container);
+    });
+    expect(input?.checked).toBeFalsy();
+  });
+
+  it('checkbox 可以有不确定的状态', () => {
+    const container = getContainer();
+
+    act(() => {
+      render(<Checkbox indeterminate={true} />, container);
+    });
+
+    const input = container?.querySelector<HTMLInputElement>('.checkbox');
+    expect(input?.indeterminate).toBeTruthy();
+  });
+
+  it('可以禁用 checkbox', () => {
+    const container = getContainer();
+
+    act(() => {
+      render(<Checkbox disabled={true} />, container);
+    });
+
+    const input = container?.querySelector<HTMLInputElement>('.checkbox');
+    input?.click();
+    expect(input?.checked).toBeFalsy();
   });
 });
